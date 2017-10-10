@@ -32,3 +32,6 @@ Smoke View(仮)
 ## 参考にしたWebサイト
 * [ラズパイとMQ-7センサーの接続](http://osoyoo.com/ja/2017/03/30/co检测器/)
 
+
+## システムイメージ
+<img src="system_image.png" align="center" />
