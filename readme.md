@@ -11,6 +11,9 @@ Smoke View(仮)
 * 1つのWi-Fiおよびセンサーにつき1人までしか記録・管理できません。
 そのため、同じセンサーを使用して複数人が喫煙を行った場合、特定の1人が複数回喫煙をしたと記録されます。
 
+## システム構成図
+<img src="system_image.png" align="center" />
+
 ## デモ
 ![demo]()
 ## サポート情報
@@ -31,7 +34,3 @@ Smoke View(仮)
 
 ## 参考にしたWebサイト
 * [ラズパイとMQ-7センサーの接続](http://osoyoo.com/ja/2017/03/30/co检测器/)
-
-
-## システムイメージ
-<img src="system_image.png" align="center" />
