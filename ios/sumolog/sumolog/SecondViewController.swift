@@ -1,14 +1,14 @@
 //
-//  FirstViewController.swift
-//  SmokeView
+//  SecondViewController.swift
+//  sumolog
 //
-//  Created by 岩見建汰 on 2017/10/11.
+//  Created by 岩見建汰 on 2017/10/25.
 //  Copyright © 2017年 Kenta. All rights reserved.
 //
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

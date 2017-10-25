@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  SmokeView
+//  sumolog
 //
-//  Created by 岩見建汰 on 2017/10/11.
+//  Created by 岩見建汰 on 2017/10/25.
 //  Copyright © 2017年 Kenta. All rights reserved.
 //
 
