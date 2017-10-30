@@ -15,15 +15,20 @@ class SmokeController extends CrudController{
 
 			$this->filter = \DataFilter::source(new \App\Smoke());
 			$this->filter->add('user_id', 'User ID', 'text');
+            $this->filter->add('started_at', 'Started_at', 'text');
+            $this->filter->add('ended_at', 'Ended_at', 'text');
 			$this->filter->submit('search');
 			$this->filter->reset('reset');
 			$this->filter->build();
 
 			$this->grid = \DataGrid::source($this->filter);
-			$this->grid->add('user_id', 'User ID');
-			$this->grid->add('started_at', 'Started_at');
-            $this->grid->add('ended_at', 'Ended_at');
-			$this->addStylesToGrid();
+			$this->grid->add('user_id', 'User ID', true);
+            $this->grid->add('started_at', 'Started_at', true);
+            $this->grid->add('ended_at', 'Ended_at', true);
+
+            $this->addStylesToGrid();
+
+
                  
         return $this->returnView();
     }
@@ -36,8 +41,9 @@ class SmokeController extends CrudController{
 			$this->edit->label('Edit Smoke');
 
 			$this->edit->add('user_id', 'User ID', 'number')->rule('required')->rule('exists:users,id');
-            $this->edit->add('ended_at', 'Ended_at', 'date')->format('Y/m/d', 'ja');
+            $this->edit->add('started_at', 'Started_at', 'text')->rule('required');
+            $this->edit->add('ended_at', 'Ended_at', 'text')->rule('required');
 
         return $this->returnEditView();
-    }    
+    }
 }
