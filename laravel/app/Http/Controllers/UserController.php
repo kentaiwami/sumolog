@@ -14,14 +14,16 @@ class UserController extends CrudController{
         parent::all($entity);
 			$this->filter = \DataFilter::source(new \App\User());
 			$this->filter->add('uuid', 'UUID', 'text');
+            $this->filter->add('created_at', 'Created_at', 'text');
+            $this->filter->add('updated_at', 'Updated_at', 'text');
 			$this->filter->submit('search');
 			$this->filter->reset('reset');
 			$this->filter->build();
 
 			$this->grid = \DataGrid::source($this->filter);
 			$this->grid->add('uuid', 'UUID');
-			$this->grid->add('created_at', 'Created_at');
-            $this->grid->add('updated_at', 'Updated_at');
+			$this->grid->add('created_at', 'Created_at', true);
+            $this->grid->add('updated_at', 'Updated_at', true);
 			$this->addStylesToGrid();
 
 
