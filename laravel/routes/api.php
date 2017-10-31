@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,5 @@ use Illuminate\Http\Request;
 ////    return $request->user();
 //});
 
-Route::resource('/hoges', 'HogeController', ['except' => []]);
+//Route::resource('/store_smoke', 'Resource\\StoreUserController');
+Route::post('store_smoke', 'StoreUserController@store');
