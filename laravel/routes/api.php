@@ -14,10 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return 'HOGE';
-////    return $request->user();
-//});
 
-//Route::resource('/store_smoke', 'Resource\\StoreUserController');
-Route::post('store_smoke', 'StoreUserController@store');
+Route::post('user', 'StoreUserController@store');
