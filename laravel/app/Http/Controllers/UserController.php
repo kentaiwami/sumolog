@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use \Serverfireteam\Panel\CrudController;
-
-use Illuminate\Http\Request;
 
 class UserController extends CrudController{
 

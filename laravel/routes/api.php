@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('user', 'StoreUserController@store');
+Route::post('dis_active', 'StoreUserController@store');
