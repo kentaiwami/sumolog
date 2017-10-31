@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('user', 'StoreUserController@store');
-Route::post('dis_active', 'StoreUserController@store');
+Route::post('user', 'APIUserController@store');
+Route::put('user/{uuid}', 'APIUserController@update');

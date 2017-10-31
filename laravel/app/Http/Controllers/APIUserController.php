@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Validator;
 
-class StoreUserController extends Controller
+class APIUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -78,12 +79,30 @@ class StoreUserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        //
+        $validator = Validator::make(['uuid'=>$uuid], [
+            'uuid' => 'bail|required|string|max:191'
+        ]);
+
+        if ($validator->fails()) {
+            return Response()->json($validator->errors());
+        }else {
+            $user = User::where('uuid', $uuid)->firstOrFail();
+
+            if($user->is_active) {
+                $user->is_active = false;
+            }else {
+                $user->is_active = true;
+            }
+
+            $user->save();
+
+            return Response()->json(['is_active' => $user->is_active]);
+        }
     }
 
     /**
