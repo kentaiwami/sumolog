@@ -15,7 +15,7 @@ class ChangeColumnSmokesTable extends Migration
     {
         Schema::table('smokes', function (Blueprint $table) {
             $table->timestamp('started_at')->useCurrent();
-            $table->timestamp('ended_at')->useCurrent();
+            $table->timestamp('ended_at')->nullable();
         });
     }
 

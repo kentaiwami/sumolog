@@ -42,7 +42,7 @@ class SmokeController extends CrudController{
 
 			$this->edit->add('user_id', 'User ID', 'number')->rule('required')->rule('exists:users,id');
             $this->edit->add('started_at', 'Started_at', 'text')->rule('required');
-            $this->edit->add('ended_at', 'Ended_at', 'text')->rule('required');
+            $this->edit->add('ended_at', 'Ended_at', 'text');
 
         return $this->returnEditView();
     }
