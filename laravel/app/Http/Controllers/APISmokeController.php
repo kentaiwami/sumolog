@@ -51,8 +51,8 @@ class APISmokeController extends Controller
             $new_smoke->save();
 
             return Response()->json([
-                'uuid' => $request->get('uuid'),
-                'smoke_id' => $new_smoke->id
+                'uuid'      => $request->get('uuid'),
+                'smoke_id'  => $new_smoke->id
             ]);
         }
     }
@@ -88,7 +88,25 @@ class APISmokeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make(['id'=>$id], [
+            'id' => 'bail|required|string'
+        ]);
 
+        if ($validator->fails()) {
+            return Response()->json($validator->errors());
+        }else {
+
+            $smoke = Smoke::where('id', $id)->firstOrFail();
+            $smoke->ended_at = $date = date('Y-m-d H:i:s');
+
+            $smoke->save();
+
+            return Response()->json([
+                'smoke_id'      => $smoke->id,
+                'started_at'    => $smoke->started_at,
+                'ended_at'      => $smoke->ended_at,
+            ]);
+        }
     }
 
     /**
