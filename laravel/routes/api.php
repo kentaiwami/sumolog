@@ -18,3 +18,4 @@ Route::post('user', 'APIUserController@store');
 Route::put('user/{uuid}', 'APIUserController@update');
 
 Route::post('smoke', 'APISmokeController@store');
+Route::put('smoke/{id}', 'APIUserController@update');

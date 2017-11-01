@@ -22,6 +22,7 @@ class SmokeController extends CrudController{
 			$this->filter->build();
 
 			$this->grid = \DataGrid::source($this->filter);
+            $this->grid->add('id', 'ID', true);
 			$this->grid->add('user_id', 'User ID', true);
             $this->grid->add('started_at', 'Started_at', true);
             $this->grid->add('ended_at', 'Ended_at', true);
