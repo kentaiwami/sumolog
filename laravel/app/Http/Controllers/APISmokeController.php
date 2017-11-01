@@ -50,7 +50,10 @@ class APISmokeController extends Controller
             $new_smoke->user_id = $user->id;
             $new_smoke->save();
 
-            return Response()->json(['uuid' => $request->get('uuid')]);
+            return Response()->json([
+                'uuid' => $request->get('uuid'),
+                'smoke_id' => $new_smoke->id
+            ]);
         }
     }
 
