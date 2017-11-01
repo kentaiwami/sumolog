@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('user', 'APIUserController@store');
 Route::put('user/{uuid}', 'APIUserController@update');
+
+Route::post('smoke', 'APISmokeController@store');
