@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+//  Create user
 Route::post('user', 'APIUserController@store');
-Route::post('user/setting', 'APIUserController@update');
-Route::put('user/active/{id}', 'APIUserController@edit');
+
+//  Update user profile
+Route::put('user/{id}', 'APIUserController@update');
+
+//  Update user active status
+Route::patch('user/{id}', 'APIUserController@update');
 
 Route::post('smoke', 'APISmokeController@store');
 Route::put('smoke/{id}', 'APISmokeController@update');

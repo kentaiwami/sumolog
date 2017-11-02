@@ -80,17 +80,7 @@ class APIUserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-
-        if($user->is_active) {
-            $user->is_active = false;
-        }else {
-            $user->is_active = true;
-        }
-
-        $user->save();
-
-        return Response()->json(['is_active' => $user->is_active]);
+        //
     }
 
     /**
@@ -99,26 +89,65 @@ class APIUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'uuid'              => 'bail|required|string|max:191',
-            'payday'            => 'bail|required|string|max:2',
-            'price'             => 'bail|required|string|max:191',
-            'target_number'     => 'bail|required|string|max:191',
-        ]);
 
-        if($validator->fails()){
-            return Response()->json($validator->errors());
-        }else {
-            $user = User::where('uuid', $request->uuid)->firstOrFail();
-            $user->uuid = $request->get('uuid');
-            $user->payday = $request->get('payday');
-            $user->price = $request->get('price');
-            $user->target_number = $request->get('target_number');
-            $user->save();
 
-            return Response()->json(['uuid' => $request->get('uuid')]);
+        switch ($request->method()){
+            //  Update user profile
+            case 'PUT':
+                $validator = Validator::make($request->all(), [
+                    'uuid'              => 'bail|required|string|max:191',
+                    'payday'            => 'bail|required|string|max:2',
+                    'price'             => 'bail|required|string|max:191',
+                    'target_number'     => 'bail|required|string|max:191',
+                ]);
+
+                if($validator->fails()){
+                    return Response()->json($validator->errors());
+                }
+
+                $user = User::where('uuid', $request->uuid)->firstOrFail();
+
+                if ($user->id != $id) {
+                    return Response('', 404);
+                }
+
+                $user->payday = $request->get('payday');
+                $user->price = $request->get('price');
+                $user->target_number = $request->get('target_number');
+                $user->save();
+
+                return Response()->json(['uuid' => $request->get('uuid')]);
+
+            //  Update user active status
+            case 'PATCH':
+                $validator = Validator::make($request->all(), [
+                    'uuid' => 'bail|required|string|max:191'
+                ]);
+
+                if($validator->fails()){
+                    return Response()->json($validator->errors());
+                }
+
+                $user = User::where('uuid', $request->uuid)->firstOrFail();
+
+                if ($user->id != $id) {
+                    return Response('', 404);
+                }
+
+                if($user->is_active) {
+                    $user->is_active = false;
+                }else {
+                    $user->is_active = true;
+                }
+
+                $user->save();
+
+                return Response()->json(['is_active' => $user->is_active]);
+
+            default:
+                return Response('', 405);
         }
     }
 
