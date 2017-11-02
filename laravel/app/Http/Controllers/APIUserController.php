@@ -90,64 +90,54 @@ class APIUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        switch ($request->method()){
+        /* Check validation */
+        if ($request->method() == 'PUT') {
+            $validator = Validator::make($request->all(), [
+                'uuid' => 'bail|required|string|max:191',
+                'payday' => 'bail|required|string|max:2',
+                'price' => 'bail|required|string|max:191',
+                'target_number' => 'bail|required|string|max:191',
+            ]);
 
-            //  Update user profile
-            case 'PUT':
-                $validator = Validator::make($request->all(), [
-                    'uuid'              => 'bail|required|string|max:191',
-                    'payday'            => 'bail|required|string|max:2',
-                    'price'             => 'bail|required|string|max:191',
-                    'target_number'     => 'bail|required|string|max:191',
-                ]);
+            if($validator->fails())
+                return Response()->json($validator->errors());
 
-                if($validator->fails()){
-                    return Response()->json($validator->errors());
-                }
+        }else if ($request->method() == 'PATCH') {
+            $validator = Validator::make($request->all(), [
+                'uuid' => 'bail|required|string|max:191'
+            ]);
 
-                $user = User::where('uuid', $request->uuid)->firstOrFail();
-
-                if ($user->id != $id) {
-                    return Response('', 404);
-                }
-
-                $user->payday = $request->get('payday');
-                $user->price = $request->get('price');
-                $user->target_number = $request->get('target_number');
-                $user->save();
-
-                return Response()->json(['uuid' => $request->get('uuid')]);
-
-
-            //  Update user active status
-            case 'PATCH':
-                $validator = Validator::make($request->all(), [
-                    'uuid' => 'bail|required|string|max:191'
-                ]);
-
-                if($validator->fails()){
-                    return Response()->json($validator->errors());
-                }
-
-                $user = User::where('uuid', $request->uuid)->firstOrFail();
-
-                if ($user->id != $id) {
-                    return Response('', 404);
-                }
-
-                if($user->is_active) {
-                    $user->is_active = false;
-                }else {
-                    $user->is_active = true;
-                }
-
-                $user->save();
-
-                return Response()->json(['is_active' => $user->is_active]);
-
-            default:
-                return Response('', 405);
+            if($validator->fails())
+                return Response()->json($validator->errors());
         }
+
+
+        /* Check user id */
+        $user = User::where('uuid', $request->uuid)->firstOrFail();
+
+        if ($user->id != $id)
+            return Response('', 404);
+
+
+        /* Save user data */
+        if ($request->method() == 'PUT') {
+            $user->payday = $request->get('payday');
+            $user->price = $request->get('price');
+            $user->target_number = $request->get('target_number');
+
+        }else if ($request->method() == 'PATCH') {
+            if ($user->is_active)
+                $user->is_active = false;
+            else
+                $user->is_active = true;
+
+        }else {
+            return Response('', 405);
+        }
+
+        $user->save();
+
+        return Response()->json($user);
     }
 
     /**
