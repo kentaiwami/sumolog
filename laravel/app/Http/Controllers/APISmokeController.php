@@ -43,18 +43,18 @@ class APISmokeController extends Controller
 
         if($validator->fails()){
             return Response()->json($validator->errors());
-        }else {
-            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
-
-            $new_smoke = new Smoke;
-            $new_smoke->user_id = $user->id;
-            $new_smoke->save();
-
-            return Response()->json([
-                'uuid'      => $request->get('uuid'),
-                'smoke_id'  => $new_smoke->id
-            ]);
         }
+
+        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+
+        $new_smoke = new Smoke;
+        $new_smoke->user_id = $user->id;
+        $new_smoke->save();
+
+        return Response()->json([
+            'uuid'      => $request->get('uuid'),
+            'smoke_id'  => $new_smoke->id
+        ]);
     }
 
     /**
