@@ -38,7 +38,10 @@ class APIUserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'uuid' => 'bail|required|string|max:191|unique:users',
+            'uuid'              => 'bail|required|string|max:191|unique:users',
+            'payday'            => 'bail|required|string|max:2',
+            'price'             => 'bail|required|string|max:191',
+            'target_number'     => 'bail|required|string|max:191',
         ]);
 
         if($validator->fails()){
@@ -46,6 +49,9 @@ class APIUserController extends Controller
         }else {
             $new_user = new User;
             $new_user->uuid = $request->get('uuid');
+            $new_user->payday = $request->get('payday');
+            $new_user->price = $request->get('price');
+            $new_user->target_number = $request->get('target_number');
             $new_user->save();
 
             return Response()->json(['uuid' => $request->get('uuid')]);
