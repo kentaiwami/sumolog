@@ -22,5 +22,9 @@ Route::put('user/{id}', 'APIUserController@update');
 //  Update user active status
 Route::patch('user/{id}', 'APIUserController@update');
 
+
+//  Create smoke
 Route::post('smoke', 'APISmokeController@store');
+
+//  Update end smoke time
 Route::put('smoke/{id}', 'APISmokeController@update');

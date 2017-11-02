@@ -94,19 +94,18 @@ class APISmokeController extends Controller
 
         if ($validator->fails()) {
             return Response()->json($validator->errors());
-        }else {
-
-            $smoke = Smoke::where('id', $id)->firstOrFail();
-            $smoke->ended_at = $date = date('Y-m-d H:i:s');
-
-            $smoke->save();
-
-            return Response()->json([
-                'smoke_id'      => $smoke->id,
-                'started_at'    => $smoke->started_at,
-                'ended_at'      => $smoke->ended_at,
-            ]);
         }
+
+        $smoke = Smoke::where('id', $id)->firstOrFail();
+        $smoke->ended_at = $date = date('Y-m-d H:i:s');
+
+        $smoke->save();
+
+        return Response()->json([
+            'smoke_id'      => $smoke->id,
+            'started_at'    => $smoke->started_at,
+            'ended_at'      => $smoke->ended_at,
+        ]);
     }
 
     /**
