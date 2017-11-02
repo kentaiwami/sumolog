@@ -46,19 +46,19 @@ class APIUserController extends Controller
 
         if($validator->fails()){
             return Response()->json($validator->errors());
-        }else {
-            $new_user = new User;
-            $new_user->uuid = $request->get('uuid');
-            $new_user->payday = $request->get('payday');
-            $new_user->price = $request->get('price');
-            $new_user->target_number = $request->get('target_number');
-            $new_user->save();
-
-            return Response()->json([
-                'uuid' => $request->get('uuid'),
-                'id'   => $new_user->id
-            ]);
         }
+
+        $new_user = new User;
+        $new_user->uuid = $request->get('uuid');
+        $new_user->payday = $request->get('payday');
+        $new_user->price = $request->get('price');
+        $new_user->target_number = $request->get('target_number');
+        $new_user->save();
+
+        return Response()->json([
+            'uuid' => $request->get('uuid'),
+            'id'   => $new_user->id
+        ]);
     }
 
     /**
@@ -73,7 +73,6 @@ class APIUserController extends Controller
     }
 
     /**
-     * Change user is_active status.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -91,9 +90,8 @@ class APIUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
         switch ($request->method()){
+
             //  Update user profile
             case 'PUT':
                 $validator = Validator::make($request->all(), [
@@ -119,6 +117,7 @@ class APIUserController extends Controller
                 $user->save();
 
                 return Response()->json(['uuid' => $request->get('uuid')]);
+
 
             //  Update user active status
             case 'PATCH':
