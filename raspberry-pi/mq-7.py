@@ -18,11 +18,8 @@ mq7_apin = 0
 SMOKE_ID = '0'
 
 
+# port init
 def init():
-    """
-    port init
-    """
-
     GPIO.setwarnings(False)
     GPIO.cleanup()  # clean up at the end of your script
     GPIO.setmode(GPIO.BCM)  # to specify whilch pin numbering system
