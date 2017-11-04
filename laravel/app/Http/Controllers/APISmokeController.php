@@ -88,17 +88,23 @@ class APISmokeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make(['id'=>$id], [
-            'id' => 'bail|required|string'
+        $validator = Validator::make($request->all(), [
+            'uuid' => 'bail|required|string|max:191'
         ]);
 
         if ($validator->fails()) {
             return Response()->json($validator->errors());
         }
 
+        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
         $smoke = Smoke::where('id', $id)->firstOrFail();
-        $smoke->ended_at = $date = date('Y-m-d H:i:s');
 
+        if ($user->id != $smoke->user_id) {
+            return Response('', 404);
+        }
+
+
+        $smoke->ended_at = $date = date('Y-m-d H:i:s');
         $smoke->save();
 
         return Response()->json([
