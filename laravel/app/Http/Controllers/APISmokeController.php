@@ -104,7 +104,7 @@ class APISmokeController extends Controller
         }
 
 
-        $smoke->ended_at = $date = date('Y-m-d H:i:s');
+        $smoke->ended_at = date('Y-m-d H:i:s', strtotime('- 1 minute'));
         $smoke->save();
 
         return Response()->json([
