@@ -11,3 +11,6 @@ prototype
 ## Build generated
 build/
 DerivedData/
+
+#backup
+/backup
