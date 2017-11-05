@@ -22,7 +22,7 @@ Route::put('user/{id}', 'APIUserController@update');
 //  Update user active status
 Route::patch('user/{id}', 'APIUserController@update');
 
-//  hogehoge
+//  Get user data
 Route::get('user/{id}', 'APIUserController@show');
 
 
