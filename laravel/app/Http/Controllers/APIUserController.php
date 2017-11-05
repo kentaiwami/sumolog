@@ -69,7 +69,15 @@ class APIUserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::where('id', $id)->firstOrFail();
+
+        return Response()->json([
+            'uuid'          => $user->uuid,
+            'id'            => $user->id,
+            'payday'        => $user->payday,
+            'price'         => $user->price,
+            'target_number' => $user->target_number
+        ]);
     }
 
     /**

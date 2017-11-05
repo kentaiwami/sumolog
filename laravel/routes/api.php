@@ -22,6 +22,9 @@ Route::put('user/{id}', 'APIUserController@update');
 //  Update user active status
 Route::patch('user/{id}', 'APIUserController@update');
 
+//  hogehoge
+Route::get('user/{id}', 'APIUserController@show');
+
 
 //  Create smoke
 Route::post('smoke', 'APISmokeController@store');
