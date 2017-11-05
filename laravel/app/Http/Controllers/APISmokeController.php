@@ -103,8 +103,15 @@ class APISmokeController extends Controller
             return Response('', 404);
         }
 
+        /* 開始時間を超えない範囲で時間を調整する */
+        $ended_at = date(now());
+        if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 1 min'))) {
+            $ended_at = date('Y-m-d H:i:s', strtotime('- 1 min'));
+        }elseif ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
+            $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
+        }
 
-        $smoke->ended_at = date('Y-m-d H:i:s', strtotime('- 30 seconds'));
+        $smoke->ended_at = $ended_at;
         $smoke->save();
 
         return Response()->json([
