@@ -31,3 +31,6 @@ Route::post('smoke', 'APISmokeController@store');
 
 //  Update end smoke time
 Route::put('smoke/{id}', 'APISmokeController@update');
+
+//  Get user's smoke data
+Route::get('smoke/{id}', 'APISmokeController@show');
