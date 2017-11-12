@@ -11,12 +11,12 @@ def test():
     print(type(z))
 
     # グラフ表示のテスト用
-    p = np.poly1d(z)
-    xp = np.linspace(-2, 6, 100)
-
-    plt.plot(x, y, '+', xp, p(xp), '-')
-    plt.ylim(-2, 2)
-    plt.show()
+    # p = np.poly1d(z)
+    # xp = np.linspace(-2, 6, 100)
+    #
+    # plt.plot(x, y, '+', xp, p(xp), '-')
+    # plt.ylim(-2, 2)
+    # plt.show()
 
 
 if __name__ == '__main__':
