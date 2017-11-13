@@ -1,14 +1,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 
-def test():
-    x = np.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
-    y = np.array([0.0, 0.8, 0.9, 0.1, -0.8, -1.0])
+def run_ra(y):
+    y = [int(y_str) for y_str in y.split(',')]
+    x = np.arange(len(y))
     z = np.polyfit(x, y, 4)
+    p = np.poly1d(z)
 
-    print(z)
-    print(type(z))
+    for _p in p:
+        print(_p)
 
     # グラフ表示のテスト用
     # p = np.poly1d(z)
@@ -20,4 +22,4 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    run_ra(sys.argv[1])

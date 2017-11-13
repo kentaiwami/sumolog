@@ -97,8 +97,7 @@ class APISmokeController extends Controller
         // ユーザの給与日と配列文字列をコマンドラインに投げる
         exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str.' '.$user->payday,$output,$return);
 
-        // TODO pythonの結果を返す
-        return Response()->json(['hoge' => $output]);
+        return Response()->json(['results' => $output]);
     }
 
     /**

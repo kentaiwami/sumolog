@@ -33,4 +33,4 @@ Route::post('smoke', 'APISmokeController@store');
 Route::put('smoke/{id}', 'APISmokeController@update');
 
 //  Get user's smoke data
-Route::get('smoke/{id}', 'APISmokeController@show');
+Route::get('smoke/user/{id}', 'APISmokeController@show');
