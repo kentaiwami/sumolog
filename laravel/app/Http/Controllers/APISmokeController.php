@@ -163,15 +163,17 @@ class APISmokeController extends Controller
 
             $smoke->ended_at = $ended_at;
             $smoke->save();
-
-            return Response()->json([
-                'smoke_id'      => $smoke->id,
-                'started_at'    => $smoke->started_at,
-                'ended_at'      => $smoke->ended_at,
-            ]);
         }else {
-            return Response()->json([]);
+            $smoke->started_at = $request->get('started_at');
+            $smoke->ended_at = $request->get('ended_at');
+            $smoke->save();
         }
+
+        return Response()->json([
+            'smoke_id'      => $smoke->id,
+            'started_at'    => $smoke->started_at,
+            'ended_at'      => $smoke->ended_at,
+        ]);
     }
 
     /**
