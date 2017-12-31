@@ -101,6 +101,12 @@ smoke/{id}
 }
 ```
 
+#### Delete Smoke Data
+```
+DELETE
+smoke/{smoke_id}/user/{user_id}
+```
+
 #### Get User's Smoke Overview Data
 ```
 GET
