@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Smoke;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -71,18 +70,35 @@ class APISmokeController extends Controller
         $pattern_detail = "#api/smoke/detail/user/+[0-9]#";
 
         if (preg_match($pattern_overview, $current_url)) {
-            //TODO: 現在時刻から24時間前までの喫煙データをDBから取得(1)
-            //TODO: (1)の件数を"count": "23"とする
+            $now = date(now());
+            $prev_hour = date('Y-m-d H:i:s', strtotime('- 24 hour'));
+            $smokes = Smoke::where('user_id', $id)
+            ->whereBetween('started_at', [$prev_hour, $now])
+            ->orderBy('started_at', 'desc')
+                ->get();
 
-            //TODO: 最新の喫煙データを抽出(2)
-            //TODO: 現在時刻-(2)を"latest": "240"とする
+            $latest = $smokes->first()->started_at;
+
+            $latest_datetime = new \DateTime($latest);
+            $now_datetime = new \DateTime($now);
+            $min = round(($now_datetime->getTimestamp() - $latest_datetime->getTimestamp())/60, 0, PHP_ROUND_HALF_UP);
+
+
+
+//            ->groupBy(function($date) {
+//                return Carbon::parse($date->started_at)->format('d');
+//            });
+
 
 
             //TODO: 1時間ごとの件数をカウント(3)
             //TODO: (3)を"hour": [1,2,3,....]とする
 
 
-            return Response()->json(['id' => 'overview']);
+            return Response()->json([
+                'count' => count($smokes),
+                'min'   => $min
+            ]);
         }
 
         if (preg_match($pattern_detail, $current_url)) {
