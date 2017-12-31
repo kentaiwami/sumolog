@@ -93,18 +93,17 @@ class APISmokeController extends Controller
                 return Carbon::parse($date->started_at)->format('H');
             });
 
-//            print($hour_smokes);
 
-
-
-
-            //TODO: 1時間ごとの件数をカウント(3)
-            //TODO: (3)を"hour": [1,2,3,....]とする
-
+            // 時間ごとのカウントを配列へ入れる(最新順のため、返す時に逆順にする必要あり)
+            $count_array = [];
+            foreach ($hour_smokes as $key => $value ) {
+                $count_array[] = count($value);
+            }
 
             return Response()->json([
                 'count' => count($smokes),
-                'min'   => $min
+                'min'   => $min,
+                'hour'  => array_reverse($count_array)
             ]);
         }
 
