@@ -115,44 +115,49 @@ class APISmokeController extends Controller
 
         if (preg_match($pattern_detail, $current_url)) {
             //TODO: 詳細データを返す
-            return Response()->json(['test' => 'detail']);
+            $user = User::where('id', $id)->firstOrFail();
+
+            // 今月の給与日
+            $year = date('Y');
+            $month = date('m');
+            $user_paydate = $year . $month . $user->payday;
+
+
+            // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
+            if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d'))
+                $pre_paydate = date('Y-m-d', strtotime($user_paydate));
+            else
+                $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
+
+            // 先月の給与までのレコードを日付別で取得
+            $smokes = Smoke::where('user_id', $user->id)
+            ->where('started_at', '>=', $pre_paydate)->get()
+            ->groupBy(function($date) {
+                return Carbon::parse($date->started_at)->format('d');
+            });
+
+            // 日付別の件数をカウント
+            $count_by_day = array();
+            foreach ($smokes as $key => $val) {
+                $count_by_day[] = count($val);
+            }
+
+            $count_by_day_str = implode(',', $count_by_day);
+
+            $output = [];
+            // ユーザの給与日と配列文字列をコマンドラインに投げる
+            exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str.' '.$user->payday .' 2>&1',$output);
+
+            // Doubleへ変換
+            $func = function($value) {
+                return (double)$value;
+            };
+            $output = array_map($func, $output);
+
+            return Response()->json(['coefficients' => $output]);
         }
 
         return Response('', 404);
-
-
-//        $user = User::where('id', $id)->firstOrFail();
-//
-//        // 今月の給与日
-//        $year = date('Y');
-//        $month = date('m');
-//        $user_paydate = $year . $month . $user->payday;
-//
-//        // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
-//        if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d'))
-//            $pre_paydate = date('Y-m-d', strtotime($user_paydate));
-//        else
-//            $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
-//
-//        // 先月の給与までのレコードを日付別で取得
-//        $smokes = Smoke::where('user_id', $user->id)
-//            ->where('started_at', '>=', $pre_paydate)->get()
-//            ->groupBy(function($date) {
-//                return Carbon::parse($date->started_at)->format('d');
-//            });
-//
-//        // 日付別の件数をカウント
-//        $count_by_day = array();
-//        foreach ($smokes as $key => $val) {
-//            $count_by_day[] = count($val);
-//        }
-//
-//        $count_by_day_str = implode(',', $count_by_day);
-//
-//        // ユーザの給与日と配列文字列をコマンドラインに投げる
-//        exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str.' '.$user->payday,$output,$return);
-//
-//        return Response()->json(['results' => $output]);
     }
 
     /**
