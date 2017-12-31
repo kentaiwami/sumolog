@@ -66,38 +66,86 @@ class APISmokeController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
+        $current_url = url()->current();
+        $pattern_overview = "#api/smoke/overview/user/+[0-9]#";
+        $pattern_detail = "#api/smoke/detail/user/+[0-9]#";
 
-        // 今月の給与日
-        $year = date('Y');
-        $month = date('m');
-        $user_paydate = $year . $month . $user->payday;
+        if (preg_match($pattern_overview, $current_url)) {
+            $now = date(now());
+            $prev_hour = date('Y-m-d H:i:s', strtotime('- 24 hour'));
 
-        // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
-        if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d'))
-            $pre_paydate = date('Y-m-d', strtotime($user_paydate));
-        else
-            $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
+            /* 対象ユーザの24時間以内の喫煙データを取得 */
+            $smokes = Smoke::where('user_id', $id)
+            ->whereBetween('started_at', [$prev_hour, $now])
+            ->orderBy('started_at', 'desc')
+            ->get();
 
-        // 先月の給与までのレコードを日付別で取得
-        $smokes = Smoke::where('user_id', $user->id)
-            ->where('started_at', '>=', $pre_paydate)->get()
-            ->groupBy(function($date) {
-                return Carbon::parse($date->started_at)->format('d');
+            /* 最新の喫煙データが何分前かを計算 */
+            $latest = $smokes->first()->started_at;
+
+            $latest_datetime = new \DateTime($latest);
+            $now_datetime = new \DateTime($now);
+            $min = round(($now_datetime->getTimestamp() - $latest_datetime->getTimestamp())/60, 0, PHP_ROUND_HALF_UP);
+
+
+            /* 時間別で集計 */
+            $hour_smokes = $smokes->groupBy(function($date) {
+                return Carbon::parse($date->started_at)->format('H');
             });
 
-        // 日付別の件数をカウント
-        $count_by_day = array();
-        foreach ($smokes as $key => $val) {
-            $count_by_day[] = count($val);
+
+            // 時間ごとのカウントを配列へ入れる(最新順のため、返す時に逆順にする必要あり)
+            $count_array = [];
+            foreach ($hour_smokes as $key => $value ) {
+                $count_array[] = count($value);
+            }
+
+            return Response()->json([
+                'count' => count($smokes),
+                'min'   => $min,
+                'hour'  => array_reverse($count_array)
+            ]);
         }
 
-        $count_by_day_str = implode(',', $count_by_day);
+        if (preg_match($pattern_detail, $current_url)) {
+            return Response()->json(['test' => 'detail']);
+        }
 
-        // ユーザの給与日と配列文字列をコマンドラインに投げる
-        exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str.' '.$user->payday,$output,$return);
+        return Response('', 404);
 
-        return Response()->json(['results' => $output]);
+
+//        $user = User::where('id', $id)->firstOrFail();
+//
+//        // 今月の給与日
+//        $year = date('Y');
+//        $month = date('m');
+//        $user_paydate = $year . $month . $user->payday;
+//
+//        // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
+//        if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d'))
+//            $pre_paydate = date('Y-m-d', strtotime($user_paydate));
+//        else
+//            $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
+//
+//        // 先月の給与までのレコードを日付別で取得
+//        $smokes = Smoke::where('user_id', $user->id)
+//            ->where('started_at', '>=', $pre_paydate)->get()
+//            ->groupBy(function($date) {
+//                return Carbon::parse($date->started_at)->format('d');
+//            });
+//
+//        // 日付別の件数をカウント
+//        $count_by_day = array();
+//        foreach ($smokes as $key => $val) {
+//            $count_by_day[] = count($val);
+//        }
+//
+//        $count_by_day_str = implode(',', $count_by_day);
+//
+//        // ユーザの給与日と配列文字列をコマンドラインに投げる
+//        exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str.' '.$user->payday,$output,$return);
+//
+//        return Response()->json(['results' => $output]);
     }
 
     /**

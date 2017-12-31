@@ -101,10 +101,16 @@ smoke/{id}
 }
 ```
 
-#### Get User's Smoke Data
+#### Get User's Smoke Overview Data
 ```
 GET
-smoke/user/{id}
+smoke/overview/user/{id}
+```
+
+#### Get User's Smoke Detail Data
+```
+GET
+smoke/detail/user/{id}
 ```
 
 
