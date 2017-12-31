@@ -234,12 +234,18 @@ class APISmokeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $smoke_id
+     * * @param  int  $user_id
      * @return \Illuminate\Http\Response
      */
     public function destroy($smoke_id, $user_id)
     {
+        $issuccess = Smoke::where([['id', $smoke_id],['user_id', $user_id]])->delete();
 
-        print("HOGEHOGE");
+        if ($issuccess) {
+            return Response()->json(['msg' => 'Success delete'],200);
+        }else {
+            return Response()->json(['msg' => 'Error delete'], 404);
+        }
     }
 }
