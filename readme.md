@@ -32,5 +32,70 @@
     * Raspberry Piとのリンク
 5. いつも通りタバコを吸う
 
+## API
+#### Create User
+```
+POST
+user
+{
+"uuid": "hogehoge",
+"payday": "30",
+"price": "100",
+"target_number": "10"
+}
+```
+
+#### Update User Profile
+```
+PUT
+user/{id}
+{
+"uuid": "hogehoge",
+"payday": "30",
+"price": "100",
+"target_number": "10"
+}
+```
+
+#### Update User Active Status
+```
+PATCH
+user/{id}
+{
+"uuid": "hogehoge"
+}
+```
+
+#### Get User Data
+```
+GET
+user/{id}
+```
+
+#### Create Smoke
+```
+POST
+smoke
+{
+"uuid": "hogehoge"
+}
+```
+
+#### Update End Smoke Time
+```
+PUT
+smoke/{id}
+{
+"uuid": "hogehoge"
+}
+```
+
+#### Get User's Smoke Data
+```
+GET
+smoke/user/{id}
+```
+
+
 ## 参考にしたWebサイト
 * [ラズパイとMQ-7センサーの接続](http://osoyoo.com/ja/2017/03/30/co检测器/)
