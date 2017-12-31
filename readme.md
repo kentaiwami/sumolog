@@ -64,7 +64,11 @@ request：
 }
 response：
 {
+    "id": 1,
     "uuid": "hogehoge",
+    "created_at": "2017-11-03 23:48:56",
+    "updated_at": "2018-01-01 05:40:04",
+    "is_active": 1,
     "payday": "25",
     "price": "420",
     "target_number": "20"
@@ -73,64 +77,122 @@ response：
 
 #### Update User Active Status
 ```
-PATCH
-user/{id}
+method：PATCH
+endpoint：user/{id}
+request：
 {
-"uuid": "hogehoge"
+    "uuid": "hogehoge"
+}
+response：
+{
+    "id": 1,
+    "uuid": "hogehoge",
+    "created_at": "2017-11-03 23:48:56",
+    "updated_at": "2018-01-01 05:40:04",
+    "is_active": 1,
+    "payday": "25",
+    "price": "420",
+    "target_number": "20"
 }
 ```
 
 #### Get User Data
 ```
-GET
-user/{id}
+method：GET
+endpoint：user/{id}
+response：
+{
+    "id": 1,
+    "uuid": "hogehoge",
+    "payday": "25",
+    "price": "420",
+    "target_number": "20"
+}
 ```
 
 #### Create Smoke
 ```
-POST
-smoke
+method：POST
+endpoint：smoke
+request：
 {
-"uuid": "hogehoge"
+    "uuid": "hogehoge"
+}
+response：
+{
+    "uuid": "hogehoge",
+    "smoke_id": 10
 }
 ```
 
 #### Update End Smoke Time
 ```
-PUT
-smoke/{id}
+method：PUT
+endpoint：smoke/{id}
+request：
 {
-"uuid": "hogehoge"
+    "uuid": "hogehoge"
+}
+response：
+{
+    "smoke_id": 10,
+    "started_at": "2017-11-03 23:48:56",
+    "ended_at": "2017-11-03 23:52:32"
 }
 ```
 
 #### Update Smoke Data
 ```
-PUT
-smoke/{id}
+method：PATCH
+endpoint：smoke/{id}
+request：
 {
-"uuid": "hogehoge",
-"started_at": "2017-12-31 12:12:12",
-"ended_at": "2017-12-31 12:15:12"
+    "smoke_id": 10,
+    "started_at": "2017-11-11 23:23:23",
+    "ended_at": "2017-11-11 23:52:52"
+}
+response：
+{
+    "smoke_id": 10,
+    "started_at": "2017-11-11 23:23:23",
+    "ended_at": "2017-11-11 23:52:52"
 }
 ```
 
 #### Delete Smoke Data
 ```
-DELETE
-smoke/{smoke_id}/user/{user_id}
+method：DELETE
+endpoint：smoke/{smoke_id}/user/{user_id}
+response：
+{
+    "msg": "Success delete"
+}
 ```
 
 #### Get User's Smoke Overview Data
 ```
-GET
-smoke/overview/user/{id}
+method：GET
+endpoint：smoke/overview/user/{id}
+response：
+{
+    "count": 28,
+    "min": 41,
+    "hour": [1,3,1,2,2,2,2,1,1,1,2,1,3,1,1,2,1,1],
+    "over": 13
+}
 ```
 
 #### Get User's Smoke Detail Data
 ```
-GET
-smoke/detail/user/{id}
+method：GET
+endpoint：smoke/detail/user/{id}
+response：
+{
+    "coefficients": [0.0087776806526799998,-0.25967204092200002,2.11355137918,-3.7402793965300001,14.304487179500001],
+    "price": 420,
+    "ave": 3.6000000000000001
+}
+
 ```
 
 
