@@ -53,13 +53,21 @@ response：
 
 #### Update User Profile
 ```
-PUT
-user/{id}
+method：PUT
+endpoint：user/{id}
+request：
 {
-"uuid": "hogehoge",
-"payday": "30",
-"price": "100",
-"target_number": "10"
+    "uuid": "hogehoge",
+    "payday": "25",
+    "price": "420",
+    "target_number": "20"
+}
+response：
+{
+    "uuid": "hogehoge",
+    "payday": "25",
+    "price": "420",
+    "target_number": "20"
 }
 ```
 
