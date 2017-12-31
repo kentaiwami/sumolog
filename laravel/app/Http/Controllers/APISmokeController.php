@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Smoke;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -72,11 +73,14 @@ class APISmokeController extends Controller
         if (preg_match($pattern_overview, $current_url)) {
             $now = date(now());
             $prev_hour = date('Y-m-d H:i:s', strtotime('- 24 hour'));
+
+            /* 対象ユーザの24時間以内の喫煙データを取得 */
             $smokes = Smoke::where('user_id', $id)
             ->whereBetween('started_at', [$prev_hour, $now])
             ->orderBy('started_at', 'desc')
-                ->get();
+            ->get();
 
+            /* 最新の喫煙データが何分前かを計算 */
             $latest = $smokes->first()->started_at;
 
             $latest_datetime = new \DateTime($latest);
@@ -84,10 +88,13 @@ class APISmokeController extends Controller
             $min = round(($now_datetime->getTimestamp() - $latest_datetime->getTimestamp())/60, 0, PHP_ROUND_HALF_UP);
 
 
+            /* 時間別で集計 */
+            $hour_smokes = $smokes->groupBy(function($date) {
+                return Carbon::parse($date->started_at)->format('H');
+            });
 
-//            ->groupBy(function($date) {
-//                return Carbon::parse($date->started_at)->format('d');
-//            });
+//            print($hour_smokes);
+
 
 
 
