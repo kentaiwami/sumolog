@@ -114,6 +114,7 @@ class APISmokeController extends Controller
         }
 
         if (preg_match($pattern_detail, $current_url)) {
+            //TODO: 詳細データを返す
             return Response()->json(['test' => 'detail']);
         }
 
