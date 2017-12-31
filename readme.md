@@ -37,16 +37,18 @@
 ```
 method：POST
 endpoint：user
-request：   {
-                "uuid": "hogehoge",
-                "payday": "30",
-                "price": "100",
-                "target_number": "10"
-            }
-response：  {
-                "uuid": "hogehoge",
-                "id": 1
-            }
+request：
+{
+    "uuid": "hogehoge",
+    "payday": "30",
+    "price": "100",
+    "target_number": "10"
+}
+response：
+{
+    "uuid": "hogehoge",
+    "id": 1
+}
 ```
 
 #### Update User Profile
