@@ -120,14 +120,31 @@ class APISmokeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'uuid' => 'bail|required|string|max:191'
-        ]);
+        $validator_array = [];
+        $isput = true;
+
+        /* バリデータとフラグを切り替え */
+        if ($request->method() == 'PUT') {
+            $validator_array = ['uuid' => 'bail|required|string|max:191'];
+
+        }else if ($request->method() == 'PATCH') {
+            $isput = false;
+            $validator_array = [
+                'uuid' => 'bail|required|string|max:191',
+                'started_at' => 'bail|required|string|max:191',
+                'ended_at' => 'bail|required|string|max:191'
+            ];
+        }
+
+
+        /* バリデーション */
+        $validator = Validator::make($request->all(), $validator_array);
 
         if ($validator->fails()) {
             return Response()->json($validator->errors());
         }
 
+        /* ユーザIDと対象となる喫煙レコードのIDの一致を確認 */
         $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
         $smoke = Smoke::where('id', $id)->firstOrFail();
 
@@ -135,16 +152,22 @@ class APISmokeController extends Controller
             return Response('', 404);
         }
 
-        /* 開始時間を超えない範囲で時間を調整する */
-        $ended_at = date(now());
-        if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 1 min'))) {
-            $ended_at = date('Y-m-d H:i:s', strtotime('- 1 min'));
-        }elseif ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
-            $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
-        }
+        if ($isput) {
+            /* 開始時間を超えない範囲で時間を調整する */
+            $ended_at = date(now());
+            if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 1 min'))) {
+                $ended_at = date('Y-m-d H:i:s', strtotime('- 1 min'));
+            }elseif ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
+                $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
+            }
 
-        $smoke->ended_at = $ended_at;
-        $smoke->save();
+            $smoke->ended_at = $ended_at;
+            $smoke->save();
+        }else {
+            $smoke->started_at = $request->get('started_at');
+            $smoke->ended_at = $request->get('ended_at');
+            $smoke->save();
+        }
 
         return Response()->json([
             'smoke_id'      => $smoke->id,

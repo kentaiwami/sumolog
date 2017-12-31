@@ -90,6 +90,17 @@ smoke/{id}
 }
 ```
 
+#### Update Smoke Data
+```
+PUT
+smoke/{id}
+{
+"uuid": "hogehoge",
+"started_at": "2017-12-31 12:12:12",
+"ended_at": "2017-12-31 12:15:12"
+}
+```
+
 #### Get User's Smoke Data
 ```
 GET
