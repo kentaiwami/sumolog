@@ -71,12 +71,26 @@ class APISmokeController extends Controller
         $pattern_detail = "#api/smoke/detail/user/+[0-9]#";
 
         if (preg_match($pattern_overview, $current_url)) {
+            //TODO: 現在時刻から24時間前までの喫煙データをDBから取得(1)
+            //TODO: (1)の件数を"count": "23"とする
+
+            //TODO: 最新の喫煙データを抽出(2)
+            //TODO: 現在時刻-(2)を"latest": "240"とする
+
+
+            //TODO: 1時間ごとの件数をカウント(3)
+            //TODO: (3)を"hour": [1,2,3,....]とする
+
+
             return Response()->json(['id' => 'overview']);
         }
 
         if (preg_match($pattern_detail, $current_url)) {
             return Response()->json(['test' => 'detail']);
         }
+
+        return Response('', 404);
+
 
 //        $user = User::where('id', $id)->firstOrFail();
 //
