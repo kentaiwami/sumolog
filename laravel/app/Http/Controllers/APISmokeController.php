@@ -103,7 +103,7 @@ class APISmokeController extends Controller
             // 時間ごとのカウントを配列へ入れる(最新順のため、返す時に逆順にする必要あり)
             $count_array = [];
             foreach ($hour_smokes as $key => $value ) {
-                $count_array[] = count($value);
+                $count_array[$key] = count($value);
             }
 
             return Response()->json([
