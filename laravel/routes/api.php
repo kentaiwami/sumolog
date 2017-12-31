@@ -35,5 +35,9 @@ Route::put('smoke/{id}', 'APISmokeController@update');
 // Update smoke data
 Route::patch('smoke/{id}', 'APISmokeController@update');
 
-//  Get user's smoke data
-Route::get('smoke/user/{id}', 'APISmokeController@show');
+//  Get user's smoke overview data
+Route::get('smoke/overview/user/{id}', 'APISmokeController@show');
+
+// Get user's smoke detail data
+Route::get('smoke/detail/user/{id}', 'APISmokeController@show');
+

@@ -66,6 +66,18 @@ class APISmokeController extends Controller
      */
     public function show($id)
     {
+        $current_url = url()->current();
+        $pattern_overview = "#api/smoke/overview/user/+[0-9]#";
+        $pattern_detail = "#api/smoke/detail/user/+[0-9]#";
+
+        if (preg_match($pattern_overview, $current_url)) {
+            return Response()->json(['id' => 'overview']);
+        }
+
+        if (preg_match($pattern_detail, $current_url)) {
+            return Response()->json(['test' => 'detail']);
+        }
+
 //        $user = User::where('id', $id)->firstOrFail();
 //
 //        // 今月の給与日
