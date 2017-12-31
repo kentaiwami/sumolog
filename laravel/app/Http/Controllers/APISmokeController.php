@@ -109,7 +109,7 @@ class APISmokeController extends Controller
             return Response()->json([
                 'count' => $count,
                 'min'   => $min,
-                'hour'  => array_reverse($count_array),
+                'hour'  => array_reverse($count_array, true),
                 'over'  => $count - $target_number
             ]);
         }
