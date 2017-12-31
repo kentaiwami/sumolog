@@ -80,6 +80,11 @@ class APISmokeController extends Controller
             ->orderBy('started_at', 'desc')
             ->get();
 
+            $count = count($smokes);
+
+            // ユーザの目標本数
+            $target_number = User::where('id', $id)->firstOrFail()->target_number;
+
             /* 最新の喫煙データが何分前かを計算 */
             $latest = $smokes->first()->started_at;
 
@@ -101,9 +106,10 @@ class APISmokeController extends Controller
             }
 
             return Response()->json([
-                'count' => count($smokes),
+                'count' => $count,
                 'min'   => $min,
-                'hour'  => array_reverse($count_array)
+                'hour'  => array_reverse($count_array),
+                'over'  => $count - $target_number
             ]);
         }
 
