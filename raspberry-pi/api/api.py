@@ -30,9 +30,17 @@ def hello_world():
 def api_v1_create_user():
     if request.method == 'POST':
         uuid = request.json['uuid']
-        d = User(uuid)
+
+        users = User.query.all()
+        if len(users) == 0:
+            d = User(uuid)
+        else:
+            d = users[0]
+            d.uuid = uuid
+
         db.session.add(d)
         db.session.commit()
+
         return jsonify(d.to_dict()), 200
 
 
