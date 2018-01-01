@@ -156,7 +156,7 @@ method：PATCH
 endpoint：smoke/{id}
 request：
 {
-    "smoke_id": 10,
+    "uuid": "hogehoge",
     "started_at": "2017-11-11 23:23:23",
     "ended_at": "2017-11-11 23:52:52"
 }
