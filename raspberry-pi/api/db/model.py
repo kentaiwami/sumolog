@@ -1,14 +1,18 @@
-from sqlalchemy import Column, Integer, String
-from db.database import Base
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sumolog.db'
+db = SQLAlchemy(app)
 
 
-class WikiContent(Base):
-    __tablename__ = 'sumolog'
-    id = Column(Integer, primary_key=True)
-    uuid = Column(String(256), unique=True)
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(256), unique=True)
 
-    def __init__(cls, classname, bases, dict_, title=None, body=None, date=None):
-        super().__init__(classname, bases, dict_)
-        cls.title = title
-        cls.body = body
-        cls.date = date
+    def __init__(self, uuid):
+        self.uuid = uuid
+
+
+if __name__ == '__main__':
+    db.create_all()
