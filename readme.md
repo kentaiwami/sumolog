@@ -113,7 +113,8 @@ response：
     "uuid": "hogehoge",
     "payday": "25",
     "price": "420",
-    "target_number": "20"
+    "target_number": "20",
+    "address": "192.168.0.0"
 }
 ```
 
