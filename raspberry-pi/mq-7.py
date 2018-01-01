@@ -4,6 +4,9 @@ import urllib.request
 import json
 import queue
 from collections import Counter
+import os
+import sqlite3
+import setting
 
 
 # change these as desired - they're the pins connected from the
@@ -16,6 +19,7 @@ mq7_dpin = 26
 mq7_apin = 0
 
 SMOKE_ID = '0'
+UUID = ''
 
 
 # port init
@@ -69,6 +73,19 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 
 # main ioop
 def main():
+    global UUID
+
+    # DBが作成されるまで何もしない
+    db_filename = setting.DB_PATH
+
+    while True:
+        if os.path.exists(db_filename):
+            break
+
+    # DBとのコネクション生成
+    conn = sqlite3.connect(db_filename)
+    c = conn.cursor()
+
     co_q = queue.Queue()
     co_difference_q = queue.Queue()
 
@@ -81,10 +98,19 @@ def main():
 
     init()
     print("please wait...")
-
     time.sleep(20)
 
+    select_sql = 'select uuid from user'
+
     while True:
+        user = c.execute(select_sql)
+
+        if user.rowcount == 0:
+            continue
+        else:
+            for row in user:
+                UUID = row[0]
+
         COlevel = readadc(mq7_apin, SPICLK, SPIMOSI, SPIMISO, SPICS)
         co_percent = (COlevel / 1024.) * 100
 
@@ -139,9 +165,9 @@ def run_api(create_flag):
     global SMOKE_ID
 
     base_url = 'https://kentaiwami.jp/sumolog/index.php/api/smoke/'
-    # TODO uuidを連携するコードは後ほど
+
     obj = {
-        'uuid': 'hoge'
+        'uuid': UUID
     }
 
     if create_flag:
