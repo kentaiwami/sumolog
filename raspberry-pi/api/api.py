@@ -26,7 +26,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route("/api/v1/user", methods=['POST'])
+@app.route('/api/v1/user', methods=['POST'])
 def api_v1_create_user():
     if request.method == 'POST':
         uuid = request.json['uuid']
@@ -36,9 +36,12 @@ def api_v1_create_user():
         return jsonify(d.to_dict()), 200
 
 
-@app.route("/api/v1/user", methods=['DELETE'])
+@app.route('/api/v1/user', methods=['DELETE'])
 def api_v1_delete_user():
-    pass
+    if request.method == 'DELETE':
+        User.query.delete()
+        db.session.commit()
+        return ''
 
 
 if __name__ == '__main__':
