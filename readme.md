@@ -22,15 +22,16 @@
 * iPhone 6,6s
 
 ## 使い方
-1. ラズパイを設置・起動
-2. ラズパイをWi-Fiに接続
-3. ラズパイ上で[mq-7.py](raspberry-pi/mq-7.py)を動作させる
-4. アプリを起動し設定を行う
+1. [Webサイト](http://osoyoo.com/ja/2017/03/30/co检测器/)を参考にしてラズパイとセンサーを繋げる
+2. ラズパイを設置・起動
+3. ラズパイをWi-Fiに接続
+4. ラズパイ上で[Raspberry Pi API](raspberry-pi/api/api.py)と[Raspberry Pi Sensor](raspberry-pi/mq-7.py)をサービスとして起動する
+5. アプリを起動し設定を行う
     * 給与日
     * 吸っているタバコ1箱の値段
     * 1日の目標本数
     * Raspberry Piとのリンク
-5. いつも通りタバコを吸う
+6. いつも通りタバコを吸う
 
 ## API
 #### Create User
@@ -194,7 +195,3 @@ response：
 }
 
 ```
-
-
-## 参考にしたWebサイト
-* [ラズパイとMQ-7センサーの接続](http://osoyoo.com/ja/2017/03/30/co检测器/)
