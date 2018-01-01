@@ -40,8 +40,9 @@ class APIUserController extends Controller
         $validator = Validator::make($request->all(), [
             'uuid'              => 'bail|required|string|max:191|unique:users',
             'payday'            => 'bail|required|string|max:2',
-            'price'             => 'bail|required|string|max:191',
-            'target_number'     => 'bail|required|string|max:191',
+            'price'             => 'bail|required|string|max:4',
+            'target_number'     => 'bail|required|string|max:3',
+            'address'           => 'bail|required|string|max:15',
         ]);
 
         if($validator->fails()){
@@ -53,6 +54,7 @@ class APIUserController extends Controller
         $new_user->payday = $request->get('payday');
         $new_user->price = $request->get('price');
         $new_user->target_number = $request->get('target_number');
+        $new_user->address = $request->get('address');
         $new_user->save();
 
         return Response()->json([
