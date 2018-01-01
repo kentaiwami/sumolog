@@ -46,9 +46,9 @@ endpoint：user
 request：
 {
     "uuid": "hogehoge",
-    "payday": "30",
-    "price": "100",
-    "target_number": "10",
+    "payday": 30,
+    "price": 100,
+    "target_number": 10,
     "address": "192.168.0.0"
 }
 response：
@@ -65,9 +65,9 @@ endpoint：user/{id}
 request：
 {
     "uuid": "hogehoge",
-    "payday": "25",
-    "price": "420",
-    "target_number": "20",
+    "payday": 25,
+    "price": 420,
+    "target_number": 20,
     "address": "192.168.0.0"
 }
 response：
@@ -77,9 +77,9 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "is_active": 1,
-    "payday": "25",
-    "price": "420",
-    "target_number": "20"
+    "payday": 25,
+    "price": 420,
+    "target_number": 20
 }
 ```
 
@@ -98,9 +98,9 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "is_active": 1,
-    "payday": "25",
-    "price": "420",
-    "target_number": "20"
+    "payday": 25,
+    "price": 420,
+    "target_number": 20
 }
 ```
 
@@ -112,9 +112,9 @@ response：
 {
     "id": 1,
     "uuid": "hogehoge",
-    "payday": "25",
-    "price": "420",
-    "target_number": "20",
+    "payday": 25,
+    "price": 420,
+    "target_number": 20,
     "address": "192.168.0.0"
 }
 ```
