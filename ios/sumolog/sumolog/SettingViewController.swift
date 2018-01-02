@@ -133,7 +133,7 @@ class SettingViewController: FormViewController {
             }
         
         
-        form +++ Section("連携")
+        form +++ Section(header: "連携", footer: "この操作を行わないと喫煙は記録されません")
             <<< ButtonRow(){
                 $0.title = "接続"
         }
