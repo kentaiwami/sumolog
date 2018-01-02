@@ -7,15 +7,34 @@
 //
 
 import UIKit
+import KeychainAccess
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let reset = true
+        let keychain = Keychain()
+        
+        if reset {
+            try! keychain.remove("uuid")
+            try! keychain.remove("id")
+        }
+        
+        let key = try! keychain.getString("uuid")
+        
+        if key == nil {
+            let settingVC = SettingViewController()
+            settingVC.SetisCreate(iscreate: true)
+            
+            let nav = UINavigationController()
+            nav.viewControllers = [settingVC]
+            self.window!.rootViewController = nav
+            self.window?.makeKeyAndVisible()
+        }
+        
         return true
     }
 

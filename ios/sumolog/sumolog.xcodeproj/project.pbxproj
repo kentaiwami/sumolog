@@ -13,6 +13,10 @@
 		3719E9791FA0591500E054EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3719E9771FA0591500E054EC /* Main.storyboard */; };
 		3719E97B1FA0591500E054EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3719E97A1FA0591500E054EC /* Assets.xcassets */; };
 		3719E97E1FA0591500E054EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3719E97C1FA0591500E054EC /* LaunchScreen.storyboard */; };
+		3730C26B1FFB4AF900184D2B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C26A1FFB4AF900184D2B /* SettingViewController.swift */; };
+		3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C26E1FFB5B0F00184D2B /* Enum.swift */; };
+		3730C2711FFB5F4100184D2B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C2701FFB5F4100184D2B /* Data.swift */; };
+		3730C2731FFB713600184D2B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C2721FFB713600184D2B /* Utility.swift */; };
 		EAEE5979EF848BD5650722CE /* Pods_sumolog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +29,10 @@
 		3719E97A1FA0591500E054EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3719E97D1FA0591500E054EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3719E97F1FA0591500E054EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3730C26A1FFB4AF900184D2B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		3730C26E1FFB5B0F00184D2B /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		3730C2701FFB5F4100184D2B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		3730C2721FFB713600184D2B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		8BD63810A3E31146B7C9796F /* Pods-sumolog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sumolog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sumolog/Pods-sumolog.debug.xcconfig"; sourceTree = "<group>"; };
 		C31DFB5548C3E0F4F6C5F4E6 /* Pods-sumolog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sumolog.release.xcconfig"; path = "Pods/Target Support Files/Pods-sumolog/Pods-sumolog.release.xcconfig"; sourceTree = "<group>"; };
 		EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sumolog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,12 +72,16 @@
 			isa = PBXGroup;
 			children = (
 				3719E9711FA0591500E054EC /* AppDelegate.swift */,
+				3730C26A1FFB4AF900184D2B /* SettingViewController.swift */,
 				3719E9731FA0591500E054EC /* FirstViewController.swift */,
 				3719E9751FA0591500E054EC /* SecondViewController.swift */,
 				3719E9771FA0591500E054EC /* Main.storyboard */,
 				3719E97A1FA0591500E054EC /* Assets.xcassets */,
 				3719E97C1FA0591500E054EC /* LaunchScreen.storyboard */,
 				3719E97F1FA0591500E054EC /* Info.plist */,
+				3730C26E1FFB5B0F00184D2B /* Enum.swift */,
+				3730C2701FFB5F4100184D2B /* Data.swift */,
+				3730C2721FFB713600184D2B /* Utility.swift */,
 			);
 			path = sumolog;
 			sourceTree = "<group>";
@@ -230,9 +242,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3730C2731FFB713600184D2B /* Utility.swift in Sources */,
 				3719E9761FA0591500E054EC /* SecondViewController.swift in Sources */,
+				3730C2711FFB5F4100184D2B /* Data.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
 				3719E9741FA0591500E054EC /* FirstViewController.swift in Sources */,
+				3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */,
+				3730C26B1FFB4AF900184D2B /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
