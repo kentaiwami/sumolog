@@ -138,7 +138,15 @@ class SettingViewController: FormViewController {
                 $0.title = "接続"
         }
         .onCellSelection {  cell, row in
-            
+            if self.iscreate {
+                if self.CheckRaspberryPIConnection() {
+                    self.RunCreateUser()
+                }else {
+                    self.present(GetStandardAlert(title: "通信エラー", message: "Raspberry PIとの接続を再確認してください", b_title: "OK"), animated: true, completion: nil)
+                }
+            }else {
+                self.CallUpdateCreateUserAPI()
+            }
         }
     }
     
@@ -153,6 +161,53 @@ class SettingViewController: FormViewController {
         }
         
         return date_array
+    }
+    
+    func RunCreateUser() {
+        CallSaveUUIDAPI()
+        CallUpdateCreateUserAPI()
+    }
+    
+    func CallUpdateCreateUserAPI() {
+        //formのバリデーション&値を取得
+        var err_count = 0
+        for row in form.allRows {
+            err_count += row.validate().count
+        }
+        
+        var method = HTTPMethod.post
+        if !iscreate {
+            method = HTTPMethod.put
+        }
+        
+        if err_count == 0 {
+            let values = form.values()
+            let urlString = API.base.rawValue + API.user.rawValue
+            Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+                
+                print(JSON(response.result.value))
+            }
+
+        }else {
+            present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"), animated: true, completion: nil)
+        }
+    }
+    
+    func CallSaveUUIDAPI() {
+        let uuid = NSUUID().uuidString
+        let keychain = Keychain()
+        try! keychain.set(uuid, key: "uuid")
+        //APIたたく
+        let urlString = API.base.rawValue + API.user.rawValue
+        let req = ["uuid": uuid]
+        Alamofire.request(urlString, method: .post, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            
+            print(JSON(response.result.value))
+        }
+    }
+    
+    func CheckRaspberryPIConnection() -> Bool {
+        return true
     }
 
     override func didReceiveMemoryWarning() {
