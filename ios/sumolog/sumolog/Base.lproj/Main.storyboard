@@ -62,10 +62,10 @@
             </objects>
             <point key="canvasLocation" x="750" y="360"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--OriginU Inavigation Controller-->
         <scene sceneID="HEQ-ho-hz5">
             <objects>
-                <navigationController id="Nzi-yd-16z" sceneMemberID="viewController">
+                <navigationController id="Nzi-yd-16z" customClass="OriginUInavigationController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wDK-KP-8gQ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

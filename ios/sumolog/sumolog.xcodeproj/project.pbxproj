@@ -22,6 +22,7 @@
 		37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAB1FFC1F31006E6B09 /* Setting.swift */; };
 		37B69EB01FFC2285006E6B09 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAF1FFC2285006E6B09 /* PageViewController.swift */; };
 		37B69EB21FFC23A2006E6B09 /* SmokeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EB11FFC23A2006E6B09 /* SmokeDetailViewController.swift */; };
+		37B69EB41FFC24F7006E6B09 /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */; };
 		EAEE5979EF848BD5650722CE /* Pods_sumolog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		37B69EAF1FFC2285006E6B09 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		37B69EB11FFC23A2006E6B09 /* SmokeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDetailViewController.swift; sourceTree = "<group>"; };
+		37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		8BD63810A3E31146B7C9796F /* Pods-sumolog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sumolog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sumolog/Pods-sumolog.debug.xcconfig"; sourceTree = "<group>"; };
 		C31DFB5548C3E0F4F6C5F4E6 /* Pods-sumolog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sumolog.release.xcconfig"; path = "Pods/Target Support Files/Pods-sumolog/Pods-sumolog.release.xcconfig"; sourceTree = "<group>"; };
 		EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sumolog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +99,7 @@
 				37B69EAB1FFC1F31006E6B09 /* Setting.swift */,
 				37B69EAF1FFC2285006E6B09 /* PageViewController.swift */,
 				37B69EB11FFC23A2006E6B09 /* SmokeDetailViewController.swift */,
+				37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */,
 			);
 			path = sumolog;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				3730C2731FFB713600184D2B /* Utility.swift in Sources */,
 				37B69EB01FFC2285006E6B09 /* PageViewController.swift in Sources */,
 				3719E9761FA0591500E054EC /* SecondViewController.swift in Sources */,
+				37B69EB41FFC24F7006E6B09 /* OriginUInavigationController.swift in Sources */,
 				3730C2711FFB5F4100184D2B /* Data.swift in Sources */,
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
