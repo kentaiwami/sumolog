@@ -7,15 +7,23 @@
 //
 
 import UIKit
+import KeychainAccess
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let keychain = Keychain()
+        let key = try! keychain.getString("uuid")
+        
+        if key == nil {
+            let settingVC = SettingViewController()
+            self.window?.rootViewController = settingVC
+            self.window?.makeKeyAndVisible()
+        }
+        
         return true
     }
 
