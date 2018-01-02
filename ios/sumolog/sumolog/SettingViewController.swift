@@ -131,6 +131,15 @@ class SettingViewController: FormViewController {
                     }
                 }
             }
+        
+        
+        form +++ Section("連携")
+            <<< ButtonRow(){
+                $0.title = "接続"
+        }
+        .onCellSelection {  cell, row in
+            
+        }
     }
     
     func SetisCreate(iscreate: Bool) {
