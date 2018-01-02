@@ -20,10 +20,10 @@ class SettingViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        view.backgroundColor = UIColor.blue
+        self.navigationItem.title = "設定"
+        self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 0, green: 0, blue: 255, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
-
-        // Do any additional setup after loading the view.
         if iscreate {
             user_data.Setprice(price: 0)
             user_data.Setpayday(payday: 0)

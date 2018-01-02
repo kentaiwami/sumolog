@@ -21,7 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if key == nil {
             let settingVC = SettingViewController()
             settingVC.SetisCreate(iscreate: true)
-            self.window?.rootViewController = settingVC
+            
+            let nav = UINavigationController()
+            nav.viewControllers = [settingVC]
+            self.window!.rootViewController = nav
             self.window?.makeKeyAndVisible()
         }
         
