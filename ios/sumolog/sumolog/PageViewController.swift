@@ -1,5 +1,5 @@
 //
-//  SmokeOverViewViewController.swift
+//  PageViewController.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/01/03.
@@ -9,20 +9,21 @@
 import UIKit
 import XLPagerTabStrip
 
-class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
-    
+
+class PageViewController: ButtonBarPagerTabStripViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.blue
     }
     
+    override public func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+        
+        return [SmokeOverViewViewController(), SmokeDetailViewController()]
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        return IndicatorInfo(title: "OverView")
     }
 }
