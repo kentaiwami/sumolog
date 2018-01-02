@@ -110,7 +110,7 @@ class SettingViewController: FormViewController {
         
         
             <<< IntRow(){
-                $0.title = "目標"
+                $0.title = "目標本数"
                 $0.value = user_data.Gettarget_number()
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
