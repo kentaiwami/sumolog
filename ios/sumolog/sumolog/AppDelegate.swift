@@ -13,9 +13,14 @@ import KeychainAccess
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let reset = true
         let keychain = Keychain()
+        if reset {
+            try! keychain.remove("uuid")
+        }
+        
         let key = try! keychain.getString("uuid")
         
         if key == nil {

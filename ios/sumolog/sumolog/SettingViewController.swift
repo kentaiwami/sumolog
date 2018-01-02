@@ -16,6 +16,8 @@ class SettingViewController: FormViewController {
 
     private var iscreate = false
     private var user_data = UserData()
+    private var uuid = ""
+    private let keychain = Keychain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +27,13 @@ class SettingViewController: FormViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         if iscreate {
+            uuid = NSUUID().uuidString
             user_data.Setprice(price: 0)
             user_data.Setpayday(payday: 0)
             user_data.Setaddress(address: "")
             user_data.Settarget_number(target_number: 0)
         }else {
+            uuid = (try! keychain.getString("uuid"))!
             CallGetSettingAPI()
         }
         
@@ -51,7 +55,7 @@ class SettingViewController: FormViewController {
     }
     
     func CreateForm() {
-        let RuleRequired_M = "必須項目です"
+//        let RuleRequired_M = ""
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
@@ -59,12 +63,16 @@ class SettingViewController: FormViewController {
             cell.textLabel?.textAlignment = .right
         }
         
+        var rules = RuleSet<Int>()
+        rules.add(rule: RuleRequired(msg: "必須項目です"))
+        rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
+        
         form +++ Section("ユーザ情報")
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = user_data.Getpayday()
                 $0.options = GenerateDate()
-                $0.add(rule: RuleRequired())
+                $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"
             }
@@ -74,9 +82,9 @@ class SettingViewController: FormViewController {
                     row.section?.remove(at: rowIndex + 1)
                 }
                 if !row.isValid {
-                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
                         let labelRow = LabelRow() {
-                            $0.title = RuleRequired_M
+                            $0.title = err
                             $0.cell.height = { 30 }
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
@@ -88,7 +96,7 @@ class SettingViewController: FormViewController {
             <<< IntRow(){
                 $0.title = "値段"
                 $0.value = user_data.Getprice()
-                $0.add(rule: RuleRequired())
+                $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "price"
             }
@@ -98,9 +106,9 @@ class SettingViewController: FormViewController {
                     row.section?.remove(at: rowIndex + 1)
                 }
                 if !row.isValid {
-                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
                         let labelRow = LabelRow() {
-                            $0.title = RuleRequired_M
+                            $0.title = err
                             $0.cell.height = { 30 }
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
@@ -112,7 +120,7 @@ class SettingViewController: FormViewController {
             <<< IntRow(){
                 $0.title = "目標本数"
                 $0.value = user_data.Gettarget_number()
-                $0.add(rule: RuleRequired())
+                $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "target_number"
             }
@@ -122,9 +130,37 @@ class SettingViewController: FormViewController {
                     row.section?.remove(at: rowIndex + 1)
                 }
                 if !row.isValid {
-                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
                         let labelRow = LabelRow() {
-                            $0.title = RuleRequired_M
+                            $0.title = err
+                            $0.cell.height = { 30 }
+                        }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                    }
+                }
+            }
+        
+        
+            <<< TextRow(){
+                var rules = RuleSet<String>()
+                rules.add(rule: RuleRequired(msg: "必須項目です"))
+                rules.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}+\\.[0-9]{1,3}+\\.[0-9]{1,3}+\\.[0-9]{1,3}+", allowsEmpty: false, msg: "IPアドレスの形式になっていません"))
+
+                $0.title = "IPアドレス"
+                $0.value = user_data.Getaddress()
+                $0.add(ruleSet: rules)
+                $0.validationOptions = .validatesOnChange
+                $0.tag = "address"
+            }
+            .onRowValidationChanged {cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = err
                             $0.cell.height = { 30 }
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
@@ -139,11 +175,7 @@ class SettingViewController: FormViewController {
         }
         .onCellSelection {  cell, row in
             if self.iscreate {
-                if self.CheckRaspberryPIConnection() {
-                    self.RunCreateUser()
-                }else {
-                    self.present(GetStandardAlert(title: "通信エラー", message: "Raspberry PIとの接続を再確認してください", b_title: "OK"), animated: true, completion: nil)
-                }
+                self.CallSaveUUIDAPI()
             }else {
                 self.CallUpdateCreateUserAPI()
             }
@@ -163,25 +195,16 @@ class SettingViewController: FormViewController {
         return date_array
     }
     
-    func RunCreateUser() {
-        CallSaveUUIDAPI()
-        CallUpdateCreateUserAPI()
-    }
-    
     func CallUpdateCreateUserAPI() {
-        //formのバリデーション&値を取得
-        var err_count = 0
-        for row in form.allRows {
-            err_count += row.validate().count
-        }
-        
         var method = HTTPMethod.post
         if !iscreate {
             method = HTTPMethod.put
         }
         
-        if err_count == 0 {
-            let values = form.values()
+        if IsCheckFormValue() {
+            var values = form.values()
+            values["uuid"] = uuid
+            
             let urlString = API.base.rawValue + API.user.rawValue
             Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 
@@ -194,20 +217,46 @@ class SettingViewController: FormViewController {
     }
     
     func CallSaveUUIDAPI() {
-        let uuid = NSUUID().uuidString
-        let keychain = Keychain()
-        try! keychain.set(uuid, key: "uuid")
-        //APIたたく
-        let urlString = API.base.rawValue + API.user.rawValue
-        let req = ["uuid": uuid]
-        Alamofire.request(urlString, method: .post, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+        if IsCheckFormValue() {
+            /*** ラズパイへの接続設定 ***/
+            let address = form.values()["address"] as! String
+            let urlString = "http://" + address + "/api/v1/user"
+            let tmp_req = ["uuid": uuid]
+            var request = URLRequest(url: URL(string: urlString)!)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.timeoutInterval = 10
+            request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
             
-            print(JSON(response.result.value))
+            Alamofire.request(request).responseJSON { response in
+                print("***** raspi results *****")
+                print(JSON(response.result.value))
+                print(response.error)
+                print("***** raspi results *****")
+                
+                if response.error == nil {
+                    self.CallUpdateCreateUserAPI()
+                    try! self.keychain.set(self.uuid, key: "uuid")
+                }else {
+                    self.present(GetStandardAlert(title: "通信エラー", message: "指定したアドレスに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+                }
+            }
+        }else {
+            self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"), animated: true, completion: nil)
         }
     }
     
-    func CheckRaspberryPIConnection() -> Bool {
-        return true
+    func IsCheckFormValue() -> Bool {
+        var err_count = 0
+        for row in form.allRows {
+            err_count += row.validate().count
+        }
+        
+        if err_count == 0 {
+            return true
+        }
+        
+        return false
     }
 
     override func didReceiveMemoryWarning() {
