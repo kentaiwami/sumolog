@@ -214,6 +214,11 @@ class SettingViewController: FormViewController {
                 
                 if self.iscreate {
                     try! self.keychain.set(String(obj["id"].intValue), key: "id")
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let topVC = storyboard.instantiateInitialViewController()
+                    topVC?.modalTransitionStyle = .flipHorizontal
+                    self.present(topVC!, animated: true, completion: nil)
                 }
             }
 
