@@ -2,17 +2,23 @@ PODS:
   - Alamofire (4.6.0)
   - Eureka (4.0.1)
   - KeychainAccess (3.1.0)
+  - PageMenu (2.0.0)
+  - ScrollableGraphView (4.0.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Eureka
   - KeychainAccess
+  - PageMenu
+  - ScrollableGraphView
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Eureka: c8bd5cc07143b6f66268c208d28a246c99b41955
   KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
+  PageMenu: 9c38fd7e0d9ef4b1408320f55bb907bbc0e538dc
+  ScrollableGraphView: 072ea302f4ca27779692656a49d51fe537b2b1e7
 
-PODFILE CHECKSUM: 823752acefc3f67a9e238876ca4fd1905582d4ba
+PODFILE CHECKSUM: dfc99a010dbb4b11d00b83d47cad16171845b157
 
 COCOAPODS: 1.3.1
