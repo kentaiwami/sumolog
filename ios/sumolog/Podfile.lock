@@ -1,24 +1,37 @@
 PODS:
   - Alamofire (4.6.0)
-  - Eureka (4.0.1)
+  - Eureka (3.0.0)
   - KeychainAccess (3.1.0)
-  - PageMenu (2.0.0)
   - ScrollableGraphView (4.0.4)
+  - SwiftyJSON (4.0.0)
+  - XLPagerTabStrip (8.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
-  - Eureka
+  - Eureka (from `https://github.com/xmartlabs/Eureka.git`, branch `feature/Xcode9-Swift3_2`)
   - KeychainAccess
-  - PageMenu
   - ScrollableGraphView
+  - SwiftyJSON
+  - XLPagerTabStrip (~> 8.0)
+
+EXTERNAL SOURCES:
+  Eureka:
+    :branch: feature/Xcode9-Swift3_2
+    :git: https://github.com/xmartlabs/Eureka.git
+
+CHECKOUT OPTIONS:
+  Eureka:
+    :commit: 05acfb04c24a480f1868e671d19b39e0f22fc265
+    :git: https://github.com/xmartlabs/Eureka.git
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
-  Eureka: c8bd5cc07143b6f66268c208d28a246c99b41955
+  Eureka: 5b9418d7bfdc21ca977d69d124a6409f3e9af2c7
   KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
-  PageMenu: 9c38fd7e0d9ef4b1408320f55bb907bbc0e538dc
   ScrollableGraphView: 072ea302f4ca27779692656a49d51fe537b2b1e7
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: dfc99a010dbb4b11d00b83d47cad16171845b157
+PODFILE CHECKSUM: eeb836487e249411d9ac693eafc3bc4e10d99de2
 
 COCOAPODS: 1.3.1
