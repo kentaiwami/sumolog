@@ -14,3 +14,7 @@ enum API: String {
     case overview = "overview/"
     case detail = "detail/"
 }
+
+enum Color: String {
+    case main = "#55B4EC"
+}

@@ -24,7 +24,7 @@ class SettingViewController: FormViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = "設定"
-        self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 0, green: 0, blue: 255, alpha: 1)
+        self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue as NSString, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         if iscreate {
