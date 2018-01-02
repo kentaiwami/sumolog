@@ -39,9 +39,10 @@ class APIUserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'uuid'              => 'bail|required|string|max:191|unique:users',
-            'payday'            => 'bail|required|string|max:2',
-            'price'             => 'bail|required|string|max:191',
-            'target_number'     => 'bail|required|string|max:191',
+            'payday'            => 'bail|required|integer|min:1|max:31',
+            'price'             => 'bail|required|integer|max:9999',
+            'target_number'     => 'bail|required|integer|max:9999',
+            'address'           => 'bail|required|ip',
         ]);
 
         if($validator->fails()){
@@ -53,6 +54,7 @@ class APIUserController extends Controller
         $new_user->payday = $request->get('payday');
         $new_user->price = $request->get('price');
         $new_user->target_number = $request->get('target_number');
+        $new_user->address = $request->get('address');
         $new_user->save();
 
         return Response()->json([
@@ -76,7 +78,8 @@ class APIUserController extends Controller
             'id'            => $user->id,
             'payday'        => $user->payday,
             'price'         => $user->price,
-            'target_number' => $user->target_number
+            'target_number' => $user->target_number,
+            'address'       => $user->address
         ]);
     }
 
@@ -102,9 +105,10 @@ class APIUserController extends Controller
         if ($request->method() == 'PUT') {
             $validator = Validator::make($request->all(), [
                 'uuid' => 'bail|required|string|max:191',
-                'payday' => 'bail|required|string|max:2',
-                'price' => 'bail|required|string|max:191',
-                'target_number' => 'bail|required|string|max:191',
+                'payday'            => 'bail|required|integer|min:1|max:31',
+                'price'             => 'bail|required|integer|max:9999',
+                'target_number'     => 'bail|required|integer|max:9999',
+                'address'           => 'bail|required|ip',
             ]);
 
             if($validator->fails())
@@ -132,6 +136,7 @@ class APIUserController extends Controller
             $user->payday = $request->get('payday');
             $user->price = $request->get('price');
             $user->target_number = $request->get('target_number');
+            $user->address = $request->get('address');
 
         }else if ($request->method() == 'PATCH') {
             if ($user->is_active)

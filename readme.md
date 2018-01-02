@@ -46,9 +46,10 @@ endpoint：user
 request：
 {
     "uuid": "hogehoge",
-    "payday": "30",
-    "price": "100",
-    "target_number": "10"
+    "payday": 30,
+    "price": 100,
+    "target_number": 10,
+    "address": "192.168.0.0"
 }
 response：
 {
@@ -64,9 +65,10 @@ endpoint：user/{id}
 request：
 {
     "uuid": "hogehoge",
-    "payday": "25",
-    "price": "420",
-    "target_number": "20"
+    "payday": 25,
+    "price": 420,
+    "target_number": 20,
+    "address": "192.168.0.0"
 }
 response：
 {
@@ -75,9 +77,9 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "is_active": 1,
-    "payday": "25",
-    "price": "420",
-    "target_number": "20"
+    "payday": 25,
+    "price": 420,
+    "target_number": 20
 }
 ```
 
@@ -96,9 +98,9 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "is_active": 1,
-    "payday": "25",
-    "price": "420",
-    "target_number": "20"
+    "payday": 25,
+    "price": 420,
+    "target_number": 20
 }
 ```
 
@@ -110,9 +112,10 @@ response：
 {
     "id": 1,
     "uuid": "hogehoge",
-    "payday": "25",
-    "price": "420",
-    "target_number": "20"
+    "payday": 25,
+    "price": 420,
+    "target_number": 20,
+    "address": "192.168.0.0"
 }
 ```
 
@@ -153,7 +156,7 @@ method：PATCH
 endpoint：smoke/{id}
 request：
 {
-    "smoke_id": 10,
+    "uuid": "hogehoge",
     "started_at": "2017-11-11 23:23:23",
     "ended_at": "2017-11-11 23:52:52"
 }
@@ -183,7 +186,7 @@ response：
 {
     "count": 28,
     "min": 41,
-    "hour": [1,3,1,2,2,2,2,1,1,1,2,1,3,1,1,2,1,1],
+    "hour": [{"07":1},{"12":1},{"13":1},{"14":1},{"16":3},{"18":1},{"19":2},{"20":2},{"21":1},{"01":3},{"02":1},{"04":1},{"05":2},{"06":1}],
     "over": 13
 }
 ```
