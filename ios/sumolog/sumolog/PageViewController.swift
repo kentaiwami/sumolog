@@ -13,12 +13,18 @@ import XLPagerTabStrip
 class PageViewController: ButtonBarPagerTabStripViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
         let main_color = UIColor.hex(Color.main.rawValue, alpha: 1.0)
-        buttonBarView.selectedBar.backgroundColor = .white
-        buttonBarView.backgroundColor = main_color
-        settings.style.buttonBarItemBackgroundColor = main_color
+        
+        settings.style.buttonBarItemBackgroundColor = UIColor.clear
+        settings.style.buttonBarItemTitleColor = UIColor.black
+
+        super.viewDidLoad()
+        let navBarHeight = (self.navigationController?.navigationBar.frame.size.height)!
+        let y = (self.navigationController?.navigationBar.frame.origin.y)!
+        
+        buttonBarView.selectedBar.backgroundColor = main_color
+        buttonBarView.backgroundColor = UIColor.clear
+        buttonBarView.frame = CGRect(x: 0, y: navBarHeight+y, width: buttonBarView.frame.width, height: buttonBarView.frame.height)
     }
     
     override public func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {

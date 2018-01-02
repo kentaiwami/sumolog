@@ -14,7 +14,6 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.brown
     }
 
     override func didReceiveMemoryWarning() {
