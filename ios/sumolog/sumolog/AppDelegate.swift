@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if key == nil {
             let settingVC = SettingViewController()
+            settingVC.SetisCreate(iscreate: true)
             self.window?.rootViewController = settingVC
             self.window?.makeKeyAndVisible()
         }
