@@ -207,8 +207,14 @@ class SettingViewController: FormViewController {
             
             let urlString = API.base.rawValue + API.user.rawValue
             Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+                let obj = JSON(response.result.value)
+                print("***** API results *****")
+                print(obj)
+                print("***** API results *****")
                 
-                print(JSON(response.result.value))
+                if self.iscreate {
+                    try! self.keychain.set(String(obj["id"].intValue), key: "id")
+                }
             }
 
         }else {
