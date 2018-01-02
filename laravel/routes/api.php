@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +13,34 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return 'HOGE';
-////    return $request->user();
-//});
+//  Create user
+Route::post('user', 'APIUserController@store');
 
-Route::resource('/hoges', 'HogeController', ['except' => []]);
+//  Update user profile
+Route::put('user/{id}', 'APIUserController@update');
+
+//  Update user active status
+Route::patch('user/{id}', 'APIUserController@update');
+
+//  Get user data
+Route::get('user/{id}', 'APIUserController@show');
+
+
+//  Create smoke
+Route::post('smoke', 'APISmokeController@store');
+
+//  Update end smoke time
+Route::put('smoke/{id}', 'APISmokeController@update');
+
+// Update smoke data
+Route::patch('smoke/{id}', 'APISmokeController@update');
+
+// Delete smoke data
+Route::delete('smoke/{smoke_id}/user/{user_id}', 'APISmokeController@destroy');
+
+//  Get user's smoke overview data
+Route::get('smoke/overview/user/{id}', 'APISmokeController@show');
+
+// Get user's smoke detail data
+Route::get('smoke/detail/user/{id}', 'APISmokeController@show');
+
