@@ -13,7 +13,7 @@ class OriginUInavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationBar.barTintColor = UIColor.hex(Color.main.rawValue as NSString, alpha: 1.0)
+        navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationBar.tintColor = UIColor.white
     }
