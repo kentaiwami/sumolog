@@ -21,7 +21,7 @@ class Indicator {
     let indicator = UIActivityIndicatorView()
     
     func showIndicator(view: UIView) {
-        indicator.activityIndicatorViewStyle = .gray
+        indicator.activityIndicatorViewStyle = .whiteLarge
         indicator.center = view.center
         indicator.color = UIColor.gray
         indicator.hidesWhenStopped = true

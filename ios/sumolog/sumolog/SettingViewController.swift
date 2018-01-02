@@ -18,6 +18,7 @@ class SettingViewController: FormViewController {
     private var user_data = UserData()
     private var uuid = ""
     private let keychain = Keychain()
+    private let indicator = Indicator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,8 @@ class SettingViewController: FormViewController {
             user_data.Settarget_number(target_number: 0)
         }else {
             uuid = (try! keychain.getString("uuid"))!
+            
+            indicator.showIndicator(view: self.view)
             CallGetSettingAPI()
         }
         
@@ -41,6 +44,8 @@ class SettingViewController: FormViewController {
     }
     
     func CallGetSettingAPI() {
+        indicator.showIndicator(view: self.view)
+        
         let keychain = Keychain()
         let id = try! keychain.getString("id")
         
@@ -51,11 +56,12 @@ class SettingViewController: FormViewController {
             print("User Setting results: ", json.count)
             print(json)
             self.user_data.SetAll(json: json)
+            
+            self.indicator.stopIndicator()
         }
     }
     
     func CreateForm() {
-//        let RuleRequired_M = ""
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
@@ -196,6 +202,8 @@ class SettingViewController: FormViewController {
     }
     
     func CallUpdateCreateUserAPI() {
+        indicator.showIndicator(view: self.view)
+        
         var method = HTTPMethod.post
         if !iscreate {
             method = HTTPMethod.put
@@ -207,6 +215,8 @@ class SettingViewController: FormViewController {
             
             let urlString = API.base.rawValue + API.user.rawValue
             Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+                self.indicator.stopIndicator()
+                
                 let obj = JSON(response.result.value)
                 print("***** API results *****")
                 print(obj)
@@ -223,11 +233,14 @@ class SettingViewController: FormViewController {
             }
 
         }else {
+            self.indicator.stopIndicator()
             present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"), animated: true, completion: nil)
         }
     }
     
     func CallSaveUUIDAPI() {
+        indicator.showIndicator(view: self.view)
+        
         if IsCheckFormValue() {
             /*** ラズパイへの接続設定 ***/
             let address = form.values()["address"] as! String
@@ -240,6 +253,8 @@ class SettingViewController: FormViewController {
             request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
             
             Alamofire.request(request).responseJSON { response in
+                self.indicator.stopIndicator()
+                
                 print("***** raspi results *****")
                 print(JSON(response.result.value))
                 print(response.error)
@@ -253,6 +268,7 @@ class SettingViewController: FormViewController {
                 }
             }
         }else {
+            indicator.stopIndicator()
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"), animated: true, completion: nil)
         }
     }
