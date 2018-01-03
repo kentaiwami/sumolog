@@ -24,13 +24,6 @@ class SettingViewController: FormViewController {
         super.viewWillAppear(animated)
         
         self.tabBarController?.navigationItem.title = "Setting"
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         if iscreate {
             uuid = NSUUID().uuidString
@@ -38,14 +31,21 @@ class SettingViewController: FormViewController {
             user_data.Setpayday(payday: 0)
             user_data.Setaddress(address: "")
             user_data.Settarget_number(target_number: 0)
+            
+            CreateForm()
         }else {
             uuid = (try! keychain.getString("uuid"))!
             
             indicator.showIndicator(view: self.view)
             CallGetSettingAPI()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        CreateForm()
+        self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     
     func CallGetSettingAPI() {
@@ -63,10 +63,14 @@ class SettingViewController: FormViewController {
             self.user_data.SetAll(json: json)
             
             self.indicator.stopIndicator()
+            
+            self.CreateForm()
         }
     }
     
     func CreateForm() {
+        form.removeAll()
+        
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
