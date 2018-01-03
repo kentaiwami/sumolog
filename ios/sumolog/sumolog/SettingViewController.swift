@@ -46,6 +46,7 @@ class SettingViewController: FormViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         CreateForm()
+        tableView.isScrollEnabled = false
     }
     
     func CallGetSettingAPI() {
