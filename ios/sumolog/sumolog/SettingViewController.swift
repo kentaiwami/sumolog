@@ -31,8 +31,6 @@ class SettingViewController: FormViewController {
             user_data.Setpayday(payday: 0)
             user_data.Setaddress(address: "")
             user_data.Settarget_number(target_number: 0)
-            
-            CreateForm()
         }else {
             uuid = (try! keychain.getString("uuid"))!
             
@@ -46,6 +44,8 @@ class SettingViewController: FormViewController {
         
         self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        CreateForm()
     }
     
     func CallGetSettingAPI() {
@@ -64,13 +64,11 @@ class SettingViewController: FormViewController {
             
             self.indicator.stopIndicator()
             
-            self.CreateForm()
+            self.UpdateCells()
         }
     }
     
     func CreateForm() {
-        form.removeAll()
-        
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
@@ -195,6 +193,23 @@ class SettingViewController: FormViewController {
                 self.CallUpdateCreateUserAPI()
             }
         }
+    }
+    
+    func UpdateCells() {
+        let payday = form.rowBy(tag: "payday")
+        let price = form.rowBy(tag: "price")
+        let target_number = form.rowBy(tag: "target_number")
+        let address = form.rowBy(tag: "address")
+        
+        payday?.baseValue = user_data.Getpayday()
+        price?.baseValue = user_data.Getprice()
+        target_number?.baseValue = user_data.Gettarget_number()
+        address?.baseValue = user_data.Getaddress()
+        
+        payday?.updateCell()
+        price?.updateCell()
+        target_number?.updateCell()
+        address?.updateCell()
     }
     
     func SetisCreate(iscreate: Bool) {
