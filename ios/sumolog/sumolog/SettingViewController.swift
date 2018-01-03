@@ -182,27 +182,29 @@ class SettingViewController: FormViewController {
                 }
             }
         
-        var button_title = "接続"
-        var button_color = UIColor.hex(Color.main.rawValue, alpha: 1.0)
-        var footer_msg = "この操作を行わないと喫煙は記録されません"
-        if !iscreate {
-            button_title = "解除"
-            button_color = UIColor.red
-            footer_msg = "解除した場合、喫煙は記録されません"
+        if iscreate {
+            CreateButtonRow(action: {
+                self.CallSaveUUIDAPI()
+            }, header: "連携", footer: "この操作を行うと喫煙が記録されます", title: "接続", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0))
+        }else {
+            CreateButtonRow(action: {
+                self.CallSaveUUIDAPI()
+            }, header: "プロフィール", footer: "", title: "更新", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0))
+            CreateButtonRow(action: {
+                self.CallSaveUUIDAPI()
+            }, header: "連携", footer: "解除した場合、喫煙は記録されません", title: "解除", bgColor: UIColor.red)
         }
-        
-        form +++ Section(header: "連携", footer: footer_msg)
+    }
+    
+    func CreateButtonRow(action: @escaping () -> Void, header: String, footer: String, title: String, bgColor: UIColor) {
+        form +++ Section(header: header, footer: footer)
             <<< ButtonRow(){
-                $0.title = button_title
-                $0.baseCell.backgroundColor = button_color
+                $0.title = title
+                $0.baseCell.backgroundColor = bgColor
                 $0.baseCell.tintColor = UIColor.white
         }
         .onCellSelection {  cell, row in
-            if self.iscreate {
-                self.CallSaveUUIDAPI()
-            }else {
-                self.CallUpdateCreateUserAPI()
-            }
+            action()
         }
     }
     
