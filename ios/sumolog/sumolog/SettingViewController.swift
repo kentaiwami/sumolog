@@ -181,10 +181,20 @@ class SettingViewController: FormViewController {
                 }
             }
         
+        var button_title = "接続"
+        var button_color = UIColor.hex(Color.main.rawValue, alpha: 1.0)
+        var footer_msg = "この操作を行わないと喫煙は記録されません"
+        if !iscreate {
+            button_title = "解除"
+            button_color = UIColor.red
+            footer_msg = "解除した場合、喫煙は記録されません"
+        }
         
-        form +++ Section(header: "連携", footer: "この操作を行わないと喫煙は記録されません")
+        form +++ Section(header: "連携", footer: footer_msg)
             <<< ButtonRow(){
-                $0.title = "接続"
+                $0.title = button_title
+                $0.baseCell.backgroundColor = button_color
+                $0.baseCell.tintColor = UIColor.white
         }
         .onCellSelection {  cell, row in
             if self.iscreate {
