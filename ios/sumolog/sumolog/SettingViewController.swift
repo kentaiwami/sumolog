@@ -188,9 +188,10 @@ class SettingViewController: FormViewController {
             }, header: "連携", footer: "この操作を行うと喫煙が記録されます", title: "接続", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0))
         }else {
             CreateButtonRow(action: {
-                self.CallSaveUUIDAPI()
+                self.CallUpdateCreateUserAPI()
             }, header: "プロフィール", footer: "", title: "更新", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0))
             CreateButtonRow(action: {
+                //TODO: 連携解除のAPIをたたく
                 self.CallSaveUUIDAPI()
             }, header: "連携", footer: "解除した場合、喫煙は記録されません", title: "解除", bgColor: UIColor.red)
         }
@@ -241,16 +242,18 @@ class SettingViewController: FormViewController {
     func CallUpdateCreateUserAPI() {
         indicator.showIndicator(view: self.view)
         
+        var id = ""
         var method = HTTPMethod.post
         if !iscreate {
             method = HTTPMethod.put
+            id = (try! keychain.getString("id"))!
         }
         
         if IsCheckFormValue() {
             var values = form.values()
             values["uuid"] = uuid
             
-            let urlString = API.base.rawValue + API.user.rawValue
+            let urlString = API.base.rawValue + API.user.rawValue + id
             Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 self.indicator.stopIndicator()
                 
