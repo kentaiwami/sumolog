@@ -20,11 +20,16 @@ class SettingViewController: FormViewController {
     private let keychain = Keychain()
     private let indicator = Indicator()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.navigationItem.title = "Setting"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "設定"
-        self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue as NSString, alpha: 1.0)
+        self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         if iscreate {
