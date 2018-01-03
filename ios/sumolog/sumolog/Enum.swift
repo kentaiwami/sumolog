@@ -17,4 +17,10 @@ enum API: String {
 
 enum Color: String {
     case main = "#55B4EC"
+    case gray = "#4B4B4B"
+}
+
+enum Font: String {
+    case HiraginoW3 = "HiraginoSans-W3"
+    case HiraginoW6 = "HiraginoSans-W6"
 }
