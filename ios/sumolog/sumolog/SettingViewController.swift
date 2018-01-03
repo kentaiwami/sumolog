@@ -29,7 +29,6 @@ class SettingViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "設定"
         self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
