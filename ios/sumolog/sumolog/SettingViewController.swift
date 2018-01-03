@@ -31,8 +31,6 @@ class SettingViewController: FormViewController {
             user_data.Setpayday(payday: 0)
             user_data.Setaddress(address: "")
             user_data.Settarget_number(target_number: 0)
-            
-            CreateForm()
         }else {
             uuid = (try! keychain.getString("uuid"))!
             
@@ -46,6 +44,9 @@ class SettingViewController: FormViewController {
         
         self.navigationController?.navigationBar.barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        CreateForm()
+        tableView.isScrollEnabled = false
     }
     
     func CallGetSettingAPI() {
@@ -64,13 +65,11 @@ class SettingViewController: FormViewController {
             
             self.indicator.stopIndicator()
             
-            self.CreateForm()
+            self.UpdateCells()
         }
     }
     
     func CreateForm() {
-        form.removeAll()
-        
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
@@ -183,18 +182,61 @@ class SettingViewController: FormViewController {
                 }
             }
         
-        
-        form +++ Section(header: "連携", footer: "この操作を行わないと喫煙は記録されません")
+        if iscreate {
+            CreateButtonRow(action: {self.CallSaveUUIDAPI()}, header: "連携", footer: "この操作を行うと喫煙が記録されます", title: "接続", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "connect")
+        }else {
+            CreateButtonRow(action: {self.CallUpdateCreateUserAPI()}, header: "プロフィール", footer: "", title: "更新", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "update")
+            
+            form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません")
+                <<< SwitchRow("SwitchRow") { row in
+                    row.title = "Connecting"
+                    row.value = true
+                }.onChange { row in
+                    row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
+                    row.updateCell()
+                    self.RunRaspberryPIAPI(value: row.value!)
+                }.cellSetup { cell, row in
+                    cell.backgroundColor = .white
+                }
+        }
+    }
+    
+    func RunRaspberryPIAPI(value: Bool) {
+        if value {
+            CallSaveUUIDAPI()
+        }else {
+            CallDeleteUUIDAPI()
+        }
+    }
+    
+    func CreateButtonRow(action: @escaping () -> Void, header: String, footer: String, title: String, bgColor: UIColor, tag: String) {
+        form +++ Section(header: header, footer: footer)
             <<< ButtonRow(){
-                $0.title = "接続"
+                $0.title = title
+                $0.baseCell.backgroundColor = bgColor
+                $0.baseCell.tintColor = UIColor.white
+                $0.tag = tag
         }
         .onCellSelection {  cell, row in
-            if self.iscreate {
-                self.CallSaveUUIDAPI()
-            }else {
-                self.CallUpdateCreateUserAPI()
-            }
+            action()
         }
+    }
+    
+    func UpdateCells() {
+        let payday = form.rowBy(tag: "payday")
+        let price = form.rowBy(tag: "price")
+        let target_number = form.rowBy(tag: "target_number")
+        let address = form.rowBy(tag: "address")
+        
+        payday?.baseValue = user_data.Getpayday()
+        price?.baseValue = user_data.Getprice()
+        target_number?.baseValue = user_data.Gettarget_number()
+        address?.baseValue = user_data.Getaddress()
+        
+        payday?.updateCell()
+        price?.updateCell()
+        target_number?.updateCell()
+        address?.updateCell()
     }
     
     func SetisCreate(iscreate: Bool) {
@@ -213,16 +255,18 @@ class SettingViewController: FormViewController {
     func CallUpdateCreateUserAPI() {
         indicator.showIndicator(view: self.view)
         
+        var id = ""
         var method = HTTPMethod.post
         if !iscreate {
             method = HTTPMethod.put
+            id = (try! keychain.getString("id"))!
         }
         
         if IsCheckFormValue() {
             var values = form.values()
             values["uuid"] = uuid
             
-            let urlString = API.base.rawValue + API.user.rawValue
+            let urlString = API.base.rawValue + API.user.rawValue + id
             Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 self.indicator.stopIndicator()
                 
@@ -252,14 +296,7 @@ class SettingViewController: FormViewController {
         
         if IsCheckFormValue() {
             /*** ラズパイへの接続設定 ***/
-            let address = form.values()["address"] as! String
-            let urlString = "http://" + address + "/api/v1/user"
-            let tmp_req = ["uuid": uuid]
-            var request = URLRequest(url: URL(string: urlString)!)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.timeoutInterval = 10
-            request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
+            let request = GetConnectRaspberryPIRequest(method: "POST")
             
             Alamofire.request(request).responseJSON { response in
                 self.indicator.stopIndicator()
@@ -282,6 +319,26 @@ class SettingViewController: FormViewController {
         }
     }
     
+    func CallDeleteUUIDAPI() {
+        indicator.showIndicator(view: self.view)
+        
+        /*** ラズパイへの接続設定 ***/
+        let request = GetConnectRaspberryPIRequest(method: "DELETE")
+        
+        Alamofire.request(request).responseString { response in
+            self.indicator.stopIndicator()
+            
+            print("***** raspi results *****")
+//            print(JSON(response.result.value))
+            print(response.error)
+            print("***** raspi results *****")
+            
+            if response.error != nil {
+                self.present(GetStandardAlert(title: "通信エラー", message: "指定したアドレスに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+            }
+        }
+    }
+    
     func IsCheckFormValue() -> Bool {
         var err_count = 0
         for row in form.allRows {
@@ -293,6 +350,19 @@ class SettingViewController: FormViewController {
         }
         
         return false
+    }
+    
+    func GetConnectRaspberryPIRequest(method: String) -> URLRequest {
+        let address = form.values()["address"] as! String
+        let urlString = "http://" + address + "/api/v1/user"
+        let tmp_req = ["uuid": uuid]
+        var request = URLRequest(url: URL(string: urlString)!)
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 10
+        request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
+        
+        return request
     }
 
     override func didReceiveMemoryWarning() {
