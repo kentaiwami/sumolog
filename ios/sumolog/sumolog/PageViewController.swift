@@ -12,6 +12,12 @@ import XLPagerTabStrip
 
 class PageViewController: ButtonBarPagerTabStripViewController {
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.navigationItem.title = "Smoke"
+    }
+    
     override func viewDidLoad() {
         let main_color = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         

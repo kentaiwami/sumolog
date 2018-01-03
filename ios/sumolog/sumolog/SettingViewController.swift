@@ -20,6 +20,12 @@ class SettingViewController: FormViewController {
     private let keychain = Keychain()
     private let indicator = Indicator()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.navigationItem.title = "Setting"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
