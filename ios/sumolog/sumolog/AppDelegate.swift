@@ -23,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try! keychain.remove("id")
         }
         
+        if !GetDebugFlag() {
+            let data = GetProductionData()
+            try! keychain.set(data.0, key: "uuid")
+            try! keychain.set(data.1, key: "id")
+        }
+        
         let key = try! keychain.getString("uuid")
         
         if key == nil {
