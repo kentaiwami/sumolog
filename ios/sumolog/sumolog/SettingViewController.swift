@@ -183,7 +183,13 @@ class SettingViewController: FormViewController {
             }
         
         if iscreate {
-            CreateButtonRow(action: {self.CallSaveUUIDAPI()}, header: "連携", footer: "この操作を行うと喫煙が記録されます", title: "接続", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "connect")
+            CreateButtonRow(action: {
+                self.CallUUIDAPI(ischeckform: true, method: "POST", nil_action: {
+                    self.CallUpdateCreateUserAPI()
+                    try! self.keychain.set(self.uuid, key: "uuid")
+                })
+                
+            }, header: "連携", footer: "この操作を行うと喫煙が記録されます", title: "接続", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "connect")
         }else {
             CreateButtonRow(action: {self.CallUpdateCreateUserAPI()}, header: "プロフィール", footer: "", title: "更新", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "update")
             
@@ -203,9 +209,12 @@ class SettingViewController: FormViewController {
     
     func RunRaspberryPIAPI(value: Bool) {
         if value {
-            CallSaveUUIDAPI()
+            CallUUIDAPI(ischeckform: true, method: "POST", nil_action: {
+                self.CallUpdateCreateUserAPI()
+                try! self.keychain.set(self.uuid, key: "uuid")
+            })
         }else {
-            CallDeleteUUIDAPI()
+            CallUUIDAPI(ischeckform: false, method: "DELETE", nil_action: {})
         }
     }
     
@@ -291,14 +300,16 @@ class SettingViewController: FormViewController {
         }
     }
     
-    func CallSaveUUIDAPI() {
+    func CallUUIDAPI(ischeckform: Bool, method: String, nil_action: @escaping () -> Void) {
         indicator.showIndicator(view: self.view)
         
-        if IsCheckFormValue() {
-            /*** ラズパイへの接続設定 ***/
-            let request = GetConnectRaspberryPIRequest(method: "POST")
-            
-            Alamofire.request(request).responseJSON { response in
+        let request = GetConnectRaspberryPIRequest(method: method)
+        var tmpFunc_json = {(response: DataResponse<Any>) -> Void in}
+        var tmpFunc_string = {(response: DataResponse<String>) -> Void in}
+        
+        switch method {
+        case "GET", "POST":
+            tmpFunc_json = {response in
                 self.indicator.stopIndicator()
                 
                 print("***** raspi results *****")
@@ -307,34 +318,42 @@ class SettingViewController: FormViewController {
                 print("***** raspi results *****")
                 
                 if response.error == nil {
-                    self.CallUpdateCreateUserAPI()
-                    try! self.keychain.set(self.uuid, key: "uuid")
+                    nil_action()
                 }else {
                     self.present(GetStandardAlert(title: "通信エラー", message: "指定したアドレスに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
                 }
             }
-        }else {
-            indicator.stopIndicator()
-            self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"), animated: true, completion: nil)
+            break
+        case "DELETE":
+            tmpFunc_string = {response in
+                self.indicator.stopIndicator()
+                
+                print("***** raspi results *****")
+                print(response.error)
+                print("***** raspi results *****")
+                
+                if response.error != nil {
+                    self.present(GetStandardAlert(title: "通信エラー", message: "指定したアドレスに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+                }
+            }
+            break
+        default:
+            break
         }
-    }
-    
-    func CallDeleteUUIDAPI() {
-        indicator.showIndicator(view: self.view)
         
-        /*** ラズパイへの接続設定 ***/
-        let request = GetConnectRaspberryPIRequest(method: "DELETE")
-        
-        Alamofire.request(request).responseString { response in
-            self.indicator.stopIndicator()
-            
-            print("***** raspi results *****")
-//            print(JSON(response.result.value))
-            print(response.error)
-            print("***** raspi results *****")
-            
-            if response.error != nil {
-                self.present(GetStandardAlert(title: "通信エラー", message: "指定したアドレスに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+        // APIをたたく
+        if ischeckform {
+            if IsCheckFormValue() {
+                Alamofire.request(request).responseJSON { response in
+                    tmpFunc_json(response)
+                }
+            }else {
+                self.indicator.stopIndicator()
+                self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"), animated: true, completion: nil)
+            }
+        }else {
+            Alamofire.request(request).responseString { response in
+                tmpFunc_string(response)
             }
         }
     }
