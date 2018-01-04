@@ -374,7 +374,7 @@ class SettingViewController: FormViewController {
             }
         }
     }
-        
+    
     func IsCheckFormValue() -> Bool {
         var err_count = 0
         for row in form.allRows {

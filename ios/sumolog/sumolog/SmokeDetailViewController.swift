@@ -118,12 +118,14 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
             <<< IntRow(){ row in
                 row.title = "Today"
                 row.value = 10
+                row.tag = "today"
                 row.disabled = true
             }
         
             <<< IntRow(){ row in
                 row.title = "Month"
                 row.value = 145
+                row.tag = "month"
                 row.disabled = true
             }
         
@@ -132,12 +134,14 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
             <<< TextRow(){ row in
                 row.title = "Used"
                 row.value = "1,200"
+                row.tag = "used"
                 row.disabled = true
             }
             
             <<< TextRow(){ row in
                 row.title = "Will use"
                 row.value = "14,000"
+                row.tag = "willuse"
                 row.disabled = true
             }
         
