@@ -159,7 +159,7 @@ class APISmokeController extends Controller
             // ユーザの給与日と配列文字列をコマンドラインに投げる
             $output = [];
             $count_by_day_str = implode(',', $count_by_day);
-            exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str.' '.$user->payday .' 2>&1',$output);
+            exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str. ' 2>&1',$output);
 
             // Doubleへ変換
             $func = function($value) {
