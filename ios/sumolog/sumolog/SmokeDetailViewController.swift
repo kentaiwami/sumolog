@@ -12,6 +12,7 @@ import Eureka
 import Alamofire
 import SwiftyJSON
 import TinyConstraints
+import KeychainAccess
 
 class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
 
