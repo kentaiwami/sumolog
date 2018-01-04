@@ -38,7 +38,7 @@
     * Raspberry Piとのリンク
 6. いつも通りタバコを吸う
 
-## API
+## Laravel API
 #### Create User
 ```
 method：POST
@@ -202,4 +202,37 @@ response：
     "ave": 3.6000000000000001
 }
 
+```
+
+
+## Raspberry PI API
+#### GET UUID Count
+```
+method：GET
+endpoint：/api/v1/user
+
+response：
+{
+    "count": 1,
+}
+```
+
+#### Save UUID
+```
+method：POST
+endpoint：/api/v1/user
+request：
+{
+    "uuid": "hogehoge",
+}
+response：
+{
+    "uuid": "hogehoge",
+}
+```
+
+#### Delete UUID
+```
+method：DELETE
+endpoint：/api/v1/user
 ```
