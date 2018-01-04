@@ -31,6 +31,13 @@ class PageViewController: ButtonBarPagerTabStripViewController {
         buttonBarView.selectedBar.backgroundColor = main_color
         buttonBarView.backgroundColor = UIColor.clear
         buttonBarView.frame = CGRect(x: 0, y: navBarHeight+y, width: buttonBarView.frame.width, height: buttonBarView.frame.height)
+        
+        changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
+            guard changeCurrentIndex == true else { return }
+            
+            oldCell?.label.textColor = UIColor.black
+            newCell?.label.textColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
+        }
     }
     
     override public func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {

@@ -4,6 +4,7 @@ PODS:
   - KeychainAccess (3.1.0)
   - ScrollableGraphView (4.0.4)
   - SwiftyJSON (4.0.0)
+  - TinyConstraints (2.1.2)
   - XLPagerTabStrip (8.0.0)
 
 DEPENDENCIES:
@@ -12,17 +13,24 @@ DEPENDENCIES:
   - KeychainAccess
   - ScrollableGraphView
   - SwiftyJSON
+  - TinyConstraints (from `https://github.com/roberthein/TinyConstraints.git`, branch `Release_2.1.2`)
   - XLPagerTabStrip (~> 8.0)
 
 EXTERNAL SOURCES:
   Eureka:
     :branch: feature/Xcode9-Swift3_2
     :git: https://github.com/xmartlabs/Eureka.git
+  TinyConstraints:
+    :branch: Release_2.1.2
+    :git: https://github.com/roberthein/TinyConstraints.git
 
 CHECKOUT OPTIONS:
   Eureka:
     :commit: 05acfb04c24a480f1868e671d19b39e0f22fc265
     :git: https://github.com/xmartlabs/Eureka.git
+  TinyConstraints:
+    :commit: c26d600fffa01bb408ab9d2349f832e6c43ef1cb
+    :git: https://github.com/roberthein/TinyConstraints.git
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
@@ -30,8 +38,9 @@ SPEC CHECKSUMS:
   KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
   ScrollableGraphView: 072ea302f4ca27779692656a49d51fe537b2b1e7
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  TinyConstraints: 3a841eba583f2492c405f88552c5c274056f47e2
   XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: eeb836487e249411d9ac693eafc3bc4e10d99de2
+PODFILE CHECKSUM: 10804b8673db7d36346e6ada0687ee4169ffebb2
 
 COCOAPODS: 1.3.1

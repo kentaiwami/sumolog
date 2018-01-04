@@ -13,6 +13,7 @@ class UserData {
         var price = 0
         var target_number = 0
         var address = ""
+        var count = 0
     }
     
     private var data = UserData()
@@ -33,6 +34,10 @@ class UserData {
         data.address = address
     }
     
+    func SetCount(count: Int) {
+        data.count = count
+    }
+    
     func Getpayday() -> Int {
         return data.payday
     }
@@ -49,10 +54,69 @@ class UserData {
         return data.address
     }
     
+    func GetCount() -> Int {
+        return data.count
+    }
+    
     func SetAll(json: JSON) {
         data.payday = json["payday"].intValue
         data.price = json["price"].intValue
         data.target_number = json["target_number"].intValue
         data.address = json["address"].stringValue
+    }
+}
+
+class SmokeOverViewData {
+    struct SmokeOverViewData {
+        var count = 0
+        var min = 0
+        var hour:[[String:Int]] = []
+        var over = 0
+    }
+    
+    private var data = SmokeOverViewData()
+    
+    func SetCount(count: Int) {
+        data.count = count
+    }
+    
+    func SetMin(min: Int) {
+        data.min = min
+    }
+    
+    func SetHour(hour: [[String:Int]]) {
+        data.hour = hour
+    }
+    
+    func SetOver(over: Int) {
+        data.over = over
+    }
+    
+    func GetCount() -> Int {
+        return data.count
+    }
+    
+    func GetMin() -> Int {
+        return data.min
+    }
+    
+    func GetHour() -> [[String:Int]] {
+        return data.hour
+    }
+    
+    func GetOver() -> Int {
+        return data.over
+    }
+    
+    func SetAll(json: JSON) {
+        data.count = json["count"].intValue
+        data.min = json["min"].intValue
+        data.over = json["over"].intValue
+        
+        for obj in json["hour"].arrayValue {
+            let tmp = obj.dictionaryValue
+            let key = tmp.keys.first!
+            data.hour.append([key:tmp[key]!.intValue])
+        }
     }
 }
