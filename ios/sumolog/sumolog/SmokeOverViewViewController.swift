@@ -38,12 +38,12 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         
         self.view.addSubview(label)
         
-        label.center(in: self.view, offset: CGPoint(x: 0, y: -150))
+        label.center(in: self.view, offset: CGPoint(x: 0, y: -100))
     }
     
     func CreateMinLabel() {
         let label = UILabel(frame: CGRect.zero)
-        label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 30)
+        label.font = UIFont(name: Font.HiraginoW6.rawValue, size: 30)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         label.text = "min"
         
