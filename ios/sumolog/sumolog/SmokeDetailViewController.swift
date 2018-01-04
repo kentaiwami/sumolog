@@ -151,6 +151,11 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         tableView.backgroundColor = UIColor.clear
         tableView.isScrollEnabled = false
     }
+    
+//    func CalcPrediction() -> <#return type#> {
+    //        let hoge = GetAppDelegate()
+//    print(hoge.smoks)
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

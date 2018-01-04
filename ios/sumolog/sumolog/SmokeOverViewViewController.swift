@@ -50,6 +50,8 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
             
             self.data.SetAll(json: json)
             
+            GetAppDelegate().smoks = self.data.GetCount()
+            
             self.DrawViews()
         }
     }
