@@ -17,7 +17,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
     override func viewWillAppear(_ animated: Bool) {
         MinLabel.removeFromSuperview()
         
-        CreateMinLabel(min: 50)
+        CreateLatestMinLabel(min: 50)
     }
     
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
 
     }
     
-    func CreateMinLabel(min: Int) {
+    func CreateLatestMinLabel(min: Int) {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 100)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
