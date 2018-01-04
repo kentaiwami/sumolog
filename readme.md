@@ -206,6 +206,17 @@ response：
 
 
 ## Raspberry PI API
+#### GET UUID Count
+```
+method：GET
+endpoint：/api/v1/user
+
+response：
+{
+    "count": 1,
+}
+```
+
 #### Save UUID
 ```
 method：POST

@@ -26,6 +26,14 @@ def hello_world():
     return 'Hello World!'
 
 
+@app.route('/api/v1/user', methods=['GET'])
+def api_v1_get_user():
+    if request.method == 'GET':
+        users = User.query.all()
+
+        return jsonify(dict(count=len(users))), 200
+
+
 @app.route('/api/v1/user', methods=['POST'])
 def api_v1_create_user():
     if request.method == 'POST':
