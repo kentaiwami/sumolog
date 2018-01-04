@@ -14,11 +14,12 @@ import SwiftyJSON
 import TinyConstraints
 import KeychainAccess
 
-class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
+class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
 
     var data = SmokeDetailViewData()
     let indicator = Indicator()
     var id = ""
+    var iscreated_form = false
     
     var msgLabel = UILabel()
     var ave_minLabel = UILabel()
@@ -62,6 +63,10 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
         CreateMsgLabel()
         CreateAverageMinLabel()
         CreateMinLabel()
+        
+        if !iscreated_form {
+            CreateForms()
+        }
     }
     
     func CreateMsgLabel() {
@@ -104,6 +109,43 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
         
         label.topToBottom(of: ave_minLabel, offset: -10)
         label.leadingToTrailing(of: ave_minLabel, offset: -20)
+    }
+    
+    func CreateForms() {
+        iscreated_form = true
+        
+        form +++ Section("本数の予測")
+            <<< IntRow(){ row in
+                row.title = "Today"
+                row.value = 10
+                row.disabled = true
+            }
+        
+            <<< IntRow(){ row in
+                row.title = "Month"
+                row.value = 145
+                row.disabled = true
+            }
+        
+        
+        form +++ Section("金額")
+            <<< TextRow(){ row in
+                row.title = "Used"
+                row.value = "1,200"
+                row.disabled = true
+            }
+            
+            <<< TextRow(){ row in
+                row.title = "Will use"
+                row.value = "14,000"
+                row.disabled = true
+            }
+        
+        self.view.layoutIfNeeded()
+        
+        tableView.frame = CGRect(x: 0, y: minLabel.frame.origin.y+minLabel.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+        tableView.backgroundColor = UIColor.clear
+        tableView.isScrollEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
