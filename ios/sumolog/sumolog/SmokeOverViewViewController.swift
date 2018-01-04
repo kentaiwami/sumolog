@@ -62,6 +62,8 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         CreateMinLabel()
         CreateSumSmokesCountLabel()
         CreateSmokeImageView()
+        
+        GenerateAlert()
     }
     
     func CreateLatestMinLabel() {
@@ -124,6 +126,12 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         imageView.centerY(to: smoke_countLabel)
         imageView.width(size)
         imageView.height(size)
+    }
+    
+    func GenerateAlert() {
+        if data.GetOver() > 0 {
+            self.present(GetStandardAlert(title: "", message: "目標本数を"+String(data.GetOver())+"本超過しています", b_title: "OK"), animated: true, completion: nil)
+        }
     }
     
     override func didReceiveMemoryWarning() {
