@@ -92,10 +92,16 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func CreateSumSmokesCountLabel() {
+        // 目標本数を超過していたら赤文字
+        var textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        if data.GetOver() > 0 {
+            textColor = UIColor.red
+        }
+        
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 30)
-        label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.text = "25"
+        label.textColor = textColor
+        label.text = String(data.GetCount())
         
         smoke_countLabel = label
         
