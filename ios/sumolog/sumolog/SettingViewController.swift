@@ -12,6 +12,7 @@ import Alamofire
 import KeychainAccess
 import SwiftyJSON
 
+
 class SettingViewController: FormViewController {
 
     private var iscreate = false
@@ -66,6 +67,21 @@ class SettingViewController: FormViewController {
             self.indicator.stopIndicator()
             
             self.UpdateCells()
+            
+            // ラズパイからレコード数を取得してスイッチに値を設定する
+            self.CallUUIDAPI(ischeckform: true, method: "GET", nil_action: {response in
+                let obj = JSON(response.result.value as Any)
+                let switch_row = self.form.rowBy(tag: "switch")
+                if obj["count"].intValue == 0 {
+                    switch_row?.baseValue = false
+                }else {
+                    switch_row?.baseValue = true
+                }
+                
+                switch_row?.updateCell()
+                
+                print("UUID count: ", obj["count"])
+            })
         }
     }
     
@@ -184,7 +200,7 @@ class SettingViewController: FormViewController {
         
         if iscreate {
             CreateButtonRow(action: {
-                self.CallUUIDAPI(ischeckform: true, method: "POST", nil_action: {
+                self.CallUUIDAPI(ischeckform: true, method: "POST", nil_action: {_ in
                     self.CallUpdateCreateUserAPI()
                     try! self.keychain.set(self.uuid, key: "uuid")
                 })
@@ -197,6 +213,7 @@ class SettingViewController: FormViewController {
                 <<< SwitchRow("SwitchRow") { row in
                     row.title = "Connecting"
                     row.value = true
+                    row.tag = "switch"
                 }.onChange { row in
                     row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
                     row.updateCell()
@@ -209,12 +226,12 @@ class SettingViewController: FormViewController {
     
     func RunRaspberryPIAPI(value: Bool) {
         if value {
-            CallUUIDAPI(ischeckform: true, method: "POST", nil_action: {
+            CallUUIDAPI(ischeckform: true, method: "POST", nil_action: {_ in
                 self.CallUpdateCreateUserAPI()
                 try! self.keychain.set(self.uuid, key: "uuid")
             })
         }else {
-            CallUUIDAPI(ischeckform: false, method: "DELETE", nil_action: {})
+            CallUUIDAPI(ischeckform: false, method: "DELETE", nil_action: {_ in })
         }
     }
     
@@ -300,7 +317,7 @@ class SettingViewController: FormViewController {
         }
     }
     
-    func CallUUIDAPI(ischeckform: Bool, method: String, nil_action: @escaping () -> Void) {
+    func CallUUIDAPI(ischeckform: Bool, method: String, nil_action: @escaping (DataResponse<Any>) -> Void) {
         indicator.showIndicator(view: self.view)
         
         let request = GetConnectRaspberryPIRequest(method: method)
@@ -318,7 +335,7 @@ class SettingViewController: FormViewController {
                 print("***** raspi results *****")
                 
                 if response.error == nil {
-                    nil_action()
+                    nil_action(response)
                 }else {
                     self.present(GetStandardAlert(title: "通信エラー", message: "指定したアドレスに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
                 }
@@ -357,6 +374,20 @@ class SettingViewController: FormViewController {
             }
         }
     }
+    
+//    func HOGEHOGE() {
+//        let fetchImagePromise = Promise<UIImage> { resolve, reject in
+//            //画像を取得する非同期処理
+//            Session.send(request) { result in
+//                switch result {
+//                case .success(let image):
+//                    resolve(image)
+//                case .failure(let error):
+//                    reject(error)
+//                }
+//            }
+//        }
+//    }
     
     func IsCheckFormValue() -> Bool {
         var err_count = 0

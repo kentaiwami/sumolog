@@ -12,7 +12,6 @@ target 'sumolog' do
   pod 'ScrollableGraphView'
   pod 'XLPagerTabStrip', '~> 8.0'
   pod 'TinyConstraints', :git => 'https://github.com/roberthein/TinyConstraints.git', :branch => 'Release_2.1.2'
-  pod 'HydraAsync', '~> 1.0.2'
 
   # Pods for sumolog
 
