@@ -22,6 +22,7 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
     
     var msgLabel = UILabel()
     var ave_minLabel = UILabel()
+    var minLabel = UILabel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,9 +57,11 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
     func DrawViews() {
         msgLabel.removeFromSuperview()
         ave_minLabel.removeFromSuperview()
+        minLabel.removeFromSuperview()
         
         CreateMsgLabel()
         CreateAverageMinLabel()
+        CreateMinLabel()
     }
     
     func CreateMsgLabel() {
@@ -87,6 +90,20 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
         
         label.centerX(to: self.view)
         label.topToBottom(of: msgLabel, offset: 10)
+    }
+    
+    func CreateMinLabel() {
+        let label = UILabel(frame: CGRect.zero)
+        label.font = UIFont(name: Font.HiraginoW6.rawValue, size: 30)
+        label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        label.text = "min"
+        
+        minLabel = label
+        
+        self.view.addSubview(label)
+        
+        label.topToBottom(of: ave_minLabel, offset: -10)
+        label.leadingToTrailing(of: ave_minLabel, offset: -20)
     }
 
     override func didReceiveMemoryWarning() {
