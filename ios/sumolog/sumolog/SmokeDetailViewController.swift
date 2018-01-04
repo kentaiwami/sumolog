@@ -114,17 +114,19 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
     func CreateForms() {
         iscreated_form = true
         
+        let results = CalcPrediction()
+        
         form +++ Section("本数の予測")
             <<< IntRow(){ row in
                 row.title = "Today"
-                row.value = 10
+                row.value = results.today
                 row.tag = "today"
                 row.disabled = true
             }
         
             <<< IntRow(){ row in
                 row.title = "Month"
-                row.value = 145
+                row.value = results.month
                 row.tag = "month"
                 row.disabled = true
             }
@@ -133,14 +135,14 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         form +++ Section("金額")
             <<< TextRow(){ row in
                 row.title = "Used"
-                row.value = "1,200"
+                row.value = results.used
                 row.tag = "used"
                 row.disabled = true
             }
             
             <<< TextRow(){ row in
                 row.title = "Will use"
-                row.value = "14,000"
+                row.value = results.willuse
                 row.tag = "willuse"
                 row.disabled = true
             }
@@ -152,10 +154,23 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         tableView.isScrollEnabled = false
     }
     
-//    func CalcPrediction() -> <#return type#> {
-    //        let hoge = GetAppDelegate()
-//    print(hoge.smoks)
-//    }
+    func CalcPrediction() -> (today: Int, month: Int, used: String, willuse: String) {
+        let appdelegate = GetAppDelegate()
+        let used = appdelegate.smoks! * data.GetPrice()/20
+        
+        return (10, 11, "¥ "+GetNumberFormatter(num: used), "¥"+GetNumberFormatter(num: used*100))
+    }
+    
+    func GetNumberFormatter(num: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        formatter.groupingSeparator = ","
+        formatter.groupingSize = 3
+        
+        let result = formatter.string(from: NSNumber(value: num))
+        
+        return result!
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
