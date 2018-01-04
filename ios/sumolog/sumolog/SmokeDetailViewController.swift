@@ -80,7 +80,7 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         self.view.addSubview(label)
         
         label.centerX(to: self.view)
-        label.centerY(to: self.view, offset: -230)
+        label.centerY(to: self.view, offset: -200)
     }
     
     func CreateAverageMinLabel() {
