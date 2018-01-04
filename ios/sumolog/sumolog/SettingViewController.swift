@@ -374,21 +374,7 @@ class SettingViewController: FormViewController {
             }
         }
     }
-    
-//    func HOGEHOGE() {
-//        let fetchImagePromise = Promise<UIImage> { resolve, reject in
-//            //画像を取得する非同期処理
-//            Session.send(request) { result in
-//                switch result {
-//                case .success(let image):
-//                    resolve(image)
-//                case .failure(let error):
-//                    reject(error)
-//                }
-//            }
-//        }
-//    }
-    
+        
     func IsCheckFormValue() -> Bool {
         var err_count = 0
         for row in form.allRows {
