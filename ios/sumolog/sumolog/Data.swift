@@ -70,7 +70,7 @@ class SmokeOverViewData {
     struct SmokeOverViewData {
         var count = 0
         var min = 0
-        var hour:[[String:Int]] = [[:]]
+        var hour:[[String:Int]] = []
         var over = 0
     }
     
