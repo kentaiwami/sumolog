@@ -156,7 +156,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         
         let referenceLines = ReferenceLines()
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        referenceLines.referenceLineColor = UIColor.hex(Color.gray.rawValue, alpha: 0.5)
+        referenceLines.referenceLineColor = UIColor.hex(Color.gray.rawValue, alpha: 0.1)
         referenceLines.referenceLineLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         referenceLines.dataPointLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         
