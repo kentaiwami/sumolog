@@ -133,11 +133,23 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     }
     
     func CreateGraphView() {
+        // 最大値を求める
+        var max = 0
+        for obj in data.GetHour() {
+            let key = obj.keys.first!
+            
+            if max < obj[key]! {
+                max = obj[key]!
+            }
+        }
+        
         let frame = CGRect.zero
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         let linePlot = LinePlot(identifier: "line")
         let referenceLines = ReferenceLines()
         
+        graphView.rangeMin = 0
+        graphView.rangeMax = Double(max)
         graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         
