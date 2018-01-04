@@ -148,22 +148,22 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         let barPlot = BarPlot(identifier: "bar")
         barPlot.barWidth = 25
         barPlot.barLineWidth = 1
-        barPlot.barLineColor = UIColor.hex("#777777", alpha: 1.0)
-        barPlot.barColor = UIColor.hex("#555555", alpha: 1.0)
+        barPlot.barLineColor = UIColor.clear
+        barPlot.barColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         
         barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        barPlot.animationDuration = 1.5
+        barPlot.animationDuration = 1.0
         
         let referenceLines = ReferenceLines()
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        referenceLines.referenceLineColor = UIColor.hex(Color.gray.rawValue, alpha: 0.5)
+        referenceLines.referenceLineLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        referenceLines.dataPointLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         
         
         graphView.rangeMin = 0
         graphView.rangeMax = Double(max)
-        graphView.backgroundFillColor = UIColor.hex("#333333", alpha: 1.0)
+        graphView.backgroundFillColor = UIColor.white
         graphView.shouldAnimateOnStartup = true
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
@@ -175,7 +175,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         graphView.width(to: self.view)
         graphView.leading(to: self.view)
         graphView.trailing(to: self.view)
-        graphView.topToBottom(of: smokeImageView, offset: 25)
+        graphView.topToBottom(of: smokeImageView, offset: 20)
         graphView.bottomToTop(of: (self.tabBarController?.tabBar)!)
     }
     
