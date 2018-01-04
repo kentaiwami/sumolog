@@ -13,6 +13,7 @@ class UserData {
         var price = 0
         var target_number = 0
         var address = ""
+        var count = 0
     }
     
     private var data = UserData()
@@ -33,6 +34,10 @@ class UserData {
         data.address = address
     }
     
+    func SetCount(count: Int) {
+        data.count = count
+    }
+    
     func Getpayday() -> Int {
         return data.payday
     }
@@ -47,6 +52,10 @@ class UserData {
     
     func Getaddress() -> String {
         return data.address
+    }
+    
+    func GetCount() -> Int {
+        return data.count
     }
     
     func SetAll(json: JSON) {

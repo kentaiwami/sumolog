@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.6.0)
+  - AsyncKit (2.0.1)
   - Eureka (3.0.0)
   - KeychainAccess (3.1.0)
   - ScrollableGraphView (4.0.4)
@@ -9,6 +10,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
+  - AsyncKit
   - Eureka (from `https://github.com/xmartlabs/Eureka.git`, branch `feature/Xcode9-Swift3_2`)
   - KeychainAccess
   - ScrollableGraphView
@@ -34,6 +36,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  AsyncKit: 3817ed496961ea2595d80fe2ff8939398e72f82e
   Eureka: 5b9418d7bfdc21ca977d69d124a6409f3e9af2c7
   KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
   ScrollableGraphView: 072ea302f4ca27779692656a49d51fe537b2b1e7
@@ -41,6 +44,6 @@ SPEC CHECKSUMS:
   TinyConstraints: 3a841eba583f2492c405f88552c5c274056f47e2
   XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: 10804b8673db7d36346e6ada0687ee4169ffebb2
+PODFILE CHECKSUM: 21b5320297501f79e86e29a4d6499ba2654be5b7
 
 COCOAPODS: 1.3.1
