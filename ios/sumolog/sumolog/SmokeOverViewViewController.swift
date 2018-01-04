@@ -58,17 +58,17 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         smoke_countLabel.removeFromSuperview()
         smokeImageView.removeFromSuperview()
         
-        CreateLatestMinLabel(min: data.GetMin())
+        CreateLatestMinLabel()
         CreateMinLabel()
         CreateSumSmokesCountLabel()
         CreateSmokeImageView()
     }
     
-    func CreateLatestMinLabel(min: Int) {
+    func CreateLatestMinLabel() {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 100)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.text = String(min)
+        label.text = String(data.GetMin())
         
         latest_minLabel = label
         
