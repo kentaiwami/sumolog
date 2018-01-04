@@ -120,3 +120,43 @@ class SmokeOverViewData {
         }
     }
 }
+
+class SmokeDetailViewData {
+    struct SmokeDetailViewData {
+        var coefficients:[Double] = []
+        var price = 0
+        var ave = 0.0
+    }
+    
+    private var data = SmokeDetailViewData()
+    
+    func SetCoefficients(coefficients: Array<Double>) {
+        data.coefficients = coefficients
+    }
+    
+    func SetPrice(price: Int) {
+        data.price = price
+    }
+    
+    func SetAve(ave: Double) {
+        data.ave = ave
+    }
+    
+    func GetCoefficients() -> Array<Double> {
+        return data.coefficients
+    }
+    
+    func GetPrice() -> Int {
+        return data.price
+    }
+    
+    func GetAve() -> Double {
+        return data.ave
+    }
+    
+    func SetAll(json: JSON) {
+        data.coefficients = json["coefficients"].arrayValue.map({$0.doubleValue})
+        data.price = json["price"].intValue
+        data.ave = json["ave"].doubleValue
+    }
+}

@@ -16,17 +16,41 @@ import KeychainAccess
 
 class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
 
+    var data = SmokeDetailViewData()
+    let indicator = Indicator()
+    var id = ""
+    
     var msgLabel = UILabel()
     var ave_minLabel = UILabel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        DrawViews()
+        CallGetDetailViewAPI()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let keychain = Keychain()
+        id = (try! keychain.getString("id"))!
+    }
+    
+    func CallGetDetailViewAPI() {
+        let urlString = API.base.rawValue + API.smoke.rawValue + API.detail.rawValue + API.user.rawValue + id
+        indicator.showIndicator(view: self.view)
+        
+        Alamofire.request(urlString, method: .get).responseJSON { (response) in
+            self.indicator.stopIndicator()
+            
+            guard let object = response.result.value else{return}
+            let json = JSON(object)
+            print("Smoke Detailview results: ", json.count)
+            print(json)
+            
+            self.data.SetAll(json: json)
+            
+            self.DrawViews()
+        }
     }
     
     func DrawViews() {
@@ -53,7 +77,7 @@ class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
     
     func CreateAverageMinLabel() {
         let label = UILabel()
-        label.text = "3.5"
+        label.text = String(data.GetAve())
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         
