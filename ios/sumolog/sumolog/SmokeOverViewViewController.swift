@@ -12,8 +12,9 @@ import TinyConstraints
 import Alamofire
 import KeychainAccess
 import SwiftyJSON
+import ScrollableGraphView
 
-class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
+class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, ScrollableGraphViewDataSource {
     var data = SmokeOverViewData()
     let indicator = Indicator()
     var id = ""
@@ -22,6 +23,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
     var minLabel = UILabel()
     var smoke_countLabel = UILabel()
     var smokeImageView = UIImageView()
+    var graphView = ScrollableGraphView()
     
     override func viewWillAppear(_ animated: Bool) {
         CallGetOverViewAPI()
@@ -57,11 +59,13 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         minLabel.removeFromSuperview()
         smoke_countLabel.removeFromSuperview()
         smokeImageView.removeFromSuperview()
+        graphView.removeFromSuperview()
         
         CreateLatestMinLabel()
         CreateMinLabel()
         CreateSumSmokesCountLabel()
         CreateSmokeImageView()
+        CreateGraphView()
         
         GenerateAlert()
     }
@@ -76,7 +80,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         
         self.view.addSubview(label)
         
-        label.center(in: self.view, offset: CGPoint(x: 0, y: -150))
+        label.center(in: self.view, offset: CGPoint(x: 0, y: -100))
     }
     
     func CreateMinLabel() {
@@ -126,6 +130,46 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider {
         imageView.centerY(to: smoke_countLabel)
         imageView.width(size)
         imageView.height(size)
+    }
+    
+    func CreateGraphView() {
+        let frame = CGRect.zero
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
+        let linePlot = LinePlot(identifier: "line")
+        let referenceLines = ReferenceLines()
+        
+        graphView.addPlot(plot: linePlot)
+        graphView.addReferenceLines(referenceLines: referenceLines)
+        
+        self.graphView = graphView
+        
+        self.view.addSubview(graphView)
+        
+        graphView.width(to: self.view)
+        graphView.topToBottom(of: smokeImageView)
+        graphView.bottom(to: self.view, offset: -100)
+    }
+    
+    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
+        let hour = data.GetHour()
+        
+        switch(plot.identifier) {
+        case "line":
+            let key = hour[pointIndex].keys.first!
+            let value = hour[pointIndex][key]
+            
+            return Double(value!)
+        default:
+            return 0
+        }
+    }
+    
+    func label(atIndex pointIndex: Int) -> String {
+        return data.GetHour()[pointIndex].keys.first! + "時"
+    }
+    
+    func numberOfPoints() -> Int {
+        return data.GetHour().count
     }
     
     func GenerateAlert() {
