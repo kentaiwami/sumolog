@@ -173,8 +173,8 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         self.view.addSubview(graphView)
         
         graphView.width(to: self.view)
-        graphView.topToBottom(of: smokeImageView)
-        graphView.bottom(to: self.view, offset: -100)
+        graphView.topToBottom(of: smokeImageView, offset: 25)
+        graphView.bottomToTop(of: (self.tabBarController?.tabBar)!)
     }
     
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
