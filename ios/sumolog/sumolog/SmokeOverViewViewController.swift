@@ -145,12 +145,27 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         
         let frame = CGRect.zero
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
-        let linePlot = LinePlot(identifier: "line")
+        let barPlot = BarPlot(identifier: "bar")
+        barPlot.barWidth = 25
+        barPlot.barLineWidth = 1
+        barPlot.barLineColor = UIColor.hex("#777777", alpha: 1.0)
+        barPlot.barColor = UIColor.hex("#555555", alpha: 1.0)
+        
+        barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        barPlot.animationDuration = 1.5
+        
         let referenceLines = ReferenceLines()
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        
         
         graphView.rangeMin = 0
         graphView.rangeMax = Double(max)
-        graphView.addPlot(plot: linePlot)
+        graphView.backgroundFillColor = UIColor.hex("#333333", alpha: 1.0)
+        graphView.shouldAnimateOnStartup = true
+        graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         
         self.graphView = graphView
@@ -166,7 +181,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         let hour = data.GetHour()
         
         switch(plot.identifier) {
-        case "line":
+        case "bar":
             let key = hour[pointIndex].keys.first!
             let value = hour[pointIndex][key]
             
