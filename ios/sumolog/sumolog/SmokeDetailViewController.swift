@@ -8,6 +8,10 @@
 
 import UIKit
 import XLPagerTabStrip
+import Eureka
+import Alamofire
+import SwiftyJSON
+import TinyConstraints
 
 class SmokeDetailViewController: UIViewController, IndicatorInfoProvider {
 
