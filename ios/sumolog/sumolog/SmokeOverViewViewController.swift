@@ -173,6 +173,8 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         self.view.addSubview(graphView)
         
         graphView.width(to: self.view)
+        graphView.leading(to: self.view)
+        graphView.trailing(to: self.view)
         graphView.topToBottom(of: smokeImageView, offset: 25)
         graphView.bottomToTop(of: (self.tabBarController?.tabBar)!)
     }
