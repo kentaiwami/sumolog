@@ -171,7 +171,8 @@ class APISmokeController extends Controller
             return Response()->json([
                 'coefficients' => $output,
                 'price'        => $user->price,
-                'ave' => $ave
+                'ave' => $ave,
+                'x' => count($count_by_day)
             ]);
         }
 
