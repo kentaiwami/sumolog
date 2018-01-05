@@ -181,7 +181,7 @@ class APISmokeController extends Controller
                 'price'        => $user->price,
                 'ave' => $ave,
                 'x' => count($count_by_day),
-                'x_count' => round($dif / (60*60*24), 0)
+                'next_payday_count' => round($dif / (60*60*24), 0)
             ]);
         }
 
