@@ -13,36 +13,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//  Create user
-Route::post('user', 'APIUserController@store');
+Route::pattern('API1', 'v1');
+Route::group(['namespace' => 'api\v1', 'prefix' => '{API1}'], function(){
+    //  Create user
+    Route::post('user', 'APIUserController@store');
 
-//  Update user profile
-Route::put('user/{id}', 'APIUserController@update');
+    //  Update user profile
+    Route::put('user/{id}', 'APIUserController@update');
 
-//  Update user active status
-Route::patch('user/{id}', 'APIUserController@update');
+    //  Update user active status
+    Route::patch('user/{id}', 'APIUserController@update');
 
-//  Get user data
-Route::get('user/{id}', 'APIUserController@show');
+    //  Get user data
+    Route::get('user/{id}', 'APIUserController@show');
 
 
-//  Create smoke
-Route::post('smoke', 'APISmokeController@store');
+    //  Create smoke
+    Route::post('smoke', 'APISmokeController@store');
 
-//  Update end smoke time
-Route::put('smoke/{id}', 'APISmokeController@update');
+    //  Update end smoke time
+    Route::put('smoke/{id}', 'APISmokeController@update');
 
-// Update smoke data
-Route::patch('smoke/{id}', 'APISmokeController@update');
+    // Update smoke data
+    Route::patch('smoke/{id}', 'APISmokeController@update');
 
-// Delete smoke data
-Route::delete('smoke/{smoke_id}/user/{user_id}', 'APISmokeController@destroy');
+    // Delete smoke data
+    Route::delete('smoke/{smoke_id}/user/{user_id}', 'APISmokeController@destroy');
 
-//  Get user's smoke overview data
-Route::get('smoke/overview/user/{id}', 'APISmokeController@show');
+    //  Get user's smoke overview data
+    Route::get('smoke/overview/user/{id}', 'APISmokeController@show');
 
-// Get user's smoke detail data
-Route::get('smoke/detail/user/{id}', 'APISmokeController@show');
+    // Get user's smoke detail data
+    Route::get('smoke/detail/user/{id}', 'APISmokeController@show');
 
-// Get user's 24hour smoke data
-Route::get('smoke/24hour/user/{id}/{uuid}', 'APISmokeController@show');
+    //  Get user's 24hour smoke data
+    Route::get('smoke/24hour/user/{id}/{uuid}', 'APISmokeController@show');
+});

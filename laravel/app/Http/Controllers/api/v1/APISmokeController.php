@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
 use App\Smoke;
 use App\User;
@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
-class APISmokeController extends Controller
+class APISmokeController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -61,15 +61,17 @@ class APISmokeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string   $v
+     * @param  int      $id
+     * @param  string   $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $uuid="")
+    public function show($v, $id, $uuid="")
     {
         $current_url = url()->current();
-        $pattern_overview = "#api/smoke/overview/user/[0-9]+#";
-        $pattern_detail = "#api/smoke/detail/user/[0-9]+#";
-        $pattern_24hour = "#api/smoke/24hour/user/[0-9]+/[0-9|A-F]{8}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{12}+#";
+        $pattern_overview = "#api/".$v."/smoke/overview/user/[0-9]+#";
+        $pattern_detail = "#api/".$v."/smoke/detail/user/[0-9]+#";
+        $pattern_24hour = "#api/".$v."/smoke/24hour/user/[0-9]+/[0-9|A-F]{8}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{12}+#";
 
 
 
@@ -225,10 +227,11 @@ class APISmokeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int    $id
+     * @param  string $v
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $v, $id)
     {
         $validator_array = [];
         $isput = true;
@@ -289,11 +292,12 @@ class APISmokeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $smoke_id
-     * * @param  int  $user_id
+     * @param  string   $v
+     * @param  int      $smoke_id
+     * @param  int      $user_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($smoke_id, $user_id)
+    public function destroy($v, $smoke_id, $user_id)
     {
         $issuccess = Smoke::where([['id', $smoke_id],['user_id', $user_id]])->delete();
 
