@@ -33,7 +33,7 @@ class SmokeDataEditViewController: FormViewController {
     func CreateForms() {
         var rules = RuleSet<String>()
         rules.add(rule: RuleRequired(msg: "必須項目です"))
-        rules.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}+\\.[0-9]{1,3}+\\.[0-9]{1,3}+\\.[0-9]{1,3}+", allowsEmpty: false, msg: "IPアドレスの形式になっていません"))
+        rules.add(rule: RuleRegExp(regExpr: "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}", allowsEmpty: false, msg: "形式が間違っています"))
         
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
