@@ -76,12 +76,12 @@ class APIUserController extends Controller
         $user = User::where('id', $id)->firstOrFail();
 
         return Response()->json([
-            'uuid'          => $user->uuid,
-            'id'            => $user->id,
-            'payday'        => $user->payday,
-            'price'         => $user->price,
-            'target_number' => $user->target_number,
-            'address'       => $user->address,
+            'uuid'           => $user->uuid,
+            'id'             => $user->id,
+            'payday'         => $user->payday,
+            'price'          => $user->price,
+            'target_number'  => $user->target_number,
+            'address'        => $user->address,
             'one_box_number' => $user->one_box_number
         ]);
     }
@@ -112,6 +112,7 @@ class APIUserController extends Controller
                 'price'             => 'bail|required|integer|max:9999',
                 'target_number'     => 'bail|required|integer|max:9999',
                 'address'           => 'bail|required|ip',
+                'one_box_number'    => 'bail|required|integer|max:9999'
             ]);
 
             if($validator->fails())
@@ -140,6 +141,7 @@ class APIUserController extends Controller
             $user->price = $request->get('price');
             $user->target_number = $request->get('target_number');
             $user->address = $request->get('address');
+            $user->one_box_number = $request->get('one_box_number');
 
         }else if ($request->method() == 'PATCH') {
             if ($user->is_active)

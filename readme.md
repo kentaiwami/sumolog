@@ -69,7 +69,8 @@ request：
     "payday": 25,
     "price": 420,
     "target_number": 20,
-    "address": "192.168.0.0"
+    "address": "192.168.0.0",
+    "one_box_number": 20
 }
 response：
 {
@@ -101,7 +102,8 @@ response：
     "is_active": 1,
     "payday": 25,
     "price": 420,
-    "target_number": 20
+    "target_number": 20,
+    "one_box_number": 20
 }
 ```
 
