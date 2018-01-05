@@ -12,8 +12,9 @@ import SwiftyJSON
 import Alamofire
 import KeychainAccess
 
-class SmokeDataViewController: FormViewController {
+class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
 
+    var preViewName = StoryBoardID.smokedataview.rawValue
     let indicator = Indicator()
     var id = ""
     var uuid = ""
@@ -33,6 +34,8 @@ class SmokeDataViewController: FormViewController {
         let keychain = Keychain()
         id = (try! keychain.getString("id"))!
         uuid = (try! keychain.getString("uuid"))!
+        
+        self.tabBarController?.delegate = self
     }
     
     func CallGet24HourSmokeAPI() {
@@ -79,6 +82,15 @@ class SmokeDataViewController: FormViewController {
         
         UIView.setAnimationsEnabled(true)
     }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController.restorationIdentifier! == StoryBoardID.smokedataview.rawValue && preViewName == StoryBoardID.smokedataview.rawValue {
+            tableView.scroll(to: .top, animated: true)
+        }
+        
+        preViewName = viewController.restorationIdentifier!
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

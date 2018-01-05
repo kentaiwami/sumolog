@@ -26,3 +26,7 @@ enum Font: String {
     case HiraginoW3 = "HiraginoSans-W3"
     case HiraginoW6 = "HiraginoSans-W6"
 }
+
+enum StoryBoardID: String {
+    case smokedataview = "SmokeDataView"
+}
