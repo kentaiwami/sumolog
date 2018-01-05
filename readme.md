@@ -205,7 +205,8 @@ response：
     "price": 420,
     "ave": 3.6000000000000001,
     "x": 21,
-    "next_payday_count": 5
+    "next_payday_count": 5,
+    "one_box_number": 20
 }
 
 ```
