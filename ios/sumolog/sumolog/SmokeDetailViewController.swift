@@ -185,14 +185,6 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         
         return result!
     }
-    
-//    func pow(num: Int, pow: Int) -> Double {
-//        var result = Double(num)
-//        for _ in 0..<pow-1 {
-//            result *= Double(num)
-//        }
-//        return result
-//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
