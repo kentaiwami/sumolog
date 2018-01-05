@@ -38,7 +38,7 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
     }
     
     func CallGetDetailViewAPI() {
-        let urlString = API.base.rawValue + API.smoke.rawValue + API.detail.rawValue + API.user.rawValue + id
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.detail.rawValue + API.user.rawValue + id
         indicator.showIndicator(view: self.view)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in

@@ -57,7 +57,7 @@ class SettingViewController: FormViewController {
         let keychain = Keychain()
         let id = try! keychain.getString("id")
         
-        let urlString = API.base.rawValue + API.user.rawValue + id!
+        let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + id!
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
@@ -320,7 +320,7 @@ class SettingViewController: FormViewController {
             var values = form.values()
             values["uuid"] = uuid
             
-            let urlString = API.base.rawValue + API.user.rawValue + id
+            let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + id
             Alamofire.request(urlString, method: method, parameters: values, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 self.indicator.stopIndicator()
                 
