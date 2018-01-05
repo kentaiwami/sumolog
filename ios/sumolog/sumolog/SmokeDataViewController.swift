@@ -14,7 +14,6 @@ import KeychainAccess
 
 class SmokeDataViewController: FormViewController {
 
-    var iscreated_form = false
     let indicator = Indicator()
     var id = ""
     var uuid = ""
@@ -23,7 +22,7 @@ class SmokeDataViewController: FormViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "Edit"
+        self.tabBarController?.navigationItem.title = "Smoke 24hour"
         
         CallGet24HourSmokeAPI()
     }
@@ -49,48 +48,33 @@ class SmokeDataViewController: FormViewController {
             print(json["results"])
             
             self.results = json["results"].arrayValue
-//            if !self.iscreated_form {
                 self.CreateForms()
-//            }
-//            self.UpdateCells()
         }
     }
     
     func CreateForms() {
-        form.removeAll()
+        UIView.setAnimationsEnabled(false)
         
-        iscreated_form = true
+        form.removeAll()
         
         let section = Section()
         
         for smoke in results {
-//            print(smoke)
-//            let vc = SmokeDataFormViewController()
-//            vc.SetTitle(title: "Edit")
+            let title = smoke["started_at"].stringValue + "\n" + smoke["ended_at"].stringValue
+            let vc = SmokeDataEditViewController()
+            let row = ButtonRow() {
+                $0.title = title
+                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc}, onDismiss: {vc in vc.navigationController?.popViewController(animated: true)})
+            }
+            
+            section.append(row)
         }
-//
-//
-//            vc.SetIsAdd(flag: false)
-//            vc.SetProductID(id: p["id"].intValue)
-//
-//            let row = ButtonRow() {
-//                $0.title = p["title"].stringValue
-//                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
-//                                            onDismiss: { vc in
-//                                                vc.navigationController?.popViewController(animated: true)}
-//                )
-//            }
-//            section.append(row)
-//        }
         
         form.append(section)
-
+        
+        UIView.setAnimationsEnabled(true)
     }
     
-    func UpdateCells() {
-        
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
