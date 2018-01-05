@@ -14,6 +14,8 @@ import KeychainAccess
 
 class EditViewController: UIViewController {
 
+    var iscreated_form = false
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

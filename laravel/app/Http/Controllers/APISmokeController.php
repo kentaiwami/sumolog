@@ -64,11 +64,13 @@ class APISmokeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $uuid="")
     {
         $current_url = url()->current();
-        $pattern_overview = "#api/smoke/overview/user/+[0-9]#";
-        $pattern_detail = "#api/smoke/detail/user/+[0-9]#";
+        $pattern_overview = "#api/smoke/overview/user/[0-9]+#";
+        $pattern_detail = "#api/smoke/detail/user/[0-9]+#";
+        $pattern_24hour = "#api/smoke/24hour/user/[0-9]+/[0-9|A-F]{8}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{12}+#";
+
 
         /********* overview *********/
         if (preg_match($pattern_overview, $current_url)) {
@@ -184,6 +186,11 @@ class APISmokeController extends Controller
                 'next_payday_count' => round($dif / (60*60*24), 0),
                 'one_box_number'    => $user->one_box_number
             ]);
+        }
+
+        /********* 24hour *********/
+        if (preg_match($pattern_24hour, $current_url)) {
+            return Response()->json(['hoge' => $uuid]);
         }
 
         return Response('', 404);
