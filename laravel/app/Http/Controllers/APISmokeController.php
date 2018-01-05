@@ -194,6 +194,9 @@ class APISmokeController extends Controller
 
         /********* 24hour *********/
         if (preg_match($pattern_24hour, $current_url)) {
+            // ユーザの存在を確認
+            $user = User::where('id', $id)->where('uuid', $uuid)->firstOrFail();
+
             return Response()->json(['hoge' => $uuid]);
         }
 
