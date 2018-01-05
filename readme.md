@@ -211,6 +211,23 @@ response：
 
 ```
 
+#### Get User's 24hour Smoke Data
+```
+method：GET
+endpoint：smoke/24hour/user/{id}/{uuid}
+response：
+{
+    [
+        {"id": 10, "started_at": "2017-11-12 5:31:12", "ended_at": "2017-11-12 5:33:40"},
+        {"id": 9, "started_at": "2017-11-11 23:23:23", "ended_at": "2017-11-11 23:52:52"}
+        .
+        .
+        .
+    ]
+}
+
+```
+
 
 ## Raspberry PI API
 #### GET UUID Count
