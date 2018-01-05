@@ -19,11 +19,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Data" image="tab_smoke" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Data" image="tab_smoke" selectedImage="tab_smoke" id="acW-dT-cKf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="830" y="-698"/>
         </scene>
         <!--Setting-->
         <scene sceneID="wg7-f3-ORb">
@@ -35,12 +35,28 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Setting" image="tab_setting" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Setting" image="tab_setting" selectedImage="tab_setting" id="cPa-gy-q4n"/>
                     <navigationItem key="navigationItem" id="K5L-cE-oyG"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="452"/>
+            <point key="canvasLocation" x="830" y="719"/>
+        </scene>
+        <!--Edit-->
+        <scene sceneID="Jm6-gM-Dio">
+            <objects>
+                <viewController id="dbM-LS-UBY" customClass="EditViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="h3f-Fq-ODy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="obf-Ax-swu"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Edit" image="tab_edit" selectedImage="tab_edit" id="kpw-Sp-mqN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hQP-FL-dtC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="-10"/>
         </scene>
         <!--OriginU Inavigation Controller-->
         <scene sceneID="P20-2J-CTW">
@@ -67,10 +83,12 @@
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="0.33333333329999998" green="0.70588235290000001" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="8ux-lJ-UhE"/>
+                        <segue destination="dbM-LS-UBY" kind="relationship" relationship="viewControllers" id="Rlh-hW-aTn"/>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="T37-mZ-skx"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -79,7 +97,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="tab_edit" width="30" height="30"/>
         <image name="tab_setting" width="30" height="30"/>
         <image name="tab_smoke" width="30" height="30"/>
     </resources>
+    <color key="tintColor" red="0.33333333329999998" green="0.70588235290000001" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
