@@ -32,6 +32,7 @@ class SettingViewController: FormViewController {
             user_data.Setpayday(payday: 0)
             user_data.Setaddress(address: "")
             user_data.Settarget_number(target_number: 0)
+            user_data.SetOneBoxNumber(num: 20)
         }else {
             uuid = (try! keychain.getString("uuid"))!
             
@@ -124,7 +125,7 @@ class SettingViewController: FormViewController {
         
             
             <<< IntRow(){
-                $0.title = "値段"
+                $0.title = "1箱の値段"
                 $0.value = user_data.Getprice()
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
@@ -144,6 +145,30 @@ class SettingViewController: FormViewController {
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }
+            }
+            
+            
+            <<< IntRow(){
+                $0.title = "1箱の本数"
+                $0.value = user_data.GetOneBoxNumber()
+                $0.add(ruleSet: rules)
+                $0.validationOptions = .validatesOnChange
+                $0.tag = "one_box_number"
+                }
+                .onRowValidationChanged {cell, row in
+                    let rowIndex = row.indexPath!.row
+                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                        row.section?.remove(at: rowIndex + 1)
+                    }
+                    if !row.isValid {
+                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = err
+                                $0.cell.height = { 30 }
+                            }
+                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                        }
+                    }
             }
         
         
@@ -253,16 +278,19 @@ class SettingViewController: FormViewController {
         let price = form.rowBy(tag: "price")
         let target_number = form.rowBy(tag: "target_number")
         let address = form.rowBy(tag: "address")
+        let onebox = form.rowBy(tag: "one_box_number")
         
         payday?.baseValue = user_data.Getpayday()
         price?.baseValue = user_data.Getprice()
         target_number?.baseValue = user_data.Gettarget_number()
         address?.baseValue = user_data.Getaddress()
+        onebox?.baseValue = user_data.GetOneBoxNumber()
         
         payday?.updateCell()
         price?.updateCell()
         target_number?.updateCell()
         address?.updateCell()
+        onebox?.updateCell()
     }
     
     func SetisCreate(iscreate: Bool) {
@@ -374,20 +402,6 @@ class SettingViewController: FormViewController {
             }
         }
     }
-    
-//    func HOGEHOGE() {
-//        let fetchImagePromise = Promise<UIImage> { resolve, reject in
-//            //画像を取得する非同期処理
-//            Session.send(request) { result in
-//                switch result {
-//                case .success(let image):
-//                    resolve(image)
-//                case .failure(let error):
-//                    reject(error)
-//                }
-//            }
-//        }
-//    }
     
     func IsCheckFormValue() -> Bool {
         var err_count = 0

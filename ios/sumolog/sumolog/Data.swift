@@ -14,6 +14,7 @@ class UserData {
         var target_number = 0
         var address = ""
         var count = 0
+        var one_box_number = 0
     }
     
     private var data = UserData()
@@ -38,6 +39,10 @@ class UserData {
         data.count = count
     }
     
+    func SetOneBoxNumber(num: Int) {
+        data.one_box_number = num
+    }
+    
     func Getpayday() -> Int {
         return data.payday
     }
@@ -58,11 +63,16 @@ class UserData {
         return data.count
     }
     
+    func GetOneBoxNumber() -> Int {
+        return data.one_box_number
+    }
+    
     func SetAll(json: JSON) {
         data.payday = json["payday"].intValue
         data.price = json["price"].intValue
         data.target_number = json["target_number"].intValue
         data.address = json["address"].stringValue
+        data.one_box_number = json["one_box_number"].intValue
     }
 }
 
@@ -75,22 +85,6 @@ class SmokeOverViewData {
     }
     
     private var data = SmokeOverViewData()
-    
-    func SetCount(count: Int) {
-        data.count = count
-    }
-    
-    func SetMin(min: Int) {
-        data.min = min
-    }
-    
-    func SetHour(hour: [[String:Int]]) {
-        data.hour = hour
-    }
-    
-    func SetOver(over: Int) {
-        data.over = over
-    }
     
     func GetCount() -> Int {
         return data.count
@@ -118,5 +112,51 @@ class SmokeOverViewData {
             let key = tmp.keys.first!
             data.hour.append([key:tmp[key]!.intValue])
         }
+    }
+}
+
+class SmokeDetailViewData {
+    struct SmokeDetailViewData {
+        var coefficients:[Double] = []
+        var price = 0
+        var ave = 0.0
+        var x = 0
+        var next_payday_count = 0
+        var one_box_number = 0
+    }
+    
+    private var data = SmokeDetailViewData()
+    
+    func GetCoefficients() -> Array<Double> {
+        return data.coefficients
+    }
+    
+    func GetPrice() -> Int {
+        return data.price
+    }
+    
+    func GetAve() -> Double {
+        return data.ave
+    }
+    
+    func GetX() -> Int {
+        return data.x
+    }
+    
+    func GetNextPaydayCount() -> Int {
+        return data.next_payday_count
+    }
+    
+    func GetOneBoxNumber() -> Int {
+        return data.one_box_number
+    }
+    
+    func SetAll(json: JSON) {
+        data.coefficients = json["coefficients"].arrayValue.map({$0.doubleValue})
+        data.price = json["price"].intValue
+        data.ave = json["ave"].doubleValue
+        data.x = json["x"].intValue
+        data.next_payday_count = json["next_payday_count"].intValue
+        data.one_box_number = json["one_box_number"].intValue
     }
 }

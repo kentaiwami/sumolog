@@ -26,6 +26,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     var graphView = ScrollableGraphView()
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         CallGetOverViewAPI()
     }
     
@@ -49,6 +50,8 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
             print(json)
             
             self.data.SetAll(json: json)
+            
+            GetAppDelegate().smoks = self.data.GetCount()
             
             self.DrawViews()
         }
@@ -176,7 +179,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         graphView.leading(to: self.view)
         graphView.trailing(to: self.view)
         graphView.topToBottom(of: smokeImageView, offset: 20)
-        graphView.bottomToTop(of: (self.tabBarController?.tabBar)!)
+        graphView.bottom(to: self.view, offset: -80)
     }
     
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
