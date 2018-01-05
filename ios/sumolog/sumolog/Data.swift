@@ -126,6 +126,7 @@ class SmokeDetailViewData {
         var coefficients:[Double] = []
         var price = 0
         var ave = 0.0
+        var x = 0
     }
     
     private var data = SmokeDetailViewData()
@@ -142,6 +143,10 @@ class SmokeDetailViewData {
         data.ave = ave
     }
     
+    func SetX(x: Int) {
+        data.x = x
+    }
+    
     func GetCoefficients() -> Array<Double> {
         return data.coefficients
     }
@@ -154,9 +159,14 @@ class SmokeDetailViewData {
         return data.ave
     }
     
+    func GetX() -> Int {
+        return data.x
+    }
+    
     func SetAll(json: JSON) {
         data.coefficients = json["coefficients"].arrayValue.map({$0.doubleValue})
         data.price = json["price"].intValue
         data.ave = json["ave"].doubleValue
+        data.x = json["x"].intValue
     }
 }
