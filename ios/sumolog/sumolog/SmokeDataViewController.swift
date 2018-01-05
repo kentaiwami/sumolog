@@ -52,7 +52,17 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
             
             self.results = json["results"].arrayValue
             self.CreateForms()
+            
+            let refresh_controll = UIRefreshControl()
+            self.tableView.refreshControl = refresh_controll
+            refresh_controll.addTarget(self, action: #selector(self.refresh(sender:)), for: .valueChanged)
         }
+    }
+    
+    func refresh(sender: UIRefreshControl) {
+        sender.beginRefreshing()
+        CallGet24HourSmokeAPI()
+        sender.endRefreshing()
     }
     
     func CreateForms() {
