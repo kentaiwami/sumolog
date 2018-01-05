@@ -62,6 +62,10 @@ class SmokeDataViewController: FormViewController {
         for smoke in results {
             let title = "Start： " + smoke["started_at"].stringValue + "\n" + "End：   " + smoke["ended_at"].stringValue
             let vc = SmokeDataEditViewController()
+            vc.SetSmokeID(id: smoke["id"].intValue)
+            vc.SetStartedAt(started_at: smoke["started_at"].stringValue)
+            vc.SetEndedAt(ended_at: smoke["ended_at"].stringValue)
+            
             let row = ButtonRow() {
                 $0.title = title
                 $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc}, onDismiss: {vc in vc.navigationController?.popViewController(animated: true)})
