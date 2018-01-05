@@ -79,7 +79,8 @@ class APIUserController extends Controller
             'payday'        => $user->payday,
             'price'         => $user->price,
             'target_number' => $user->target_number,
-            'address'       => $user->address
+            'address'       => $user->address,
+            'one_box_number' => $user->one_box_number
         ]);
     }
 
