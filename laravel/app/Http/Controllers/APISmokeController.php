@@ -125,12 +125,17 @@ class APISmokeController extends Controller
             $month = date('m');
             $user_paydate = $year . $month . $user->payday;
 
+            $next_paydate = date('Y-m-d', strtotime($user_paydate));
+
 
             // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
-            if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d'))
+            if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d')){
                 $pre_paydate = date('Y-m-d', strtotime($user_paydate));
-            else
+                $next_paydate = date('Y-m-d', strtotime($user_paydate .'+1 month'));
+            }
+            else{
                 $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
+            }
 
             // 先月の給与までのレコードを日付別で取得
             $smokes = Smoke::where('user_id', $user->id)
@@ -138,6 +143,9 @@ class APISmokeController extends Controller
             ->groupBy(function($date) {
                 return Carbon::parse($date->started_at)->format('d');
             });
+
+            // 次回の給与日までの日付の差分
+            $dif = strtotime($next_paydate) - strtotime('now');
 
 
             // 日付別の件数、1本の所要時間をカウント
@@ -172,7 +180,8 @@ class APISmokeController extends Controller
                 'coefficients' => $output,
                 'price'        => $user->price,
                 'ave' => $ave,
-                'x' => count($count_by_day)
+                'x' => count($count_by_day),
+                'x_count' => round($dif / (60*60*24), 0)
             ]);
         }
 
