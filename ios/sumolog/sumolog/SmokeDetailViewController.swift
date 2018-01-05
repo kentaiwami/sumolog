@@ -158,7 +158,20 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         let appdelegate = GetAppDelegate()
         let used = appdelegate.smoks! * data.GetPrice()/20
         
-        return (10, 11, "¥ "+GetNumberFormatter(num: used), "¥"+GetNumberFormatter(num: used*100))
+        // 本数の予測
+        let coefficients = data.GetCoefficients()
+        var prediction:[Int] = []
+        for x in data.GetX()...data.GetX()+data.GetNextPaydayCount() {
+            let y1 = coefficients[0]*pow(Double(x), 4) + coefficients[1]*pow(Double(x), 3)
+            let y2 = coefficients[2]*pow(Double(x), 2) + coefficients[3]*pow(Double(x), 1) + coefficients[4]
+            prediction.append(Int(round( y1 + y2)))
+        }
+        
+        prediction = prediction.map{abs($0)}
+        let sum = prediction.reduce(0, +)
+        let willuse = sum * data.GetPrice()/20
+        
+        return (prediction[0], sum, "¥ "+GetNumberFormatter(num: used), "¥"+GetNumberFormatter(num: willuse))
     }
     
     func GetNumberFormatter(num: Int) -> String {
@@ -171,6 +184,14 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         
         return result!
     }
+    
+//    func pow(num: Int, pow: Int) -> Double {
+//        var result = Double(num)
+//        for _ in 0..<pow-1 {
+//            result *= Double(num)
+//        }
+//        return result
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
