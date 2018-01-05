@@ -72,6 +72,7 @@ class APISmokeController extends Controller
         $pattern_24hour = "#api/smoke/24hour/user/[0-9]+/[0-9|A-F]{8}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{12}+#";
 
 
+
         /********* overview *********/
         if (preg_match($pattern_overview, $current_url)) {
             $now = date(now());
@@ -116,6 +117,7 @@ class APISmokeController extends Controller
                 'over'  => $count - $target_number
             ]);
         }
+
 
 
         /********* detail *********/
@@ -187,6 +189,8 @@ class APISmokeController extends Controller
                 'one_box_number'    => $user->one_box_number
             ]);
         }
+
+
 
         /********* 24hour *********/
         if (preg_match($pattern_24hour, $current_url)) {
