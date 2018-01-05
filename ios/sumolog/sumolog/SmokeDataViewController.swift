@@ -60,11 +60,12 @@ class SmokeDataViewController: FormViewController {
         let section = Section()
         
         for smoke in results {
-            let title = smoke["started_at"].stringValue + "\n" + smoke["ended_at"].stringValue
+            let title = "Start： " + smoke["started_at"].stringValue + "\n" + "End：   " + smoke["ended_at"].stringValue
             let vc = SmokeDataEditViewController()
             let row = ButtonRow() {
                 $0.title = title
                 $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc}, onDismiss: {vc in vc.navigationController?.popViewController(animated: true)})
+                $0.cell.textLabel?.numberOfLines = 0
             }
             
             section.append(row)
