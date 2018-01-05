@@ -42,7 +42,7 @@
 #### Create User
 ```
 method：POST
-endpoint：user
+endpoint：api/v1/user
 request：
 {
     "uuid": "hogehoge",
@@ -62,7 +62,7 @@ response：
 #### Update User Profile
 ```
 method：PUT
-endpoint：user/{id}
+endpoint：api/v1/user/{id}
 request：
 {
     "uuid": "hogehoge",
@@ -88,7 +88,7 @@ response：
 #### Update User Active Status
 ```
 method：PATCH
-endpoint：user/{id}
+endpoint：api/v1/user/{id}
 request：
 {
     "uuid": "hogehoge"
@@ -110,7 +110,7 @@ response：
 #### Get User Data
 ```
 method：GET
-endpoint：user/{id}
+endpoint：api/v1/user/{id}
 response：
 {
     "id": 1,
@@ -126,7 +126,7 @@ response：
 #### Create Smoke
 ```
 method：POST
-endpoint：smoke
+endpoint：api/v1/smoke
 request：
 {
     "uuid": "hogehoge"
@@ -141,7 +141,7 @@ response：
 #### Update End Smoke Time
 ```
 method：PUT
-endpoint：smoke/{id}
+endpoint：api/v1/smoke/{id}
 request：
 {
     "uuid": "hogehoge"
@@ -157,7 +157,7 @@ response：
 #### Update Smoke Data
 ```
 method：PATCH
-endpoint：smoke/{id}
+endpoint：api/v1/smoke/{id}
 request：
 {
     "uuid": "hogehoge",
@@ -175,7 +175,7 @@ response：
 #### Delete Smoke Data
 ```
 method：DELETE
-endpoint：smoke/{smoke_id}/user/{user_id}
+endpoint：api/v1/smoke/{smoke_id}/user/{user_id}
 response：
 {
     "msg": "Success delete"
@@ -185,7 +185,7 @@ response：
 #### Get User's Smoke Overview Data
 ```
 method：GET
-endpoint：smoke/overview/user/{id}
+endpoint：api/v1/smoke/overview/user/{id}
 response：
 {
     "count": 28,
@@ -198,7 +198,7 @@ response：
 #### Get User's Smoke Detail Data
 ```
 method：GET
-endpoint：smoke/detail/user/{id}
+endpoint：api/v1/smoke/detail/user/{id}
 response：
 {
     "coefficients": [0.0087776806526799998,-0.25967204092200002,2.11355137918,-3.7402793965300001,14.304487179500001],
@@ -214,7 +214,7 @@ response：
 #### Get User's 24hour Smoke Data
 ```
 method：GET
-endpoint：smoke/24hour/user/{id}/{uuid}
+endpoint：api/v1/smoke/24hour/user/{id}/{uuid}
 response：
 {
     [
