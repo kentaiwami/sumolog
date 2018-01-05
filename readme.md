@@ -49,7 +49,8 @@ request：
     "payday": 30,
     "price": 100,
     "target_number": 10,
-    "address": "192.168.0.0"
+    "address": "192.168.0.0",
+    "one_box_number": 20
 }
 response：
 {
@@ -68,7 +69,8 @@ request：
     "payday": 25,
     "price": 420,
     "target_number": 20,
-    "address": "192.168.0.0"
+    "address": "192.168.0.0",
+    "one_box_number": 20
 }
 response：
 {
@@ -100,7 +102,8 @@ response：
     "is_active": 1,
     "payday": 25,
     "price": 420,
-    "target_number": 20
+    "target_number": 20,
+    "one_box_number": 20
 }
 ```
 
@@ -115,7 +118,8 @@ response：
     "payday": 25,
     "price": 420,
     "target_number": 20,
-    "address": "192.168.0.0"
+    "address": "192.168.0.0",
+    "one_box_number": 20
 }
 ```
 
@@ -201,7 +205,8 @@ response：
     "price": 420,
     "ave": 3.6000000000000001,
     "x": 21,
-    "next_payday_count": 5
+    "next_payday_count": 5,
+    "one_box_number": 20
 }
 
 ```

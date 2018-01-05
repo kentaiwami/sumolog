@@ -156,7 +156,8 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
     
     func CalcPrediction() -> (today: Int, month: Int, used: String, willuse: String) {
         let appdelegate = GetAppDelegate()
-        let used = appdelegate.smoks! * data.GetPrice()/20
+        let one_box_number = data.GetOneBoxNumber()
+        let used = appdelegate.smoks! * data.GetPrice()/one_box_number
         
         // 本数の予測
         let coefficients = data.GetCoefficients()
@@ -169,7 +170,7 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         
         prediction = prediction.map{abs($0)}
         let sum = prediction.reduce(0, +)
-        let willuse = sum * data.GetPrice()/20
+        let willuse = sum * data.GetPrice()/one_box_number
         
         return (prediction[0], sum, "¥ "+GetNumberFormatter(num: used), "¥"+GetNumberFormatter(num: willuse))
     }
