@@ -156,7 +156,7 @@ class APISmokeController extends Controller
             $ave = round($difference_sum / array_sum($count_by_day), 1, PHP_ROUND_HALF_UP);
 
 
-            // ユーザの給与日と配列文字列をコマンドラインに投げる
+            // 1日ごとの喫煙本数の配列(文字列)をコマンドラインに投げる
             $output = [];
             $count_by_day_str = implode(',', $count_by_day);
             exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str. ' 2>&1',$output);
