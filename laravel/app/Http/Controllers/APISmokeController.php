@@ -197,7 +197,14 @@ class APISmokeController extends Controller
             // ユーザの存在を確認
             $user = User::where('id', $id)->where('uuid', $uuid)->firstOrFail();
 
-            return Response()->json(['hoge' => $uuid]);
+            // API実行時から24時間以内の喫煙データを取得
+            $pre_datetime = date('Y-m-d H:i:s', strtotime('-24 hour', time()));
+            $smokes = Smoke::where('user_id', $user->id)
+                ->where('started_at', '>=', $pre_datetime)
+                ->orderBy('started_at', 'desc')
+                ->get();
+
+            return Response()->json(['results' => $smokes]);
         }
 
         return Response('', 404);
