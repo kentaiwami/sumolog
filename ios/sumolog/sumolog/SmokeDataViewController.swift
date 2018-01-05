@@ -51,7 +51,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
             print(json["results"])
             
             self.results = json["results"].arrayValue
-                self.CreateForms()
+            self.CreateForms()
         }
     }
     
