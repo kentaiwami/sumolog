@@ -76,22 +76,6 @@ class SmokeOverViewData {
     
     private var data = SmokeOverViewData()
     
-    func SetCount(count: Int) {
-        data.count = count
-    }
-    
-    func SetMin(min: Int) {
-        data.min = min
-    }
-    
-    func SetHour(hour: [[String:Int]]) {
-        data.hour = hour
-    }
-    
-    func SetOver(over: Int) {
-        data.over = over
-    }
-    
     func GetCount() -> Int {
         return data.count
     }
@@ -130,22 +114,6 @@ class SmokeDetailViewData {
     }
     
     private var data = SmokeDetailViewData()
-    
-    func SetCoefficients(coefficients: Array<Double>) {
-        data.coefficients = coefficients
-    }
-    
-    func SetPrice(price: Int) {
-        data.price = price
-    }
-    
-    func SetAve(ave: Double) {
-        data.ave = ave
-    }
-    
-    func SetX(x: Int) {
-        data.x = x
-    }
     
     func GetCoefficients() -> Array<Double> {
         return data.coefficients
