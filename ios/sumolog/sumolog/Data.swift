@@ -111,6 +111,7 @@ class SmokeDetailViewData {
         var price = 0
         var ave = 0.0
         var x = 0
+        var next_payday_count = 0
     }
     
     private var data = SmokeDetailViewData()
@@ -131,10 +132,15 @@ class SmokeDetailViewData {
         return data.x
     }
     
+    func GetNextPaydayCount() -> Int {
+        return data.next_payday_count
+    }
+    
     func SetAll(json: JSON) {
         data.coefficients = json["coefficients"].arrayValue.map({$0.doubleValue})
         data.price = json["price"].intValue
         data.ave = json["ave"].doubleValue
         data.x = json["x"].intValue
+        data.next_payday_count = json["next_payday_count"].intValue
     }
 }
