@@ -43,6 +43,7 @@ class APIUserController extends Controller
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
             'address'           => 'bail|required|ip',
+            'one_box_number'    => 'bail|required|integer|max:9999'
         ]);
 
         if($validator->fails()){
@@ -55,6 +56,7 @@ class APIUserController extends Controller
         $new_user->price = $request->get('price');
         $new_user->target_number = $request->get('target_number');
         $new_user->address = $request->get('address');
+        $new_user->one_box_number = $request->get('one_box_number');
         $new_user->save();
 
         return Response()->json([

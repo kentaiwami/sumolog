@@ -49,7 +49,8 @@ request：
     "payday": 30,
     "price": 100,
     "target_number": 10,
-    "address": "192.168.0.0"
+    "address": "192.168.0.0",
+    "one_box_number": 20
 }
 response：
 {
