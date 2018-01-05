@@ -67,6 +67,8 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         if !iscreated_form {
             CreateForms()
         }
+        
+        UpdateCells()
     }
     
     func CreateMsgLabel() {
@@ -184,6 +186,25 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         let result = formatter.string(from: NSNumber(value: num))
         
         return result!
+    }
+    
+    func UpdateCells() {
+        let results = CalcPrediction()
+        
+        let today = form.rowBy(tag: "today")
+        let month = form.rowBy(tag: "month")
+        let used = form.rowBy(tag: "used")
+        let willuse = form.rowBy(tag: "willuse")
+        
+        today?.baseValue = results.today
+        month?.baseValue = results.month
+        used?.baseValue = results.used
+        willuse?.baseValue = results.willuse
+        
+        today?.updateCell()
+        month?.updateCell()
+        used?.updateCell()
+        willuse?.updateCell()
     }
 
     override func didReceiveMemoryWarning() {
