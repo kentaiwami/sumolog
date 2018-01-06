@@ -170,6 +170,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         graphView.shouldAnimateOnStartup = true
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
+        graphView.direction = .rightToLeft
         
         self.graphView = graphView
         
