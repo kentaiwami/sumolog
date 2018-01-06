@@ -49,9 +49,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
             print(json)
             
             self.data.SetAll(json: json)
-            
-            GetAppDelegate().smokes = self.data.GetCount()
-            
+                        
             self.DrawViews()
         }
     }
