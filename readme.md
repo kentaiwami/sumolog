@@ -46,7 +46,6 @@ request：
     "price": 100,
     "target_number": 10,
     "address": "192.168.0.0",
-    "one_box_number": 20
 }
 response：
 {
@@ -66,7 +65,6 @@ request：
     "price": 420,
     "target_number": 20,
     "address": "192.168.0.0",
-    "one_box_number": 20
 }
 response：
 {
@@ -74,32 +72,9 @@ response：
     "uuid": "hogehoge",
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
-    "is_active": 1,
     "payday": 25,
     "price": 420,
     "target_number": 20
-}
-```
-
-#### Update User Active Status
-```
-method：PATCH
-endpoint：api/v1/user/{id}
-request：
-{
-    "uuid": "hogehoge"
-}
-response：
-{
-    "id": 1,
-    "uuid": "hogehoge",
-    "created_at": "2017-11-03 23:48:56",
-    "updated_at": "2018-01-01 05:40:04",
-    "is_active": 1,
-    "payday": 25,
-    "price": 420,
-    "target_number": 20,
-    "one_box_number": 20
 }
 ```
 
@@ -115,7 +90,6 @@ response：
     "price": 420,
     "target_number": 20,
     "address": "192.168.0.0",
-    "one_box_number": 20
 }
 ```
 
@@ -187,24 +161,10 @@ response：
     "count": 28,
     "min": 41,
     "hour": [{"07":1},{"12":1},{"13":1},{"14":1},{"16":3},{"18":1},{"19":2},{"20":2},{"21":1},{"01":3},{"02":1},{"04":1},{"05":2},{"06":1}],
-    "over": 13
-}
-```
-
-#### Get User's Smoke Detail Data
-```
-method：GET
-endpoint：api/v1/smoke/detail/user/{id}
-response：
-{
-    "coefficients": [0.0087776806526799998,-0.25967204092200002,2.11355137918,-3.7402793965300001,14.304487179500001],
-    "price": 420,
+    "over": 13,
     "ave": 3.6000000000000001,
-    "x": 21,
-    "next_payday_count": 5,
-    "one_box_number": 20
+    "used": 1230
 }
-
 ```
 
 #### Get User's 24hour Smoke Data
