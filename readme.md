@@ -46,7 +46,6 @@ request：
     "price": 100,
     "target_number": 10,
     "address": "192.168.0.0",
-    "one_box_number": 20
 }
 response：
 {
@@ -66,7 +65,6 @@ request：
     "price": 420,
     "target_number": 20,
     "address": "192.168.0.0",
-    "one_box_number": 20
 }
 response：
 {
@@ -74,7 +72,6 @@ response：
     "uuid": "hogehoge",
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
-    "is_active": 1,
     "payday": 25,
     "price": 420,
     "target_number": 20
@@ -93,7 +90,6 @@ response：
     "price": 420,
     "target_number": 20,
     "address": "192.168.0.0",
-    "one_box_number": 20
 }
 ```
 
