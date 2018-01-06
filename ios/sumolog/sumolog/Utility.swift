@@ -17,6 +17,10 @@ func GetStandardAlert(title: String, message: String, b_title: String) -> UIAler
     return alertController
 }
 
+func GetAppDelegate() -> AppDelegate {
+    return UIApplication.shared.delegate as! AppDelegate
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     

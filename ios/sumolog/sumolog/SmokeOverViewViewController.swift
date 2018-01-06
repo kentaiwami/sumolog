@@ -26,6 +26,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     var graphView = ScrollableGraphView()
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         CallGetOverViewAPI()
     }
     
@@ -37,7 +38,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     }
     
     func CallGetOverViewAPI() {
-        let urlString = API.base.rawValue + API.smoke.rawValue + API.overview.rawValue + API.user.rawValue + id
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.overview.rawValue + API.user.rawValue + id
         indicator.showIndicator(view: self.view)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
@@ -49,6 +50,8 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
             print(json)
             
             self.data.SetAll(json: json)
+            
+            GetAppDelegate().smokes = self.data.GetCount()
             
             self.DrawViews()
         }
@@ -167,6 +170,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         graphView.shouldAnimateOnStartup = true
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
+        graphView.direction = .rightToLeft
         
         self.graphView = graphView
         
@@ -176,7 +180,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         graphView.leading(to: self.view)
         graphView.trailing(to: self.view)
         graphView.topToBottom(of: smokeImageView, offset: 20)
-        graphView.bottomToTop(of: (self.tabBarController?.tabBar)!)
+        graphView.bottom(to: self.view, offset: -80)
     }
     
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {

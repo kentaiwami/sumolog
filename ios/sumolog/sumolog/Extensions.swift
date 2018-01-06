@@ -26,3 +26,19 @@ extension UIColor {
         }
     }
 }
+
+extension UITableView {
+    public enum ScrollDirection {
+        case top
+    }
+    
+    public func scroll(to direction: ScrollDirection, animated: Bool) {
+        let offset: CGPoint
+        switch direction {
+        case .top:
+            offset = CGPoint(x: contentOffset.x, y: -adjustedContentInset.top)
+        }
+        setContentOffset(offset, animated: animated)
+    }
+}
+

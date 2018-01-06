@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
 
-class APIUserController extends Controller
+class APIUserController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -43,6 +43,7 @@ class APIUserController extends Controller
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
             'address'           => 'bail|required|ip',
+            'one_box_number'    => 'bail|required|integer|max:9999'
         ]);
 
         if($validator->fails()){
@@ -55,6 +56,7 @@ class APIUserController extends Controller
         $new_user->price = $request->get('price');
         $new_user->target_number = $request->get('target_number');
         $new_user->address = $request->get('address');
+        $new_user->one_box_number = $request->get('one_box_number');
         $new_user->save();
 
         return Response()->json([
@@ -66,20 +68,22 @@ class APIUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string   $v
+     * @param  int      $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($v, $id)
     {
         $user = User::where('id', $id)->firstOrFail();
 
         return Response()->json([
-            'uuid'          => $user->uuid,
-            'id'            => $user->id,
-            'payday'        => $user->payday,
-            'price'         => $user->price,
-            'target_number' => $user->target_number,
-            'address'       => $user->address
+            'uuid'           => $user->uuid,
+            'id'             => $user->id,
+            'payday'         => $user->payday,
+            'price'          => $user->price,
+            'target_number'  => $user->target_number,
+            'address'        => $user->address,
+            'one_box_number' => $user->one_box_number
         ]);
     }
 
@@ -97,9 +101,11 @@ class APIUserController extends Controller
      * Update a user settings.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param   string  $v
+     * @param   int     $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $v, $id)
     {
         /* Check validation */
         if ($request->method() == 'PUT') {
@@ -109,6 +115,7 @@ class APIUserController extends Controller
                 'price'             => 'bail|required|integer|max:9999',
                 'target_number'     => 'bail|required|integer|max:9999',
                 'address'           => 'bail|required|ip',
+                'one_box_number'    => 'bail|required|integer|max:9999'
             ]);
 
             if($validator->fails())
@@ -137,6 +144,7 @@ class APIUserController extends Controller
             $user->price = $request->get('price');
             $user->target_number = $request->get('target_number');
             $user->address = $request->get('address');
+            $user->one_box_number = $request->get('one_box_number');
 
         }else if ($request->method() == 'PATCH') {
             if ($user->is_active)
