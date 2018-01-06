@@ -218,6 +218,7 @@ endpoint：api/v1/smoke/24hour/user/{id}/{uuid}
 response：
 {
     [
+        {"id": 11, "user_id": 5, "started_at": "2017-11-12 7:21:45", "ended_at": ""},
         {"id": 10, "user_id": 5, "started_at": "2017-11-12 5:31:12", "ended_at": "2017-11-12 5:33:40"},
         {"id": 9, "user_id": 5, "started_at": "2017-11-11 23:23:23", "ended_at": "2017-11-11 23:52:52"}
         .
