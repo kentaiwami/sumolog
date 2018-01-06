@@ -15,6 +15,7 @@ import Alamofire
 class SmokeDataEditViewController: FormViewController {
 
     var uuid = ""
+    var user_id = ""
     var smoke_id = 0
     var started_at = ""
     var ended_at = ""
@@ -29,6 +30,7 @@ class SmokeDataEditViewController: FormViewController {
         
         let keychain = Keychain()
         uuid = (try! keychain.getString("uuid"))!
+        user_id = (try! keychain.getString("id"))!
         
         CreateForms()
         tableView.isScrollEnabled = false
@@ -93,7 +95,7 @@ class SmokeDataEditViewController: FormViewController {
             }
         
         
-        form +++ Section(header: "", footer: "")
+        form +++ Section(header: "", footer: "入力された情報で上書きします")
             <<< ButtonRow(){
                 $0.title = "更新"
                 $0.baseCell.backgroundColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
@@ -102,6 +104,17 @@ class SmokeDataEditViewController: FormViewController {
             }
             .onCellSelection {  cell, row in
                 self.CallUpdateSmokeDataAPI()
+            }
+        
+        form +++ Section(header: "", footer: "この喫煙データを削除します")
+            <<< ButtonRow(){
+                $0.title = "削除"
+                $0.baseCell.backgroundColor = UIColor.red
+                $0.baseCell.tintColor = UIColor.white
+                $0.tag = "delete"
+            }
+            .onCellSelection {  cell, row in
+                self.CallDeleteSmokeDataAPI()
             }
     }
     
@@ -133,6 +146,22 @@ class SmokeDataEditViewController: FormViewController {
         }else {
             self.indicator.stopIndicator()
             self.present(GetStandardAlert(title: "エラー", message: "入力項目を確認してください", b_title: "OK"), animated: true, completion: nil)
+        }
+    }
+    
+    func CallDeleteSmokeDataAPI() {
+        indicator.showIndicator(view: self.view)
+        
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + String(smoke_id) + "/" + API.user.rawValue + user_id
+        Alamofire.request(urlString, method: .delete, parameters: [:], encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            self.indicator.stopIndicator()
+            
+            let obj = JSON(response.result.value)
+            print("***** Delete Smoke data results *****")
+            print(obj)
+            print("***** Delete Smoke data results *****")
+            
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
