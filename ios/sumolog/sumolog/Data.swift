@@ -82,6 +82,8 @@ class SmokeOverViewData {
         var min = 0
         var hour:[[String:Int]] = []
         var over = 0
+        var ave = 0.0
+        var used = 0
     }
     
     private var data = SmokeOverViewData()
@@ -102,10 +104,20 @@ class SmokeOverViewData {
         return data.over
     }
     
+    func GetAve() -> Double {
+        return data.ave
+    }
+    
+    func GetUsed() -> Int {
+        return data.used
+    }
+    
     func SetAll(json: JSON) {
         data.count = json["count"].intValue
         data.min = json["min"].intValue
         data.over = json["over"].intValue
+        data.ave = json["ave"].doubleValue
+        data.used = json["used"].intValue
         
         for obj in json["hour"].arrayValue {
             let tmp = obj.dictionaryValue
