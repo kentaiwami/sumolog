@@ -149,11 +149,11 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         let frame = CGRect.zero
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         let barPlot = BarPlot(identifier: "bar")
-        barPlot.barWidth = 25
+        
+        barPlot.barWidth = 5
         barPlot.barLineWidth = 1
         barPlot.barLineColor = UIColor.clear
         barPlot.barColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
-        
         barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         barPlot.animationDuration = 1.0
         
@@ -165,12 +165,13 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         
         
         graphView.rangeMin = 0
-        graphView.rangeMax = Double(max)
+        graphView.rangeMax = 2
         graphView.backgroundFillColor = UIColor.white
         graphView.shouldAnimateOnStartup = true
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.direction = .rightToLeft
+        graphView.dataPointSpacing = 30
         
         self.graphView = graphView
         
