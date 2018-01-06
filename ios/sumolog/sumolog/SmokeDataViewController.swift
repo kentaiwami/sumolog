@@ -80,6 +80,10 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
             vc.SetEndedAt(ended_at: smoke["ended_at"].stringValue)
             
             let row = ButtonRow() {
+                if smoke["ended_at"].stringValue.count == 0 {
+                    $0.disabled = true
+                }
+                
                 $0.title = title
                 $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc}, onDismiss: {vc in vc.navigationController?.popViewController(animated: true)})
                 $0.cell.textLabel?.numberOfLines = 0
