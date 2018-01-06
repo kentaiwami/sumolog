@@ -70,7 +70,6 @@ class APISmokeController extends \App\Http\Controllers\Controller
     {
         $current_url = url()->current();
         $pattern_overview = "#api/".$v."/smoke/overview/user/[0-9]+#";
-        $pattern_detail = "#api/".$v."/smoke/detail/user/[0-9]+#";
         $pattern_24hour = "#api/".$v."/smoke/24hour/user/[0-9]+/[0-9|A-F]{8}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{12}+#";
 
 
@@ -86,7 +85,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
             ->orderBy('started_at', 'desc')
             ->get();
 
-            $count = count($smokes);
+            $count_hour = count($smokes);
 
             // ユーザの目標本数
             $target_number = User::where('id', $id)->firstOrFail()->target_number;
@@ -113,84 +112,84 @@ class APISmokeController extends \App\Http\Controllers\Controller
             }
 
             return Response()->json([
-                'count' => $count,
+                'count' => $count_hour,
                 'min'   => $min,
                 'hour'  => array_reverse($count_array, false),
-                'over'  => $count - $target_number
+                'over'  => $count_hour - $target_number
             ]);
         }
 
 
 
         /********* detail *********/
-        if (preg_match($pattern_detail, $current_url)) {
-            $user = User::where('id', $id)->firstOrFail();
-
-            // 今月の給与日
-            $year = date('Y');
-            $month = date('m');
-            $user_paydate = $year . $month . $user->payday;
-
-            $next_paydate = date('Y-m-d', strtotime($user_paydate));
-
-
-            // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
-            if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d')){
-                $pre_paydate = date('Y-m-d', strtotime($user_paydate));
-                $next_paydate = date('Y-m-d', strtotime($user_paydate .'+1 month'));
-            }
-            else{
-                $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
-            }
-
-            // 先月の給与までのレコードを日付別で取得
-            $smokes = Smoke::where('user_id', $user->id)
-            ->where('started_at', '>=', $pre_paydate)->get()
-            ->groupBy(function($date) {
-                return Carbon::parse($date->started_at)->format('d');
-            });
-
-            // 次回の給与日までの日付の差分
-            $dif = strtotime($next_paydate) - strtotime('now');
-
-
-            // 日付別の件数、1本の所要時間をカウント
-            $count_by_day = array();
-            $difference_sum = 0.0;
-            foreach ($smokes as $key => $val) {
-                foreach ($val as $smoke_obj) {
-                    $started_at = new \DateTime($smoke_obj->started_at);
-                    $ended_at = new \DateTime($smoke_obj->ended_at);
-                    $difference_sum += ($ended_at->getTimestamp() - $started_at->getTimestamp())/60;
-                }
-
-                $count_by_day[] = count($val);
-            }
-
-            $ave = round($difference_sum / array_sum($count_by_day), 1, PHP_ROUND_HALF_UP);
-
-
-            // 1日ごとの喫煙本数の配列(文字列)をコマンドラインに投げる
-            $output = [];
-            $count_by_day_str = implode(',', $count_by_day);
-            exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str. ' 2>&1',$output);
-
-            // Doubleへ変換
-            $func = function($value) {
-                return (double)$value;
-            };
-            $output = array_map($func, $output);
-
-
-            return Response()->json([
-                'coefficients'      => $output,
-                'price'             => $user->price,
-                'ave'               => $ave,
-                'x'                 => count($count_by_day),
-                'next_payday_count' => round($dif / (60*60*24), 0),
-                'one_box_number'    => $user->one_box_number
-            ]);
-        }
+//        if (preg_match($pattern_detail, $current_url)) {
+//            $user = User::where('id', $id)->firstOrFail();
+//
+//            // 今月の給与日
+//            $year = date('Y');
+//            $month = date('m');
+//            $user_paydate = $year . $month . $user->payday;
+//
+//            $next_paydate = date('Y-m-d', strtotime($user_paydate));
+//
+//
+//            // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
+//            if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d')){
+//                $pre_paydate = date('Y-m-d', strtotime($user_paydate));
+//                $next_paydate = date('Y-m-d', strtotime($user_paydate .'+1 month'));
+//            }
+//            else{
+//                $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
+//            }
+//
+//            // 先月の給与までのレコードを日付別で取得
+//            $smokes = Smoke::where('user_id', $user->id)
+//            ->where('started_at', '>=', $pre_paydate)->get()
+//            ->groupBy(function($date) {
+//                return Carbon::parse($date->started_at)->format('d');
+//            });
+//
+//            // 次回の給与日までの日付の差分
+//            $dif = strtotime($next_paydate) - strtotime('now');
+//
+//
+//            // 日付別の件数、1本の所要時間をカウント
+//            $count_by_day = array();
+//            $difference_sum = 0.0;
+//            foreach ($smokes as $key => $val) {
+//                foreach ($val as $smoke_obj) {
+//                    $started_at = new \DateTime($smoke_obj->started_at);
+//                    $ended_at = new \DateTime($smoke_obj->ended_at);
+//                    $difference_sum += ($ended_at->getTimestamp() - $started_at->getTimestamp())/60;
+//                }
+//
+//                $count_by_day[] = count($val);
+//            }
+//
+//            $ave = round($difference_sum / array_sum($count_by_day), 1, PHP_ROUND_HALF_UP);
+//
+//
+//            // 1日ごとの喫煙本数の配列(文字列)をコマンドラインに投げる
+//            $output = [];
+//            $count_by_day_str = implode(',', $count_by_day);
+//            exec(env('PYTHON_PATH') .' ' .env('SCRIPT_PATH') .' '.$count_by_day_str. ' 2>&1',$output);
+//
+//            // Doubleへ変換
+//            $func = function($value) {
+//                return (double)$value;
+//            };
+//            $output = array_map($func, $output);
+//
+//
+//            return Response()->json([
+//                'coefficients'      => $output,
+//                'price'             => $user->price,
+//                'ave'               => $ave,
+//                'x'                 => count($count_by_day),
+//                'next_payday_count' => round($dif / (60*60*24), 0),
+//                'one_box_number'    => $user->one_box_number
+//            ]);
+//        }
 
 
 

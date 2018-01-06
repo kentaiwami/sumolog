@@ -40,9 +40,6 @@ Route::group(['namespace' => 'api\v1', 'prefix' => '{API1}'], function(){
     //  Get user's smoke overview data
     Route::get('smoke/overview/user/{id}', 'APISmokeController@show');
 
-    // Get user's smoke detail data
-    Route::get('smoke/detail/user/{id}', 'APISmokeController@show');
-
     //  Get user's 24hour smoke data
     Route::get('smoke/24hour/user/{id}/{uuid}', 'APISmokeController@show');
 });
