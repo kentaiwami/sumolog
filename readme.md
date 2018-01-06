@@ -81,28 +81,6 @@ response：
 }
 ```
 
-#### Update User Active Status
-```
-method：PATCH
-endpoint：api/v1/user/{id}
-request：
-{
-    "uuid": "hogehoge"
-}
-response：
-{
-    "id": 1,
-    "uuid": "hogehoge",
-    "created_at": "2017-11-03 23:48:56",
-    "updated_at": "2018-01-01 05:40:04",
-    "is_active": 1,
-    "payday": 25,
-    "price": 420,
-    "target_number": 20,
-    "one_box_number": 20
-}
-```
-
 #### Get User Data
 ```
 method：GET

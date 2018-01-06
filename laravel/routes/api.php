@@ -21,9 +21,6 @@ Route::group(['namespace' => 'api\v1', 'prefix' => '{API1}'], function(){
     //  Update user profile
     Route::put('user/{id}', 'APIUserController@update');
 
-    //  Update user active status
-    Route::patch('user/{id}', 'APIUserController@update');
-
     //  Get user data
     Route::get('user/{id}', 'APIUserController@show');
 

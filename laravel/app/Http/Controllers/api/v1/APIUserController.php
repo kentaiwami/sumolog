@@ -108,27 +108,17 @@ class APIUserController extends \App\Http\Controllers\Controller
     public function update(Request $request, $v, $id)
     {
         /* Check validation */
-        if ($request->method() == 'PUT') {
-            $validator = Validator::make($request->all(), [
-                'uuid' => 'bail|required|string|max:191',
-                'payday'            => 'bail|required|integer|min:1|max:31',
-                'price'             => 'bail|required|integer|max:9999',
-                'target_number'     => 'bail|required|integer|max:9999',
-                'address'           => 'bail|required|ip',
-                'one_box_number'    => 'bail|required|integer|max:9999'
-            ]);
+        $validator = Validator::make($request->all(), [
+            'uuid' => 'bail|required|string|max:191',
+            'payday'            => 'bail|required|integer|min:1|max:31',
+            'price'             => 'bail|required|integer|max:9999',
+            'target_number'     => 'bail|required|integer|max:9999',
+            'address'           => 'bail|required|ip',
+            'one_box_number'    => 'bail|required|integer|max:9999'
+        ]);
 
-            if($validator->fails())
-                return Response()->json($validator->errors());
-
-        }else if ($request->method() == 'PATCH') {
-            $validator = Validator::make($request->all(), [
-                'uuid' => 'bail|required|string|max:191'
-            ]);
-
-            if($validator->fails())
-                return Response()->json($validator->errors());
-        }
+        if($validator->fails())
+            return Response()->json($validator->errors());
 
 
         /* Check user id */
@@ -139,22 +129,11 @@ class APIUserController extends \App\Http\Controllers\Controller
 
 
         /* Save user data */
-        if ($request->method() == 'PUT') {
-            $user->payday = $request->get('payday');
-            $user->price = $request->get('price');
-            $user->target_number = $request->get('target_number');
-            $user->address = $request->get('address');
-            $user->one_box_number = $request->get('one_box_number');
-
-        }else if ($request->method() == 'PATCH') {
-            if ($user->is_active)
-                $user->is_active = false;
-            else
-                $user->is_active = true;
-
-        }else {
-            return Response('', 405);
-        }
+        $user->payday = $request->get('payday');
+        $user->price = $request->get('price');
+        $user->target_number = $request->get('target_number');
+        $user->address = $request->get('address');
+        $user->one_box_number = $request->get('one_box_number');
 
         $user->save();
 
