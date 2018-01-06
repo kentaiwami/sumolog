@@ -18,7 +18,6 @@
 		37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA71FFC1790006E6B09 /* Extensions.swift */; };
 		37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */; };
 		37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAB1FFC1F31006E6B09 /* Setting.swift */; };
-		37B69EB01FFC2285006E6B09 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAF1FFC2285006E6B09 /* PageViewController.swift */; };
 		37B69EB21FFC23A2006E6B09 /* SmokeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EB11FFC23A2006E6B09 /* SmokeDetailViewController.swift */; };
 		37B69EB41FFC24F7006E6B09 /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */; };
 		37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */; };
@@ -40,7 +39,6 @@
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewViewController.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
-		37B69EAF1FFC2285006E6B09 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		37B69EB11FFC23A2006E6B09 /* SmokeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDetailViewController.swift; sourceTree = "<group>"; };
 		37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataViewController.swift; sourceTree = "<group>"; };
@@ -95,7 +93,6 @@
 				37B69EA71FFC1790006E6B09 /* Extensions.swift */,
 				37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */,
 				37B69EAB1FFC1F31006E6B09 /* Setting.swift */,
-				37B69EAF1FFC2285006E6B09 /* PageViewController.swift */,
 				37B69EB11FFC23A2006E6B09 /* SmokeDetailViewController.swift */,
 				37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */,
 				37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */,
@@ -238,7 +235,6 @@
 				"${BUILT_PRODUCTS_DIR}/ScrollableGraphView/ScrollableGraphView.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
-				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -248,7 +244,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ScrollableGraphView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -264,7 +259,6 @@
 			files = (
 				37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */,
 				3730C2731FFB713600184D2B /* Utility.swift in Sources */,
-				37B69EB01FFC2285006E6B09 /* PageViewController.swift in Sources */,
 				37B69EB41FFC24F7006E6B09 /* OriginUInavigationController.swift in Sources */,
 				3730C2711FFB5F4100184D2B /* Data.swift in Sources */,
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,

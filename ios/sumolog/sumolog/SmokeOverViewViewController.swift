@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import XLPagerTabStrip
 import TinyConstraints
 import Alamofire
 import KeychainAccess
 import SwiftyJSON
 import ScrollableGraphView
 
-class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, ScrollableGraphViewDataSource {
+class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSource {
     var data = SmokeOverViewData()
     let indicator = Indicator()
     var id = ""
@@ -231,9 +230,5 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        return IndicatorInfo(title: "OverView")
     }
 }
