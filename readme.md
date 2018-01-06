@@ -165,24 +165,10 @@ response：
     "count": 28,
     "min": 41,
     "hour": [{"07":1},{"12":1},{"13":1},{"14":1},{"16":3},{"18":1},{"19":2},{"20":2},{"21":1},{"01":3},{"02":1},{"04":1},{"05":2},{"06":1}],
-    "over": 13
-}
-```
-
-#### Get User's Smoke Detail Data
-```
-method：GET
-endpoint：api/v1/smoke/detail/user/{id}
-response：
-{
-    "coefficients": [0.0087776806526799998,-0.25967204092200002,2.11355137918,-3.7402793965300001,14.304487179500001],
-    "price": 420,
+    "over": 13,
     "ave": 3.6000000000000001,
-    "x": 21,
-    "next_payday_count": 5,
-    "one_box_number": 20
+    "used": 1230
 }
-
 ```
 
 #### Get User's 24hour Smoke Data
