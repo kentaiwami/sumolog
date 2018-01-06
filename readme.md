@@ -1,4 +1,4 @@
-<img src="">
+<img src="app_icon.png" align="right" />
 
 スモログ(仮)
 =============
