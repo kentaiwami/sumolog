@@ -27,7 +27,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "Smoke Data"
+        self.tabBarController?.navigationItem.title = "Data"
         CallGetOverViewAPI()
     }
     

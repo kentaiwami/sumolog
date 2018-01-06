@@ -23,7 +23,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "Smoke 24hour"
+        self.tabBarController?.navigationItem.title = "Edit"
         
         CallGet24HourSmokeAPI()
     }
@@ -70,7 +70,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         
         form.removeAll()
         
-        let section = Section()
+        let section = Section("Smoke 24hour")
         
         for smoke in results {
             let title = "Start： " + smoke["started_at"].stringValue + "\n" + "End：   " + smoke["ended_at"].stringValue
