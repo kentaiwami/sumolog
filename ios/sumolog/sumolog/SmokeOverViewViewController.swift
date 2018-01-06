@@ -38,7 +38,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     }
     
     func CallGetOverViewAPI() {
-        let urlString = API.base.rawValue + API.smoke.rawValue + API.overview.rawValue + API.user.rawValue + id
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.overview.rawValue + API.user.rawValue + id
         indicator.showIndicator(view: self.view)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
@@ -51,7 +51,7 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
             
             self.data.SetAll(json: json)
             
-            GetAppDelegate().smoks = self.data.GetCount()
+            GetAppDelegate().smokes = self.data.GetCount()
             
             self.DrawViews()
         }

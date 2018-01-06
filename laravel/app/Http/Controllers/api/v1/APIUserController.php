@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
 
-class APIUserController extends Controller
+class APIUserController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -68,10 +68,11 @@ class APIUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string   $v
+     * @param  int      $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($v, $id)
     {
         $user = User::where('id', $id)->firstOrFail();
 
@@ -100,9 +101,11 @@ class APIUserController extends Controller
      * Update a user settings.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param   string  $v
+     * @param   int     $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $v, $id)
     {
         /* Check validation */
         if ($request->method() == 'PUT') {

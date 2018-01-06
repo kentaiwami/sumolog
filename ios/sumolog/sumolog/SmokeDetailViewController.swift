@@ -38,7 +38,7 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
     }
     
     func CallGetDetailViewAPI() {
-        let urlString = API.base.rawValue + API.smoke.rawValue + API.detail.rawValue + API.user.rawValue + id
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.detail.rawValue + API.user.rawValue + id
         indicator.showIndicator(view: self.view)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
@@ -67,6 +67,8 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         if !iscreated_form {
             CreateForms()
         }
+        
+        UpdateCells()
     }
     
     func CreateMsgLabel() {
@@ -157,7 +159,7 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
     func CalcPrediction() -> (today: Int, month: Int, used: String, willuse: String) {
         let appdelegate = GetAppDelegate()
         let one_box_number = data.GetOneBoxNumber()
-        let used = appdelegate.smoks! * data.GetPrice()/one_box_number
+        let used = appdelegate.smokes! * data.GetPrice()/one_box_number
         
         // 本数の予測
         let coefficients = data.GetCoefficients()
@@ -186,13 +188,24 @@ class SmokeDetailViewController: FormViewController, IndicatorInfoProvider {
         return result!
     }
     
-//    func pow(num: Int, pow: Int) -> Double {
-//        var result = Double(num)
-//        for _ in 0..<pow-1 {
-//            result *= Double(num)
-//        }
-//        return result
-//    }
+    func UpdateCells() {
+        let results = CalcPrediction()
+        
+        let today = form.rowBy(tag: "today")
+        let month = form.rowBy(tag: "month")
+        let used = form.rowBy(tag: "used")
+        let willuse = form.rowBy(tag: "willuse")
+        
+        today?.baseValue = results.today
+        month?.baseValue = results.month
+        used?.baseValue = results.used
+        willuse?.baseValue = results.willuse
+        
+        today?.updateCell()
+        month?.updateCell()
+        used?.updateCell()
+        willuse?.updateCell()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

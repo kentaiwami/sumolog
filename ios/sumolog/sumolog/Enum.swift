@@ -9,10 +9,12 @@
 
 enum API: String {
     case base = "https://kentaiwami.jp/sumolog/index.php/api/"
+    case v1 = "v1/"
     case user = "user/"
     case smoke = "smoke/"
     case overview = "overview/"
     case detail = "detail/"
+    case hour24 = "24hour/"
 }
 
 enum Color: String {
@@ -23,4 +25,8 @@ enum Color: String {
 enum Font: String {
     case HiraginoW3 = "HiraginoSans-W3"
     case HiraginoW6 = "HiraginoSans-W6"
+}
+
+enum StoryBoardID: String {
+    case edit = "Edit"
 }

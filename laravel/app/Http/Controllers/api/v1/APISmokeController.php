@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
 use App\Smoke;
 use App\User;
@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
-class APISmokeController extends Controller
+class APISmokeController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -61,14 +61,19 @@ class APISmokeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string   $v
+     * @param  int      $id
+     * @param  string   $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($v, $id, $uuid="")
     {
         $current_url = url()->current();
-        $pattern_overview = "#api/smoke/overview/user/+[0-9]#";
-        $pattern_detail = "#api/smoke/detail/user/+[0-9]#";
+        $pattern_overview = "#api/".$v."/smoke/overview/user/[0-9]+#";
+        $pattern_detail = "#api/".$v."/smoke/detail/user/[0-9]+#";
+        $pattern_24hour = "#api/".$v."/smoke/24hour/user/[0-9]+/[0-9|A-F]{8}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{4}+-[0-9|A-F]{12}+#";
+
+
 
         /********* overview *********/
         if (preg_match($pattern_overview, $current_url)) {
@@ -114,6 +119,7 @@ class APISmokeController extends Controller
                 'over'  => $count - $target_number
             ]);
         }
+
 
 
         /********* detail *********/
@@ -186,6 +192,23 @@ class APISmokeController extends Controller
             ]);
         }
 
+
+
+        /********* 24hour *********/
+        if (preg_match($pattern_24hour, $current_url)) {
+            // ユーザの存在を確認
+            $user = User::where('id', $id)->where('uuid', $uuid)->firstOrFail();
+
+            // API実行時から24時間以内の喫煙データを取得
+            $pre_datetime = date('Y-m-d H:i:s', strtotime('-24 hour', time()));
+            $smokes = Smoke::where('user_id', $user->id)
+                ->where('started_at', '>=', $pre_datetime)
+                ->orderBy('started_at', 'desc')
+                ->get();
+
+            return Response()->json(['results' => $smokes]);
+        }
+
         return Response('', 404);
     }
 
@@ -204,10 +227,11 @@ class APISmokeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int    $id
+     * @param  string $v
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $v, $id)
     {
         $validator_array = [];
         $isput = true;
@@ -268,11 +292,12 @@ class APISmokeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $smoke_id
-     * * @param  int  $user_id
+     * @param  string   $v
+     * @param  int      $smoke_id
+     * @param  int      $user_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($smoke_id, $user_id)
+    public function destroy($v, $smoke_id, $user_id)
     {
         $issuccess = Smoke::where([['id', $smoke_id],['user_id', $user_id]])->delete();
 
