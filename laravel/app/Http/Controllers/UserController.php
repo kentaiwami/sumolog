@@ -13,7 +13,6 @@ class UserController extends CrudController{
         $this->filter->add('uuid', 'UUID', 'text');
         $this->filter->add('created_at', 'Created_at', 'text');
         $this->filter->add('updated_at', 'Updated_at', 'text');
-        $this->filter->add('is_active', 'is_active', 'text');
         $this->filter->add('payday', 'PayDay', 'number');
         $this->filter->add('Price', 'price', 'number');
         $this->filter->add('target_number', 'Target Number', 'number');
@@ -28,7 +27,6 @@ class UserController extends CrudController{
         $this->grid->add('uuid', 'UUID');
         $this->grid->add('created_at', 'Created_at', true);
         $this->grid->add('updated_at', 'Updated_at', true);
-        $this->grid->add('is_active', 'is_active', true);
         $this->grid->add('payday', 'PayDay', true);
         $this->grid->add('price', 'Price', true);
         $this->grid->add('one_box_number', 'One Box Number', true);
@@ -47,7 +45,6 @@ class UserController extends CrudController{
         $this->edit->label('Edit User');
 
         $this->edit->add('uuid', 'UUID', 'text')->rule('required');
-        $this->edit->add('is_active', 'is_active', 'checkbox');
         $this->edit->add('payday', 'PayDay', 'number');
         $this->edit->add('price', 'Price', 'number');
         $this->edit->add('one_box_number', 'One Box Number', 'number');
