@@ -14,7 +14,6 @@ class UserData {
         var target_number = 0
         var address = ""
         var count = 0
-        var one_box_number = 0
     }
     
     private var data = UserData()
@@ -39,10 +38,6 @@ class UserData {
         data.count = count
     }
     
-    func SetOneBoxNumber(num: Int) {
-        data.one_box_number = num
-    }
-    
     func Getpayday() -> Int {
         return data.payday
     }
@@ -63,16 +58,11 @@ class UserData {
         return data.count
     }
     
-    func GetOneBoxNumber() -> Int {
-        return data.one_box_number
-    }
-    
     func SetAll(json: JSON) {
         data.payday = json["payday"].intValue
         data.price = json["price"].intValue
         data.target_number = json["target_number"].intValue
         data.address = json["address"].stringValue
-        data.one_box_number = json["one_box_number"].intValue
     }
 }
 
