@@ -1,4 +1,4 @@
-<img src="">
+<img src="app_icon.png" align="right" />
 
 スモログ(仮)
 =============
@@ -8,8 +8,7 @@
 また、喫煙の頻度からペースを予測し目標本数と比較を行い、注意を促したりしてくれます。
 
 ## 注意事項
-* 1つのWi-Fiおよびセンサーにつき1人までしか記録・管理できません。
-そのため、同じセンサーを使用して複数人が喫煙を行った場合、特定の1人が複数回喫煙をしたと記録されます。
+* Raspberry PiのIPアドレスを固定にした方が楽です
 
 ## システム構成図
 <img src="system_image.png" align="center" />
@@ -17,13 +16,10 @@
 ## デモ
 ![demo]()
 ## サポート情報
-* Xcode x.x
-* iOS x.x
-* iPhone 6,6s
-
-
-## 注意事項
-* Raspberry PiのIPアドレスを固定にした方が楽です
+* Xcode 9.2
+* iOS 11.2
+* iPhone 6, 8plus
+* Raspberry PI 2 Model B
 
 ## 使い方
 1. [Webサイト](http://osoyoo.com/ja/2017/03/30/co检测器/)を参考にしてラズパイとセンサーを繋げる

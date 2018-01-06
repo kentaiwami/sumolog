@@ -136,24 +136,15 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
     }
     
     func CreateGraphView() {
-        // 最大値を求める
-        var max = 0
-        for obj in data.GetHour() {
-            let key = obj.keys.first!
-            
-            if max < obj[key]! {
-                max = obj[key]!
-            }
-        }
         
         let frame = CGRect.zero
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         let barPlot = BarPlot(identifier: "bar")
-        barPlot.barWidth = 25
+        
+        barPlot.barWidth = 5
         barPlot.barLineWidth = 1
         barPlot.barLineColor = UIColor.clear
         barPlot.barColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
-        
         barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         barPlot.animationDuration = 1.0
         
@@ -165,12 +156,13 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
         
         
         graphView.rangeMin = 0
-        graphView.rangeMax = Double(max)
+        graphView.rangeMax = CalcMaxRange()
         graphView.backgroundFillColor = UIColor.white
         graphView.shouldAnimateOnStartup = true
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.direction = .rightToLeft
+        graphView.dataPointSpacing = 30
         
         self.graphView = graphView
         
@@ -194,6 +186,31 @@ class SmokeOverViewViewController: UIViewController, IndicatorInfoProvider, Scro
             return Double(value!)
         default:
             return 0
+        }
+    }
+    
+    func CalcMaxRange() -> Double {
+        let data_split = 4
+        
+        // 最大値を求める
+        var max = 0
+        for obj in data.GetHour() {
+            let key = obj.keys.first!
+            
+            if max < obj[key]! {
+                max = obj[key]!
+            }
+        }
+        
+        // MaxRangeを求める
+        if max == 0 {
+            return Double(data_split)
+        }
+        
+        if max % data_split == 0 {
+            return Double(max)
+        }else {
+            return Double((max/data_split+1) * data_split)
         }
     }
     

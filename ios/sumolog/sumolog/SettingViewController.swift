@@ -232,7 +232,7 @@ class SettingViewController: FormViewController {
                 
             }, header: "連携", footer: "この操作を行うと喫煙が記録されます", title: "接続", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "connect")
         }else {
-            CreateButtonRow(action: {self.CallUpdateCreateUserAPI()}, header: "プロフィール", footer: "", title: "更新", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "update")
+            CreateButtonRow(action: {self.CallUpdateCreateUserAPI()}, header: "", footer: "入力された情報で上書きします", title: "更新", bgColor: UIColor.hex(Color.main.rawValue, alpha: 1.0), tag: "update")
             
             form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません")
                 <<< SwitchRow("SwitchRow") { row in
