@@ -12,7 +12,7 @@
         <!--Data-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="PageViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Data" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9pv-A4-QxB" customClass="PageViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,7 +28,7 @@
         <!--Setting-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SettingViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Setting" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8rJ-Kc-sve" customClass="SettingViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -45,7 +45,7 @@
         <!--Edit-->
         <scene sceneID="Jm6-gM-Dio">
             <objects>
-                <viewController storyboardIdentifier="SmokeDataView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dbM-LS-UBY" customClass="SmokeDataViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Edit" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dbM-LS-UBY" customClass="SmokeDataViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="h3f-Fq-ODy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

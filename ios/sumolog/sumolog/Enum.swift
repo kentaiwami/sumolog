@@ -28,5 +28,5 @@ enum Font: String {
 }
 
 enum StoryBoardID: String {
-    case smokedataview = "SmokeDataView"
+    case edit = "Edit"
 }

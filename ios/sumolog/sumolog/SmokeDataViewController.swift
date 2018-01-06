@@ -14,7 +14,7 @@ import KeychainAccess
 
 class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
 
-    var preViewName = StoryBoardID.smokedataview.rawValue
+    var preViewName = StoryBoardID.edit.rawValue
     let indicator = Indicator()
     var id = ""
     var uuid = ""
@@ -94,7 +94,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController.restorationIdentifier! == StoryBoardID.smokedataview.rawValue && preViewName == StoryBoardID.smokedataview.rawValue {
+        if viewController.restorationIdentifier! == StoryBoardID.edit.rawValue && preViewName == StoryBoardID.edit.rawValue {
             tableView.scroll(to: .top, animated: true)
         }
         
