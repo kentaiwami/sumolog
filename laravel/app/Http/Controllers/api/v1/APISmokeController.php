@@ -203,7 +203,6 @@ class APISmokeController extends \App\Http\Controllers\Controller
             $pre_datetime = date('Y-m-d H:i:s', strtotime('-24 hour', time()));
             $smokes = Smoke::where('user_id', $user->id)
                 ->where('started_at', '>=', $pre_datetime)
-                ->where('ended_at', '!=', '')
                 ->orderBy('started_at', 'desc')
                 ->get();
 
