@@ -13,8 +13,8 @@ enum API: String {
     case user = "user/"
     case smoke = "smoke/"
     case overview = "overview/"
-    case detail = "detail/"
     case hour24 = "24hour/"
+    case all = "all/"
 }
 
 enum Color: String {
@@ -28,5 +28,7 @@ enum Font: String {
 }
 
 enum StoryBoardID: String {
+    case data = "Data"
     case edit = "Edit"
+    case setting = "Setting"
 }
