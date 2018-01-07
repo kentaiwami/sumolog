@@ -118,7 +118,7 @@ class SmokeDataCreateViewController: FormViewController {
                 "ended_at": form.values()["end"] as! String
             ]
             let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.all.rawValue
-            Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            Alamofire.request(urlString, method: .post, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 self.indicator.stopIndicator()
                 
                 let obj = JSON(response.result.value)
