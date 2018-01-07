@@ -183,14 +183,14 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     
     func CreateBorderView(target: UILabel) {
         let view = UIView()
-        view.backgroundColor = UIColor.hex(Color.gray.rawValue, alpha: 0.5)
+        view.backgroundColor = UIColor.hex(Color.gray.rawValue, alpha: 0.25)
         
         self.view.addSubview(view)
         
         borderView.append(view)
         
         view.topToBottom(of: target, offset: 25)
-        view.height(2)
+        view.height(1)
         view.width(self.view.frame.width)
     }
     
