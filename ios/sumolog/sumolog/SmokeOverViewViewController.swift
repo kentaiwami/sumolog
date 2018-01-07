@@ -71,7 +71,6 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         }
         borderView.removeAll()
         smoke_countLabel.removeFromSuperview()
-//        smokeImageView.removeFromSuperview()
 //        graphView.removeFromSuperview()
         
         CreateLatestLabel()
@@ -79,9 +78,11 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         CreateAveLabel()
         CreateDescriptionLabel(str: "Ave", target: aveLabel)
         CreateBorderView(target: descriptionLabel.last!)
+        
         CreateSumSmokesCountLabel()
         CreateDescriptionLabel(str: "24hour smoked", target: smoke_countLabel)
-//        CreateSmokeImageView()
+        CreateBorderView(target: descriptionLabel.last!)
+        
 //        CreateGraphView()
 //
 //        GenerateAlert()
