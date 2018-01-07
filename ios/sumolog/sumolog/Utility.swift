@@ -28,10 +28,23 @@ func GetOKCancelAlert(title: String, message: String, ok_action: @escaping () ->
         print("OK")
         ok_action()
     })
-    
     let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel)
 
     alertController.addAction(ok)
+    alertController.addAction(cancel)
+    
+    return alertController
+}
+
+func GetDeleteCancelAlert(title: String, message: String, delete_action: @escaping () -> Void) -> UIAlertController {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+    
+    let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:{(action: UIAlertAction!) -> Void in
+        delete_action()
+    })
+    let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel)
+    
+    alertController.addAction(delete)
     alertController.addAction(cancel)
     
     return alertController
