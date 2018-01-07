@@ -21,6 +21,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     var latestLabel = UILabel()
     var aveLabel = UILabel()
     var smoke_countLabel = UILabel()
+    var usedLabel = UILabel()
     var descriptionLabel: [UILabel] = []
     var borderView: [UIView] = []
     var graphView = ScrollableGraphView()
@@ -71,6 +72,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         }
         borderView.removeAll()
         smoke_countLabel.removeFromSuperview()
+        usedLabel.removeFromSuperview()
 //        graphView.removeFromSuperview()
         
         CreateLatestLabel()
@@ -83,6 +85,9 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         CreateDescriptionLabel(str: "24hour smoked", target: smoke_countLabel)
         CreateBorderView(target: descriptionLabel.last!)
         
+        CreateUsedLabel()
+        CreateDescriptionLabel(str: "Used this month", target: usedLabel)
+        CreateBorderView(target: descriptionLabel.last!)
 //        CreateGraphView()
 //
 //        GenerateAlert()
@@ -199,6 +204,31 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
 
         label.topToBottom(of: borderView.last!, offset: 0)
         label.centerX(to: self.view)
+    }
+    
+    func CreateUsedLabel() {
+        let label = UILabel(frame: CGRect.zero)
+        label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
+        label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        label.text = "¥" + String(GetNumberFormatter(num: data.GetUsed()))
+        
+        usedLabel = label
+        
+        self.view.addSubview(label)
+        
+        label.topToBottom(of: borderView.last!, offset: 0)
+        label.centerX(to: self.view)
+    }
+    
+    func GetNumberFormatter(num: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        formatter.groupingSeparator = ","
+        formatter.groupingSize = 3
+
+        let result = formatter.string(from: NSNumber(value: num))
+
+        return result!
     }
     
     
