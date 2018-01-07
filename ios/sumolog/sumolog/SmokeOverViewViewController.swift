@@ -28,8 +28,10 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         self.tabBarController?.navigationItem.title = "Data"
+        
+        RemoveViews()
         CallGetOverViewAPI()
     }
     
@@ -54,27 +56,11 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
             
             self.data.SetAll(json: json)
             
-            self.DrawViews()
+            self.CreateViews()
         }
     }
     
-    func DrawViews() {
-        latestLabel.removeFromSuperview()
-        aveLabel.removeFromSuperview()
-        
-        for label in descriptionLabel {
-            label.removeFromSuperview()
-        }
-        descriptionLabel.removeAll()
-        
-        for view in borderView {
-            view.removeFromSuperview()
-        }
-        borderView.removeAll()
-        smoke_countLabel.removeFromSuperview()
-        usedLabel.removeFromSuperview()
-        graphView.removeFromSuperview()
-        
+    func CreateViews() {        
         CreateLatestLabel()
         CreateDescriptionLabel(str: "Latest", target: latestLabel)
         CreateAveLabel()
@@ -91,6 +77,24 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         CreateGraphView()
 
 //        GenerateAlert()
+    }
+    
+    func RemoveViews() {
+        latestLabel.removeFromSuperview()
+        aveLabel.removeFromSuperview()
+        
+        for label in descriptionLabel {
+            label.removeFromSuperview()
+        }
+        descriptionLabel.removeAll()
+        
+        for view in borderView {
+            view.removeFromSuperview()
+        }
+        borderView.removeAll()
+        smoke_countLabel.removeFromSuperview()
+        usedLabel.removeFromSuperview()
+        graphView.removeFromSuperview()
     }
     
     func CreateLatestLabel() {
