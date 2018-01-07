@@ -185,7 +185,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         
         borderView.append(view)
         
-        view.topToBottom(of: target)
+        view.topToBottom(of: target, offset: 25)
         view.height(2)
         view.width(self.view.frame.width)
     }
