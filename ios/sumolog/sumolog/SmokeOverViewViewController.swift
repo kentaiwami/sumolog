@@ -73,7 +73,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         borderView.removeAll()
         smoke_countLabel.removeFromSuperview()
         usedLabel.removeFromSuperview()
-//        graphView.removeFromSuperview()
+        graphView.removeFromSuperview()
         
         CreateLatestLabel()
         CreateDescriptionLabel(str: "Latest", target: latestLabel)
@@ -88,8 +88,8 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         CreateUsedLabel()
         CreateDescriptionLabel(str: "Used this month", target: usedLabel)
         CreateBorderView(target: descriptionLabel.last!)
-//        CreateGraphView()
-//
+        CreateGraphView()
+
 //        GenerateAlert()
     }
     
@@ -232,45 +232,45 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     }
     
     
-//    func CreateGraphView() {
-//
-//        let frame = CGRect.zero
-//        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
-//        let barPlot = BarPlot(identifier: "bar")
-//
-//        barPlot.barWidth = 5
-//        barPlot.barLineWidth = 1
-//        barPlot.barLineColor = UIColor.clear
-//        barPlot.barColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
-//        barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-//        barPlot.animationDuration = 1.0
-//
-//        let referenceLines = ReferenceLines()
-//        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
-//        referenceLines.referenceLineColor = UIColor.hex(Color.gray.rawValue, alpha: 0.1)
-//        referenceLines.referenceLineLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-//        referenceLines.dataPointLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-//
-//
-//        graphView.rangeMin = 0
-//        graphView.rangeMax = CalcMaxRange()
-//        graphView.backgroundFillColor = UIColor.white
-//        graphView.shouldAnimateOnStartup = true
-//        graphView.addPlot(plot: barPlot)
-//        graphView.addReferenceLines(referenceLines: referenceLines)
-//        graphView.direction = .rightToLeft
-//        graphView.dataPointSpacing = 30
-//
-//        self.graphView = graphView
-//
-//        self.view.addSubview(graphView)
-//
-//        graphView.width(to: self.view)
-//        graphView.leading(to: self.view)
-//        graphView.trailing(to: self.view)
-//        graphView.topToBottom(of: smokeImageView, offset: 20)
-//        graphView.bottom(to: self.view, offset: -80)
-//    }
+    func CreateGraphView() {
+
+        let frame = CGRect.zero
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
+        let barPlot = BarPlot(identifier: "bar")
+
+        barPlot.barWidth = 5
+        barPlot.barLineWidth = 1
+        barPlot.barLineColor = UIColor.clear
+        barPlot.barColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
+        barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        barPlot.animationDuration = 1.0
+
+        let referenceLines = ReferenceLines()
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        referenceLines.referenceLineColor = UIColor.hex(Color.gray.rawValue, alpha: 0.1)
+        referenceLines.referenceLineLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        referenceLines.dataPointLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+
+
+        graphView.rangeMin = 0
+        graphView.rangeMax = CalcMaxRange()
+        graphView.backgroundFillColor = UIColor.white
+        graphView.shouldAnimateOnStartup = true
+        graphView.addPlot(plot: barPlot)
+        graphView.addReferenceLines(referenceLines: referenceLines)
+        graphView.direction = .rightToLeft
+        graphView.dataPointSpacing = 30
+
+        self.graphView = graphView
+
+        self.view.addSubview(graphView)
+
+        graphView.width(to: self.view)
+        graphView.leading(to: self.view)
+        graphView.trailing(to: self.view)
+        graphView.topToBottom(of: borderView.last!, offset: 20)
+        graphView.bottom(to: self.view, offset: -80)
+    }
     
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
         let hour = data.GetHour()
