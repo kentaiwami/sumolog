@@ -25,6 +25,7 @@ class SettingViewController: FormViewController {
         super.viewWillAppear(animated)
         
         self.tabBarController?.navigationItem.title = "Setting"
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
         if iscreate {
             uuid = NSUUID().uuidString

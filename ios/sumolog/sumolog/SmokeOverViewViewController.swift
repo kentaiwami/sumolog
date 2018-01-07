@@ -30,6 +30,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         super.viewWillAppear(animated)
 
         self.tabBarController?.navigationItem.title = "Data"
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
         RemoveViews()
         CallGetOverViewAPI()
