@@ -29,6 +29,10 @@ class SmokeDataCreateViewController: FormViewController {
     }
     
     func CreateForms() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
+        let now = formatter.string(from: Date())
+        
         var rules = RuleSet<String>()
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleRegExp(regExpr: "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}", allowsEmpty: false, msg: "形式を確認してください。ex.) 2017-02-04 01:03:04"))
@@ -43,7 +47,7 @@ class SmokeDataCreateViewController: FormViewController {
         form +++ Section("喫煙情報")
             <<< TextRow(){
                 $0.title = "Start Time"
-                $0.value = ""
+                $0.value = now
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "start"
@@ -66,7 +70,7 @@ class SmokeDataCreateViewController: FormViewController {
             
             <<< TextRow(){
                 $0.title = "End Time"
-                $0.value = ""
+                $0.value = now
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "end"
