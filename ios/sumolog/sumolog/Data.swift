@@ -109,6 +109,7 @@ class SmokeOverViewData {
         data.ave = json["ave"].doubleValue
         data.used = json["used"].intValue
         
+        data.hour.removeAll()
         for obj in json["hour"].arrayValue {
             let tmp = obj.dictionaryValue
             let key = tmp.keys.first!

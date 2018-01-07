@@ -60,41 +60,45 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         }
     }
     
-    func CreateViews() {        
+    func CreateViews() {
+        // 直近の喫煙時間、平均時間
         CreateLatestLabel()
         CreateDescriptionLabel(str: "Latest", target: latestLabel)
         CreateAveLabel()
         CreateDescriptionLabel(str: "Ave", target: aveLabel)
         CreateBorderView(target: descriptionLabel.last!)
         
+        // 24時間の喫煙本数
         CreateSumSmokesCountLabel()
         CreateDescriptionLabel(str: "24hour smoked", target: smoke_countLabel)
         CreateBorderView(target: descriptionLabel.last!)
         
+        // 使用済みの金額
         CreateUsedLabel()
         CreateDescriptionLabel(str: "Used this month", target: usedLabel)
         CreateBorderView(target: descriptionLabel.last!)
         CreateGraphView()
 
-//        GenerateAlert()
+        GenerateAlert()
     }
     
     func RemoveViews() {
         latestLabel.removeFromSuperview()
         aveLabel.removeFromSuperview()
+        smoke_countLabel.removeFromSuperview()
+        usedLabel.removeFromSuperview()
+        graphView.removeFromSuperview()
         
         for label in descriptionLabel {
             label.removeFromSuperview()
         }
-        descriptionLabel.removeAll()
         
         for view in borderView {
             view.removeFromSuperview()
         }
+        
         borderView.removeAll()
-        smoke_countLabel.removeFromSuperview()
-        usedLabel.removeFromSuperview()
-        graphView.removeFromSuperview()
+        descriptionLabel.removeAll()
     }
     
     func CreateLatestLabel() {
