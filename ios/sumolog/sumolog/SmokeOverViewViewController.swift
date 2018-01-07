@@ -206,7 +206,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
 
         self.view.addSubview(label)
 
-        label.topToBottom(of: borderView.last!, offset: 0)
+        label.topToBottom(of: borderView.last!, offset: 25)
         label.centerX(to: self.view)
     }
     
@@ -220,7 +220,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: borderView.last!, offset: 0)
+        label.topToBottom(of: borderView.last!, offset: 25)
         label.centerX(to: self.view)
     }
     
