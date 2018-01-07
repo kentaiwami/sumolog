@@ -36,6 +36,10 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         uuid = (try! keychain.getString("uuid"))!
         
         self.tabBarController?.delegate = self
+        
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.ShowSmokeCreateViewController(sender:)))
+        navigationItem.setRightBarButton(add, animated: true)
+        self.tabBarController?.navigationItem.setRightBarButton(add, animated: true)
     }
     
     func CallGet24HourSmokeAPI() {
@@ -91,6 +95,11 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         form.append(section)
         
         UIView.setAnimationsEnabled(true)
+    }
+    
+    func ShowSmokeCreateViewController(sender: UIButton) {
+        let vc = SmokeDataCreateViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

@@ -14,6 +14,7 @@ enum API: String {
     case smoke = "smoke/"
     case overview = "overview/"
     case hour24 = "24hour/"
+    case all = "all/"
 }
 
 enum Color: String {
