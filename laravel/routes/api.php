@@ -28,6 +28,10 @@ Route::group(['namespace' => 'api\v1', 'prefix' => '{API1}'], function(){
     //  Create smoke
     Route::post('smoke', 'APISmokeController@store');
 
+    //  Create smoke all data
+    Route::post('smoke/all', 'APISmokeController@store');
+
+
     //  Update end smoke time
     Route::put('smoke/{id}', 'APISmokeController@update');
 

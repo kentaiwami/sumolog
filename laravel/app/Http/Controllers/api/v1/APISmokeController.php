@@ -36,26 +36,63 @@ class APISmokeController extends \App\Http\Controllers\Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $v)
     {
-        $validator = Validator::make($request->all(), [
-            'uuid' => 'bail|required|string|max:191',
-        ]);
+        $current_url = url()->current();
+        $pattern_standard = "#api/".$v."/smoke#";
+        $pattern_all = "#api/".$v."/smoke/all#";
 
-        if($validator->fails()){
-            return Response()->json($validator->errors());
+
+        /********* all *********/
+        if (preg_match($pattern_all, $current_url)) {
+            $validator = Validator::make($request->all(), [
+                'uuid' => 'bail|required|string|max:191',
+                'started_at' => 'bail|required|string|max:191',
+                'ended_at' => 'bail|required|string|max:191'
+            ]);
+
+            if($validator->fails()){
+                return Response()->json($validator->errors());
+            }
+
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+
+            $new_smoke = new Smoke;
+            $new_smoke->user_id = $user->id;
+            $new_smoke->started_at = $request->get("started_at");
+            $new_smoke->ended_at = $request->get("ended_at");
+            $new_smoke->save();
+
+            return Response()->json([
+                'uuid'      => $request->get('uuid'),
+                'smoke_id'  => $new_smoke->id
+            ]);
         }
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
 
-        $new_smoke = new Smoke;
-        $new_smoke->user_id = $user->id;
-        $new_smoke->save();
+        /********* standard *********/
+        if (preg_match($pattern_standard, $current_url)) {
+            $validator = Validator::make($request->all(), [
+                'uuid' => 'bail|required|string|max:191',
+            ]);
 
-        return Response()->json([
-            'uuid'      => $request->get('uuid'),
-            'smoke_id'  => $new_smoke->id
-        ]);
+            if($validator->fails()){
+                return Response()->json($validator->errors());
+            }
+
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+
+            $new_smoke = new Smoke;
+            $new_smoke->user_id = $user->id;
+            $new_smoke->save();
+
+            return Response()->json([
+                'uuid'      => $request->get('uuid'),
+                'smoke_id'  => $new_smoke->id
+            ]);
+        }
+
+        return Response('', 404);
     }
 
     /**

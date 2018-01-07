@@ -108,6 +108,23 @@ response：
 }
 ```
 
+#### Create Smoke All
+```
+method：POST
+endpoint：api/v1/smoke/all
+request：
+{
+    "uuid": "hogehoge",
+    "started_at": "2018-01-08 01:13:11",
+    "ended_at": "2018-01-08 01:16:11"
+}
+response：
+{
+    "uuid": "hogehoge",
+    "smoke_id": 10
+}
+```
+
 #### Update End Smoke Time
 ```
 method：PUT
