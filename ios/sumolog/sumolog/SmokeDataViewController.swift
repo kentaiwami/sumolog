@@ -70,7 +70,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         
         form.removeAll()
         
-        let section = Section("Smoke 24hour")
+        let section = Section("24hour Smoked")
         
         for smoke in results {
             let title = "Start： " + smoke["started_at"].stringValue + "\n" + "End：   " + smoke["ended_at"].stringValue
