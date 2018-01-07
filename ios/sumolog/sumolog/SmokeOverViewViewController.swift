@@ -173,7 +173,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         
         descriptionLabel.append(label)
         
-        label.topToBottom(of: target)
+        label.topToBottom(of: target, offset: 5)
         label.centerX(to: target)
     }
     
