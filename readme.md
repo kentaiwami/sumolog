@@ -14,7 +14,7 @@
 <img src="system_image.png" align="center" />
 
 ## デモ
-![demo]()
+![demo](https://github.com/kentaiwami/sumolog/blob/master/demo.gif)
 ## サポート情報
 * Xcode 9.2
 * iOS 11.2
