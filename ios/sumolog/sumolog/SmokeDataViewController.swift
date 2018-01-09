@@ -27,7 +27,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.ShowSmokeCreateViewController(sender:)))
         self.tabBarController?.navigationItem.setRightBarButton(add, animated: true)
         
-        CallGet24HourSmokeAPI()
+        CallGet24HourSmokeAPI(show_indicator: true)
     }
     
     override func viewDidLoad() {
@@ -40,11 +40,15 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         self.tabBarController?.delegate = self
     }
     
-    func CallGet24HourSmokeAPI() {
+    func CallGet24HourSmokeAPI(show_indicator: Bool) {
+        if show_indicator {
+            indicator.showIndicator(view: self.view)
+        }
+        
         let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.hour24.rawValue + API.user.rawValue + id + "/" + uuid
-        indicator.showIndicator(view: self.view)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
+
             self.indicator.stopIndicator()
             
             guard let object = response.result.value else{return}
@@ -63,7 +67,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
     
     func refresh(sender: UIRefreshControl) {
         sender.beginRefreshing()
-        CallGet24HourSmokeAPI()
+        CallGet24HourSmokeAPI(show_indicator: false)
         sender.endRefreshing()
     }
     
