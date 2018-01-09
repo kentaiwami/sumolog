@@ -16,6 +16,8 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
 
     var preViewName = StoryBoardID.edit.rawValue
     let indicator = Indicator()
+    let refresh_controll = UIRefreshControl()
+    
     var id = ""
     var uuid = ""
     var results:[JSON] = []
@@ -38,6 +40,9 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         uuid = (try! keychain.getString("uuid"))!
         
         self.tabBarController?.delegate = self
+        
+        self.tableView.refreshControl = self.refresh_controll
+        self.refresh_controll.addTarget(self, action: #selector(self.refresh(sender:)), for: .valueChanged)
     }
     
     func CallGet24HourSmokeAPI(show_indicator: Bool) {
@@ -49,6 +54,11 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
 
+            // pullされてAPIを叩かれた場合
+            if !show_indicator {
+                self.refresh_controll.endRefreshing()
+            }
+            
             self.indicator.stopIndicator()
             
             guard let object = response.result.value else{return}
@@ -58,17 +68,12 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
             
             self.results = json["results"].arrayValue
             self.CreateForms()
-            
-            let refresh_controll = UIRefreshControl()
-            self.tableView.refreshControl = refresh_controll
-            refresh_controll.addTarget(self, action: #selector(self.refresh(sender:)), for: .valueChanged)
         }
     }
     
     func refresh(sender: UIRefreshControl) {
-        sender.beginRefreshing()
+        refresh_controll.beginRefreshing()
         CallGet24HourSmokeAPI(show_indicator: false)
-        sender.endRefreshing()
     }
     
     func CreateForms() {
