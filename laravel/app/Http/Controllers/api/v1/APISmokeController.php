@@ -155,11 +155,11 @@ class APISmokeController extends \App\Http\Controllers\Controller
             // 今月の給与日
             $year = date('Y');
             $month = date('m');
-            $user_paydate = $year . $month . $user->payday;
+            $user_paydate = $year . '-' . $month . '-'. $user->payday;
 
 
             // 今月の給与日を超えていた場合はその日付を、超えていない場合は先月の日付を生成
-            if (date('Y-m-d', strtotime($user_paydate)) < date('Y-m-d')){
+            if (date('Y-m-d', strtotime($user_paydate)) <= date('Y-m-d')){
                 $pre_paydate = date('Y-m-d', strtotime($user_paydate));
             }
             else{
