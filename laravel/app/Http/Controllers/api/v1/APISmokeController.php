@@ -131,7 +131,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
             $target_number = $user->target_number;
 
             /* 最新の喫煙データが何分前かを計算 */
-            $latest = Smoke::where('user_id', $id)->orderBy('id', 'DESC')->first()->started_at;
+            $latest = Smoke::where('user_id', $id)->orderBy('started_at', 'DESC')->first()->started_at;
 
             $latest_datetime = new \DateTime($latest);
             $now_datetime = new \DateTime($now);
