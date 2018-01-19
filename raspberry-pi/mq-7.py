@@ -100,16 +100,18 @@ def main():
     print("please wait...")
     time.sleep(20)
 
-    select_sql = 'select uuid from user'
+    select_sql = 'select count(*), uuid from user'
 
     while True:
         user = c.execute(select_sql)
+        results = user.fetchone()
 
-        if user.rowcount == 0:
+        if results[0] == 0:
+            print('no user data')
+            time.sleep(1)
             continue
         else:
-            for row in user:
-                UUID = row[0]
+            UUID = results[1]
 
         COlevel = readadc(mq7_apin, SPICLK, SPIMOSI, SPIMISO, SPICS)
         co_percent = (COlevel / 1024.) * 100
