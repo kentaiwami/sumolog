@@ -73,7 +73,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 
 # main ioop
 def main():
-    global UUID
+    global UUID, SMOKE_ID
 
     # DBが作成されるまで何もしない
     db_filename = setting.DB_PATH
@@ -89,7 +89,7 @@ def main():
     co_q = queue.Queue()
     co_difference_q = queue.Queue()
 
-    started_flag = False
+    is_started = False
 
     co_minus_count = 90
     co_level_count = 30
@@ -106,8 +106,19 @@ def main():
         user = c.execute(select_sql)
         results = user.fetchone()
 
+        print(co_q.empty(), co_difference_q.empty(), UUID, SMOKE_ID, is_started)
+
+
         if results[0] == 0:
             print('no user data')
+
+            # 初期化
+            co_q.queue.clear()
+            co_difference_q.queue.clear()
+            UUID = ''
+            SMOKE_ID = '0'
+            is_started = False
+
             time.sleep(1)
             continue
         else:
@@ -130,9 +141,9 @@ def main():
         co_difference = co_percent - ave
 
         # CO値の差分が閾値を超えたらsmoke作成APIを叩く
-        if co_difference > co_difference_threshold and not started_flag:
+        if co_difference > co_difference_threshold and not is_started:
             run_api(True)
-            started_flag = True
+            is_started = True
 
             co_q.queue.clear()
 
@@ -152,9 +163,9 @@ def main():
         else:
             most_co_level_cnt = get_most_element(list(co_q.queue))
 
-        if most_co_level_cnt > co_level_count-5 and started_flag:
+        if most_co_level_cnt > co_level_count-5 and is_started:
             run_api(False)
-            started_flag = False
+            is_started = False
 
             print('end', ave, co_percent)
 
