@@ -19,7 +19,6 @@
 		37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA71FFC1790006E6B09 /* Extensions.swift */; };
 		37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */; };
 		37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAB1FFC1F31006E6B09 /* Setting.swift */; };
-		37B69EB41FFC24F7006E6B09 /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */; };
 		37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */; };
 		37FF72761FFFD51900B9D4E2 /* SmokeDataEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */; };
 		EAEE5979EF848BD5650722CE /* Pods_sumolog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */; };
@@ -40,7 +39,6 @@
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewViewController.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
-		37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		37D0BCB4200393DD00805F03 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		37D0BCB5200393DD00805F03 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataViewController.swift; sourceTree = "<group>"; };
@@ -95,7 +93,6 @@
 				37B69EA71FFC1790006E6B09 /* Extensions.swift */,
 				37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */,
 				37B69EAB1FFC1F31006E6B09 /* Setting.swift */,
-				37B69EB31FFC24F7006E6B09 /* OriginUInavigationController.swift */,
 				37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */,
 				37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */,
 				3703086C20028FB2003AB5B3 /* SmokeDataCreateViewController.swift */,
@@ -261,7 +258,6 @@
 			files = (
 				37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */,
 				3730C2731FFB713600184D2B /* Utility.swift in Sources */,
-				37B69EB41FFC24F7006E6B09 /* OriginUInavigationController.swift in Sources */,
 				3730C2711FFB5F4100184D2B /* Data.swift in Sources */,
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,

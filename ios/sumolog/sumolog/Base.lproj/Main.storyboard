@@ -58,10 +58,10 @@
             </objects>
             <point key="canvasLocation" x="830" y="-10"/>
         </scene>
-        <!--OriginU Inavigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="P20-2J-CTW">
             <objects>
-                <navigationController id="DnJ-gw-iCj" customClass="OriginUInavigationController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="DnJ-gw-iCj" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wVx-lC-eHV">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
