@@ -275,15 +275,6 @@ class SettingViewController: FormViewController {
         self.iscreate = iscreate
     }
     
-    func GenerateDate() -> Array<Int> {
-        var date_array:[Int] = []
-        for i in 1...31 {
-            date_array.append(i)
-        }
-        
-        return date_array
-    }
-    
     func CallUpdateCreateUserAPI() {
         indicator.showIndicator(view: self.view)
         

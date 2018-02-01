@@ -11,6 +11,7 @@ target 'sumolog' do
   pod 'KeychainAccess'
   pod 'ScrollableGraphView'
   pod 'TinyConstraints', :git => 'https://github.com/roberthein/TinyConstraints.git', :branch => 'Release_2.1.2'
+  pod 'PromiseKit', '~> 4.4'
 
   # Pods for sumolog
 

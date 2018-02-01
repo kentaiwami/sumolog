@@ -38,11 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let key = try! keychain.getString("uuid")
         
         if key == nil {
-            let settingVC = SettingViewController()
-            settingVC.SetisCreate(iscreate: true)
-            
+            let signupVC = SignUpViewController()
             let nav = UINavigationController()
-            nav.viewControllers = [settingVC]
+            nav.viewControllers = [signupVC]
             self.window!.rootViewController = nav
             self.window?.makeKeyAndVisible()
         }
