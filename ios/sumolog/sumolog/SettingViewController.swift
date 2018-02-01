@@ -171,17 +171,19 @@ class SettingViewController: FormViewController {
                 }
             }
         
-        
+            
+            <<< SwitchRow("sensor_have"){
+                $0.title = "センサーを所持している"
+            }
             <<< TextRow(){
-                var rules = RuleSet<String>()
-                rules.add(rule: RuleRequired(msg: "必須項目です"))
-                rules.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "形式を確認してください。ex.) 192.168.0.0"))
-
                 $0.title = "センサーのIPアドレス"
                 $0.value = user_data.Getaddress()
-                $0.add(ruleSet: rules)
+                $0.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "形式を確認してください。ex.) 192.168.0.0"))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "address"
+                $0.hidden = Condition.function(["sensor_have"], { form in
+                    return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                })
             }
             .onRowValidationChanged {cell, row in
                 let rowIndex = row.indexPath!.row
@@ -193,6 +195,9 @@ class SettingViewController: FormViewController {
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
+                            $0.hidden = Condition.function(["sensor_have"], { form in
+                                return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                            })
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
