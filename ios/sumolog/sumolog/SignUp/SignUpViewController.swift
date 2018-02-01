@@ -208,7 +208,7 @@ class SignUpViewController: FormViewController {
             let request = common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
             
             Alamofire.request(request).responseJSON { response in
-                guard let obj = response.result.value else {return}
+                guard let obj = response.result.value else {return reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
                 let json = JSON(obj)
                 
                 print("***** raspi results *****")
@@ -219,7 +219,7 @@ class SignUpViewController: FormViewController {
                 if response.error == nil {
                     resolve(json["uuid"].stringValue)
                 }else {
-                    reject(response.error!)
+                    reject(NSError(domain: "センサーに接続できませんでした", code: -1))
                 }
             }
             
