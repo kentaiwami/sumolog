@@ -12,8 +12,9 @@ import Alamofire
 import KeychainAccess
 import SwiftyJSON
 import ScrollableGraphView
+import StatusProvider
 
-class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSource {
+class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSource, StatusController {
     var data = SmokeOverViewData()
     let indicator = Indicator()
     var id = ""
@@ -50,7 +51,18 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             self.indicator.stopIndicator()
             
-            guard let object = response.result.value else{return}
+            guard let object = response.result.value else{
+                let status = Status(title: "No Data", description: "喫煙記録がないため、データを表示できません", actionTitle: "Reload", image: nil) {
+                    self.hideStatus()
+                    self.RemoveViews()
+                    self.CallGetOverViewAPI()
+                }
+                
+                self.show(status: status)
+                
+                return
+                
+            }
             let json = JSON(object)
             print("Smoke Overview results: ", json.count)
             print(json)
@@ -84,6 +96,8 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     }
     
     func RemoveViews() {
+        self.hideStatus()
+        
         latestLabel.removeFromSuperview()
         aveLabel.removeFromSuperview()
         smoke_countLabel.removeFromSuperview()
