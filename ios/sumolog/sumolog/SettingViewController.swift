@@ -98,7 +98,7 @@ class SettingViewController: FormViewController {
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
         
-        form +++ Section("ユーザ情報")
+        form +++ Section(header: "ユーザ情報", footer: "センサーを所持していない場合は、IPアドレスの欄は空にしてください。")
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = user_data.Getpayday()
