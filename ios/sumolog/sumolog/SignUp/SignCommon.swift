@@ -32,4 +32,16 @@ class SignCommon {
         
         return false
     }
+    
+    func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
+        let urlString = "http://" + address + "/api/v1/user"
+        let tmp_req = ["uuid": uuid]
+        var request = URLRequest(url: URL(string: urlString)!)
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 10
+        request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
+        
+        return request
+    }
 }

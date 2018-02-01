@@ -318,7 +318,7 @@ class SettingViewController: FormViewController {
     func CallUUIDAPI(ischeckform: Bool, method: String, nil_action: @escaping (DataResponse<Any>) -> Void) {
         indicator.showIndicator(view: self.view)
         
-        let request = GetConnectRaspberryPIRequest(method: method)
+        let request = sign_common.GetConnectRaspberryPIRequest(method: method, address: "", uuid: "")
         var tmpFunc_json = {(response: DataResponse<Any>) -> Void in}
         var tmpFunc_string = {(response: DataResponse<String>) -> Void in}
         
@@ -371,19 +371,6 @@ class SettingViewController: FormViewController {
                 tmpFunc_string(response)
             }
         }
-    }
-    
-    func GetConnectRaspberryPIRequest(method: String) -> URLRequest {
-        let address = form.values()["address"] as! String
-        let urlString = "http://" + address + "/api/v1/user"
-        let tmp_req = ["uuid": uuid]
-        var request = URLRequest(url: URL(string: urlString)!)
-        request.httpMethod = method
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 10
-        request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
-        
-        return request
     }
 
     override func didReceiveMemoryWarning() {
