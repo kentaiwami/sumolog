@@ -114,8 +114,10 @@ class SignUpViewController: FormViewController {
             }
             
             
-            <<< SwitchRow("sensor_have"){
+            <<< SwitchRow(){
                 $0.title = "センサーの所持状況"
+                $0.value = false
+                $0.tag = "sensor_have"
             }
             <<< TextRow(){
                 $0.title = "センサーのIPアドレス"
@@ -128,22 +130,25 @@ class SignUpViewController: FormViewController {
                 })
             }
             .onRowValidationChanged {cell, row in
-                let rowIndex = row.indexPath!.row
-                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                    row.section?.remove(at: rowIndex + 1)
-                }
-                if !row.isValid {
-                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                        let labelRow = LabelRow() {
-                            $0.title = err
-                            $0.cell.height = { 30 }
-                            $0.hidden = Condition.function(["sensor_have"], { form in
-                                return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
-                            })
+                if let hoge = row.indexPath {
+                    let rowIndex = hoge.row
+                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                        row.section?.remove(at: rowIndex + 1)
+                    }
+                    if !row.isValid {
+                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = err
+                                $0.cell.height = { 30 }
+                                $0.hidden = Condition.function(["sensor_have"], { form in
+                                    return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                                })
+                            }
+                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
-                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }
+                
             }
         
         
@@ -152,10 +157,10 @@ class SignUpViewController: FormViewController {
                 $0.title = "Sign Up"
                 $0.baseCell.backgroundColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
                 $0.baseCell.tintColor = UIColor.white
-                $0.tag = "sign_up"
             }
             .onCellSelection {  cell, row in
                 self.CallAPI()
+                print(self.form.values())
             }
     }
     
@@ -169,7 +174,7 @@ class SignUpViewController: FormViewController {
                     self.indicator.stopIndicator()
                     
                     try! self.keychain.set(json["uuid"].stringValue, key: "uuid")
-                    try! self.keychain.set(String(json["id"].intValue), key: "uuid")
+                    try! self.keychain.set(String(json["id"].intValue), key: "id")
                     
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let topVC = storyboard.instantiateInitialViewController()
@@ -188,19 +193,31 @@ class SignUpViewController: FormViewController {
     }
     
     func CallSaveUUIDAPI() -> Promise<String> {
+        let uuid = NSUUID().uuidString
+        let sensor_have = form.values()["sensor_have"] as! Bool
+        
+        if !sensor_have {
+            let promise = Promise<String> { (resolve, reject) in
+                resolve(uuid)
+            }
+            return promise
+        }
+        
         let promise = Promise<String> { (resolve, reject) in
             let address = form.values()["address"] as! String
-            let request = common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: NSUUID().uuidString)
+            let request = common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
             
             Alamofire.request(request).responseJSON { response in
-                let obj = JSON(response.result.value)
+                guard let obj = response.result.value else {return}
+                let json = JSON(obj)
+                
                 print("***** raspi results *****")
-                print(obj)
+                print(json)
                 print(response.error)
                 print("***** raspi results *****")
                 
                 if response.error == nil {
-                    resolve(obj["uuid"].stringValue)
+                    resolve(json["uuid"].stringValue)
                 }else {
                     reject(response.error!)
                 }
@@ -212,7 +229,36 @@ class SignUpViewController: FormViewController {
     }
     
     func CallCreateUserAPI(uuid: String) -> Promise<JSON> {
+        var values = form.values()
+        var address = ""
+        if values["sensor_have"] as! Bool {
+            address = values["address"] as! String
+        }
+        
+        let params = [
+            "uuid": uuid,
+            "payday": values["payday"] as! Int,
+            "price": values["price"] as! Int,
+            "target_number": values["target_number"] as! Int,
+            "address": address
+            ] as [String : Any]
+        
         let promise = Promise<JSON> { (resolve, reject) in
+            let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue
+            Alamofire.request(urlString, method: .post, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+                guard let obj = response.result.value else {return}
+                let json = JSON(obj)
+                
+                print("***** API results *****")
+                print(json)
+                print("***** API results *****")
+                
+                if response.error == nil {
+                    resolve(json)
+                }else {
+                    reject(response.error!)
+                }
+            }
         }
         
         return promise
