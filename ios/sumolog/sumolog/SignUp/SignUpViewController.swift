@@ -189,6 +189,23 @@ class SignUpViewController: FormViewController {
     
     func CallSaveUUIDAPI() -> Promise<String> {
         let promise = Promise<String> { (resolve, reject) in
+            let address = form.values()["address"] as! String
+            let request = common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: NSUUID().uuidString)
+            
+            Alamofire.request(request).responseJSON { response in
+                let obj = JSON(response.result.value)
+                print("***** raspi results *****")
+                print(obj)
+                print(response.error)
+                print("***** raspi results *****")
+                
+                if response.error == nil {
+                    resolve(obj["uuid"].stringValue)
+                }else {
+                    reject(response.error!)
+                }
+            }
+            
         }
         
         return promise
