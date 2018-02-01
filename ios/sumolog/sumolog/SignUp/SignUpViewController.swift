@@ -16,6 +16,8 @@ import PromiseKit
 class SignUpViewController: FormViewController {
 
     let keychain = Keychain()
+    let indicator = Indicator()
+    let common = SignCommon()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,7 @@ class SignUpViewController: FormViewController {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = 25
-                $0.options = SignCommon().GenerateDate()
+                $0.options = common.GenerateDate()
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"
@@ -158,20 +160,30 @@ class SignUpViewController: FormViewController {
     }
     
     func CallAPI() {
-        CallSaveUUIDAPI().then { uuid in
-            return self.CallCreateUserAPI(uuid: uuid)
-            }.then { json -> Void in
-                try! self.keychain.set(json["uuid"].stringValue, key: "uuid")
-                try! self.keychain.set(String(json["id"].intValue), key: "uuid")
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let topVC = storyboard.instantiateInitialViewController()
-                topVC?.modalTransitionStyle = .flipHorizontal
-                self.present(topVC!, animated: true, completion: nil)
-                
-        }.catch { err in
-            let tmp_err = err as NSError
-            self.present(GetStandardAlert(title: "Error", message: tmp_err.domain, b_title: "OK"), animated: true, completion: nil)
+        if common.IsCheckFormValue(form: form) {
+            indicator.showIndicator(view: self.view)
+            
+            CallSaveUUIDAPI().then { uuid in
+                return self.CallCreateUserAPI(uuid: uuid)
+                }.then { json -> Void in
+                    self.indicator.stopIndicator()
+                    
+                    try! self.keychain.set(json["uuid"].stringValue, key: "uuid")
+                    try! self.keychain.set(String(json["id"].intValue), key: "uuid")
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let topVC = storyboard.instantiateInitialViewController()
+                    topVC?.modalTransitionStyle = .flipHorizontal
+                    self.present(topVC!, animated: true, completion: nil)
+                    
+                }.catch { err in
+                    self.indicator.stopIndicator()
+                    
+                    let tmp_err = err as NSError
+                    self.present(GetStandardAlert(title: "Error", message: tmp_err.domain, b_title: "OK"), animated: true, completion: nil)
+            }
+        }else {
+            self.present(GetStandardAlert(title: "Error", message: "入力項目を再確認してください", b_title: "OK"), animated: true, completion: nil)
         }
     }
     
