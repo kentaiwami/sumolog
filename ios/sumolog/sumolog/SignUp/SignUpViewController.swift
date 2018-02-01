@@ -17,12 +17,12 @@ class SignUpViewController: FormViewController {
 
     let keychain = Keychain()
     let indicator = Indicator()
-    let common = SignCommon()
+    let Common = SignCommon()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Setting"
+        self.navigationItem.title = "Sign Up"
         tableView.isScrollEnabled = false
         CreateForm()
         
@@ -44,7 +44,7 @@ class SignUpViewController: FormViewController {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = 25
-                $0.options = common.GenerateDate()
+                $0.options = Common.GenerateDate()
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"
@@ -165,7 +165,7 @@ class SignUpViewController: FormViewController {
     }
     
     func CallAPI() {
-        if common.IsCheckFormValue(form: form) {
+        if Common.IsCheckFormValue(form: form) {
             indicator.showIndicator(view: tableView)
             
             CallSaveUUIDAPI().then { uuid in
@@ -205,7 +205,7 @@ class SignUpViewController: FormViewController {
         
         let promise = Promise<String> { (resolve, reject) in
             let address = form.values()["address"] as! String
-            let request = common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
+            let request = Common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
             
             Alamofire.request(request).responseJSON { response in
                 guard let obj = response.result.value else {return reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
