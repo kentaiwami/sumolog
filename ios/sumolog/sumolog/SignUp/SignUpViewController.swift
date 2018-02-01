@@ -166,7 +166,7 @@ class SignUpViewController: FormViewController {
     
     func CallAPI() {
         if common.IsCheckFormValue(form: form) {
-            indicator.showIndicator(view: self.view)
+            indicator.showIndicator(view: tableView)
             
             CallSaveUUIDAPI().then { uuid in
                 return self.CallCreateUserAPI(uuid: uuid)
