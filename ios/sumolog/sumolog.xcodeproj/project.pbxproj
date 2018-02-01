@@ -16,6 +16,7 @@
 		3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C26E1FFB5B0F00184D2B /* Enum.swift */; };
 		3730C2711FFB5F4100184D2B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C2701FFB5F4100184D2B /* Data.swift */; };
 		3730C2731FFB713600184D2B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C2721FFB713600184D2B /* Utility.swift */; };
+		375525D52022F96D0097A589 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375525D42022F96D0097A589 /* SignUpViewController.swift */; };
 		37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA71FFC1790006E6B09 /* Extensions.swift */; };
 		37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */; };
 		37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAB1FFC1F31006E6B09 /* Setting.swift */; };
@@ -36,6 +37,7 @@
 		3730C26E1FFB5B0F00184D2B /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		3730C2701FFB5F4100184D2B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		3730C2721FFB713600184D2B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		375525D42022F96D0097A589 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewViewController.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
@@ -81,8 +83,11 @@
 		3719E9701FA0591500E054EC /* sumolog */ = {
 			isa = PBXGroup;
 			children = (
+				375525D32022F9450097A589 /* SignUp */,
+				377E92C02022F9070033F9C2 /* Setting */,
+				377E92BF2022F8FA0033F9C2 /* Data */,
+				377E92BE2022F8E20033F9C2 /* Edit */,
 				3719E9711FA0591500E054EC /* AppDelegate.swift */,
-				3730C26A1FFB4AF900184D2B /* SettingViewController.swift */,
 				3719E9771FA0591500E054EC /* Main.storyboard */,
 				3719E97A1FA0591500E054EC /* Assets.xcassets */,
 				3719E97C1FA0591500E054EC /* LaunchScreen.storyboard */,
@@ -91,13 +96,43 @@
 				3730C2701FFB5F4100184D2B /* Data.swift */,
 				3730C2721FFB713600184D2B /* Utility.swift */,
 				37B69EA71FFC1790006E6B09 /* Extensions.swift */,
-				37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */,
 				37B69EAB1FFC1F31006E6B09 /* Setting.swift */,
+			);
+			path = sumolog;
+			sourceTree = "<group>";
+		};
+		375525D32022F9450097A589 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				375525D42022F96D0097A589 /* SignUpViewController.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		377E92BE2022F8E20033F9C2 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
 				37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */,
 				37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */,
 				3703086C20028FB2003AB5B3 /* SmokeDataCreateViewController.swift */,
 			);
-			path = sumolog;
+			path = Edit;
+			sourceTree = "<group>";
+		};
+		377E92BF2022F8FA0033F9C2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		377E92C02022F9070033F9C2 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				3730C26A1FFB4AF900184D2B /* SettingViewController.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		49982238021F3C136B9C9F0D /* Frameworks */ = {
@@ -262,6 +297,7 @@
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
 				37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */,
+				375525D52022F96D0097A589 /* SignUpViewController.swift in Sources */,
 				37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */,
 				3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */,
 				3730C26B1FFB4AF900184D2B /* SettingViewController.swift in Sources */,
