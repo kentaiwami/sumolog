@@ -20,6 +20,7 @@ class SettingViewController: FormViewController {
     private var uuid = ""
     private let keychain = Keychain()
     private let indicator = Indicator()
+    private let sign_common = SignCommon()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -102,7 +103,7 @@ class SettingViewController: FormViewController {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = user_data.Getpayday()
-                $0.options = GenerateDate()
+                $0.options = sign_common.GenerateDate()
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"
@@ -285,7 +286,7 @@ class SettingViewController: FormViewController {
             id = (try! keychain.getString("id"))!
         }
         
-        if IsCheckFormValue() {
+        if sign_common.IsCheckFormValue(form: form) {
             var values = form.values()
             values["uuid"] = uuid
             
@@ -357,7 +358,7 @@ class SettingViewController: FormViewController {
         
         // APIをたたく
         if ischeckform {
-            if IsCheckFormValue() {
+            if sign_common.IsCheckFormValue(form: form) {
                 Alamofire.request(request).responseJSON { response in
                     tmpFunc_json(response)
                 }
@@ -370,19 +371,6 @@ class SettingViewController: FormViewController {
                 tmpFunc_string(response)
             }
         }
-    }
-    
-    func IsCheckFormValue() -> Bool {
-        var err_count = 0
-        for row in form.allRows {
-            err_count += row.validate().count
-        }
-        
-        if err_count == 0 {
-            return true
-        }
-        
-        return false
     }
     
     func GetConnectRaspberryPIRequest(method: String) -> URLRequest {

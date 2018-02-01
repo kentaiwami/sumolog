@@ -42,7 +42,7 @@ class SignUpViewController: FormViewController {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = 25
-                $0.options = GenerateDate()
+                $0.options = SignCommon().GenerateDate()
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"

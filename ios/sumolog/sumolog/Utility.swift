@@ -50,15 +50,6 @@ func GetDeleteCancelAlert(title: String, message: String, delete_action: @escapi
     return alertController
 }
 
-func GenerateDate() -> Array<Int> {
-    var date_array:[Int] = []
-    for i in 1...31 {
-        date_array.append(i)
-    }
-    
-    return date_array
-}
-
 class Indicator {
     let indicator = UIActivityIndicatorView()
     
