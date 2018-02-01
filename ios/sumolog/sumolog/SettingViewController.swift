@@ -175,9 +175,9 @@ class SettingViewController: FormViewController {
             <<< TextRow(){
                 var rules = RuleSet<String>()
                 rules.add(rule: RuleRequired(msg: "必須項目です"))
-                rules.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "IPアドレスの形式になっていません"))
+                rules.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "形式を確認してください。ex.) 192.168.0.0"))
 
-                $0.title = "IPアドレス"
+                $0.title = "センサーのIPアドレス"
                 $0.value = user_data.Getaddress()
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
