@@ -17,7 +17,6 @@ class SignUpViewController: FormViewController {
 
     let keychain = Keychain()
     let indicator = Indicator()
-    let Common = SignCommon()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +42,7 @@ class SignUpViewController: FormViewController {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = 25
-                $0.options = Common.GenerateDate()
+                $0.options = GenerateDate()
                 $0.tag = "payday"
             }
             
@@ -112,25 +111,22 @@ class SignUpViewController: FormViewController {
                 })
             }
             .onRowValidationChanged {cell, row in
-                if let hoge = row.indexPath {
-                    let rowIndex = hoge.row
-                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                        row.section?.remove(at: rowIndex + 1)
-                    }
-                    if !row.isValid {
-                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                            let labelRow = LabelRow() {
-                                $0.title = err
-                                $0.cell.height = { 30 }
-                                $0.hidden = Condition.function(["sensor_have"], { form in
-                                    return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
-                                })
-                            }
-                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = err
+                            $0.cell.height = { 30 }
+                            $0.hidden = Condition.function(["sensor_have"], { form in
+                                return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                            })
                         }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }
-                
             }
         
         
@@ -147,7 +143,7 @@ class SignUpViewController: FormViewController {
     }
     
     func CallAPI() {
-        if Common.IsCheckFormValue(form: form) {
+        if IsCheckFormValue(form: form) {
             indicator.showIndicator(view: tableView)
             
             CallSaveUUIDAPI().then { uuid in
@@ -187,7 +183,7 @@ class SignUpViewController: FormViewController {
         
         let promise = Promise<String> { (resolve, reject) in
             let address = form.values()["address"] as! String
-            let request = Common.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
+            let request = GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
             
             Alamofire.request(request).responseJSON { response in
                 guard let obj = response.result.value else {return reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
