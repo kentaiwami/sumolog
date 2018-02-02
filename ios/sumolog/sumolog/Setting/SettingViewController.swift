@@ -257,6 +257,20 @@ class SettingViewController: FormViewController {
         
         let address = form.values()["address"] as! String
         let request = GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
+        
+        Alamofire.request(request).responseJSON { response in
+            self.indicator.stopIndicator()
+            
+            guard let obj = response.result.value else {return}
+            let json = JSON(obj)
+            print("***** RasPI results *****")
+            print(json)
+            print("***** RasPI results *****")
+            
+            if response.error != nil {
+                self.present(GetStandardAlert(title: "通信エラー", message: "センサーに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+            }
+        }
     }
     
     func CallUpdateUserAPI() -> Promise<String> {
