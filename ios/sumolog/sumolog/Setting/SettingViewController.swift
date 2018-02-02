@@ -182,7 +182,15 @@ class SettingViewController: FormViewController {
             .onCellSelection {  cell, row in
                 self.indicator.showIndicator(view: self.tableView)
                 
-                self.CallGetUUIDCountAPI(address: self.form.values()["address"] as! String).then {count in
+                /*
+                 センサーの所持がOFFになっている場合は空文字、そうでない場合はフォームの値を関数へ渡す
+                */
+                var address = ""
+                if let tmp = self.form.values()["address"] {
+                    address = tmp as! String
+                }
+                
+                self.CallGetUUIDCountAPI(address: address).then {count in
                     return self.CallUpdateUserAPI()
                     }.then {_ -> Void in
                         self.indicator.stopIndicator()

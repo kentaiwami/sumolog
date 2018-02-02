@@ -110,7 +110,7 @@ class APIUserController extends \App\Http\Controllers\Controller
             'payday'            => 'bail|required|integer|min:1|max:31',
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
-            'address'           => 'bail|required|ip',
+            'address'           => 'bail|nullable|ip',
         ]);
 
         if($validator->fails())
