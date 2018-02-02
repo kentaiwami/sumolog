@@ -29,10 +29,20 @@ class SettingViewController: FormViewController {
         self.tabBarController?.navigationItem.title = "Setting"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
-//        uuid = (try! keychain.getString("uuid"))!
+        UIView.setAnimationsEnabled(false)
+        form.removeAll()
+        UIView.setAnimationsEnabled(true)
         
-//        indicator.showIndicator(view: self.view)
-//        CallGetSettingAPI()
+        indicator.showIndicator(view: tableView)
+        CallGetSettingAPI().then{_ in
+            return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
+            }.then { count -> Void in
+                self.CreateForm(count: count)
+                self.indicator.stopIndicator()
+            }.catch { err in
+                self.indicator.stopIndicator()
+                self.present(GetStandardAlert(title: "Error", message: "センサーへ接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+        }
     }
     
     override func viewDidLoad() {
@@ -46,18 +56,6 @@ class SettingViewController: FormViewController {
         uuid = (try! keychain.getString("uuid"))!
         
         tableView.isScrollEnabled = false
-        
-        indicator.showIndicator(view: tableView)
-        
-        CallGetSettingAPI().then{_ in
-            return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
-            }.then { count -> Void in
-                self.CreateForm(count: count)
-                self.indicator.stopIndicator()
-            }.catch { err in
-                self.indicator.stopIndicator()
-                self.present(GetStandardAlert(title: "Error", message: "センサーへ接続できませんでした", b_title: "OK"), animated: true, completion: nil)
-        }
     }
     
     func CreateForm(count: Int) {
