@@ -11,8 +11,9 @@ import Eureka
 import SwiftyJSON
 import Alamofire
 import KeychainAccess
+import StatusProvider
 
-class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
+class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, StatusController {
 
     var preViewName = StoryBoardID.edit.rawValue
     let indicator = Indicator()
@@ -53,7 +54,6 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.hour24.rawValue + API.user.rawValue + id + "/" + uuid
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
-
             // pullされてAPIを叩かれた場合
             if !show_indicator {
                 self.refresh_controll.endRefreshing()
@@ -67,7 +67,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
             print(json["results"])
             
             self.results = json["results"].arrayValue
-            self.CreateForms()
+            self.DrawView()
         }
     }
     
@@ -76,11 +76,28 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         CallGet24HourSmokeAPI(show_indicator: false)
     }
     
-    func CreateForms() {
+    func DrawView() {
         UIView.setAnimationsEnabled(false)
+        ResetViews()
         
+        if results.count == 0 {
+            let status = Status(title: "No Data", description: "喫煙記録がないため、データを表示できません", actionTitle: "Reload", image: nil) {
+                self.hideStatus()
+                self.CallGet24HourSmokeAPI(show_indicator: true)
+            }
+            show(status: status)
+        }else {
+            CreateForm()
+        }
+        UIView.setAnimationsEnabled(true)
+    }
+    
+    func ResetViews() {
+        self.hideStatus()
         form.removeAll()
-        
+    }
+    
+    func CreateForm() {
         let section = Section("24hour Smoked")
         
         for smoke in results {
@@ -100,8 +117,6 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate {
         }
         
         form.append(section)
-        
-        UIView.setAnimationsEnabled(true)
     }
     
     func ShowSmokeCreateViewController(sender: UIButton) {
