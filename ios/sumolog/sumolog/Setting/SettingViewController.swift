@@ -201,7 +201,7 @@ class SettingViewController: FormViewController {
                     row.value = true
                 }
             }.onChange { row in
-                self.RunRaspberryPIAPI(value: row.value!).then { _ -> Void in
+                self.CallSaveDeleteUUIDAPI(value: row.value!).then { _ -> Void in
                     row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
                     row.updateCell()
                     }.catch { err in
@@ -265,7 +265,7 @@ class SettingViewController: FormViewController {
         address?.updateCell()
     }
     
-    func RunRaspberryPIAPI(value: Bool) -> Promise<String> {
+    func CallSaveDeleteUUIDAPI(value: Bool) -> Promise<String> {
         var method = ""
         if value {
             method = "POST"
