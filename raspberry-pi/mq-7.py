@@ -3,7 +3,6 @@ import time
 import urllib.request
 import json
 from queue import Queue
-import queue
 from collections import Counter
 import os
 import sqlite3
@@ -86,14 +85,12 @@ def main():
     conn = sqlite3.connect(db_filename)
     c = conn.cursor()
 
-    co_q = queue.Queue()
-    co_difference_q = queue.Queue()
+    co_q = Queue()
+    co_q.maxsize = 30
+    co_difference_q = Queue()
+    co_difference_q.maxsize = 90
 
     is_started = False
-
-    co_minus_count = 90
-    co_level_count = 30
-
     co_difference_threshold = 0.5
 
     init()
@@ -130,10 +127,10 @@ def main():
         print(co_percent)
 
         # キューのサイズを超えないようにCO値を格納
-        if co_q.qsize() < co_level_count:
+        if co_q.full():
+            co_q.get()
             co_q.put(co_percent)
         else:
-            co_q.get()
             co_q.put(co_percent)
 
         ave = sum(list(co_q.queue)) / co_q.qsize()
@@ -150,10 +147,10 @@ def main():
             print('start', ave, co_percent)
 
         # キューのサイズを超えないようにCO差分値を格納
-        if co_difference_q.qsize() < co_minus_count:
+        if co_difference_q.full():
+            co_difference_q.get()
             co_difference_q.put(co_difference)
         else:
-            co_difference_q.get()
             co_difference_q.put(co_difference)
 
         # 喫煙を開始していてかつ同じ値が一定数以上連続した場合
@@ -163,7 +160,7 @@ def main():
         else:
             most_co_level_cnt = get_most_element(list(co_q.queue))
 
-        if most_co_level_cnt > co_level_count-5 and is_started:
+        if most_co_level_cnt > co_q.maxsize-5 and is_started:
             run_api(is_create=False)
             is_started = False
 
