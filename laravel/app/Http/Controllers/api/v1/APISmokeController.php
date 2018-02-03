@@ -245,7 +245,10 @@ class APISmokeController extends \App\Http\Controllers\Controller
 
         /* バリデータとフラグを切り替え */
         if ($request->method() == 'PUT') {
-            $validator_array = ['uuid' => 'bail|required|string|max:191'];
+            $validator_array = [
+                'uuid' => 'bail|required|string|max:191',
+                'control' => 'bail|required|boolean',
+            ];
 
         }else if ($request->method() == 'PATCH') {
             $isput = false;
@@ -273,16 +276,21 @@ class APISmokeController extends \App\Http\Controllers\Controller
         }
 
         if ($isput) {
-            /* 開始時間を超えない範囲で時間を調整する */
-            $ended_at = date(now());
-            if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 1 min'))) {
-                $ended_at = date('Y-m-d H:i:s', strtotime('- 1 min'));
-            }elseif ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
-                $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
+            if ($request->get('control')) {
+                /* 開始時間を超えない範囲で時間を調整する */
+                $ended_at = date(now());
+                if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 1 min'))) {
+                    $ended_at = date('Y-m-d H:i:s', strtotime('- 1 min'));
+                }elseif ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
+                    $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
+                }
+            }else {
+                /* APIを叩いた時間で登録 */
+                $ended_at = date(now());
             }
-
             $smoke->ended_at = $ended_at;
             $smoke->save();
+
         }else {
             $smoke->started_at = $request->get('started_at');
             $smoke->ended_at = $request->get('ended_at');

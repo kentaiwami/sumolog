@@ -132,7 +132,8 @@ method：PUT
 endpoint：api/v1/smoke/{id}
 request：
 {
-    "uuid": "hogehoge"
+    "uuid": "hogehoge",
+    "control": true
 }
 response：
 {
