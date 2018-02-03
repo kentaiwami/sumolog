@@ -33,6 +33,11 @@ class SettingViewController: FormViewController {
         form.removeAll()
         UIView.setAnimationsEnabled(true)
         
+        /*
+         1. ユーザの設定情報読み込み
+         2. UUIDの登録状況をデバイスへ問い合わせ
+         3. formの描画
+         */
         indicator.showIndicator(view: tableView)
         CallGetSettingAPI().then{_ in
             return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
@@ -178,27 +183,7 @@ class SettingViewController: FormViewController {
                     $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                self.indicator.showIndicator(view: self.tableView)
-                
-                /*
-                 センサーの所持がOFFになっている場合は空文字、そうでない場合はフォームの値を関数へ渡す
-                */
-                var address = ""
-                if let tmp = self.form.values()["address"] {
-                    address = tmp as! String
-                }
-                
-                self.CallGetUUIDCountAPI(address: address).then {count in
-                    return self.CallUpdateUserAPI()
-                    }.then {_ -> Void in
-                        self.indicator.stopIndicator()
-                        self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
-                    }.catch { err in
-                        self.UpdateCell()
-                        self.indicator.stopIndicator()
-                        let tmp = err as NSError
-                        self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
-                }
+                self.RunUpdate()
             }
         
         
@@ -224,6 +209,35 @@ class SettingViewController: FormViewController {
             }
         
         UIView.setAnimationsEnabled(true)
+    }
+    
+    func RunUpdate() {
+        if IsCheckFormValue(form: form) {
+            self.indicator.showIndicator(view: self.tableView)
+            
+            if self.form.values()["sensor_have"] as! Bool {
+                CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
+                    return self.CallUpdateUserAPI()
+                    }.then { _ -> Void in
+                        self.UpdateCell()
+                        self.indicator.stopIndicator()
+                        self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
+                    }.catch { err in
+                        self.UpdateCell()
+                        self.indicator.stopIndicator()
+                        let tmp = err as NSError
+                        self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
+                }
+                // callgetuuidで接続確認
+                // callupdateuserapiで更新
+            }else {
+                // runraspiでuuid削除
+                // callupdateapiで更新処理
+                // 連携スイッチをfalseへ設定
+            }
+        }else {
+            self.present(GetStandardAlert(title: "Error", message: "入力項目を再確認してください", b_title: "OK"), animated: true, completion: nil)
+        }
     }
     
     func UpdateCell() {
@@ -302,7 +316,7 @@ class SettingViewController: FormViewController {
                 print("***** API results *****")
                 print(json)
                 print("***** API results *****")
-                
+                self.user_data.SetAll(json: json)
                 resolve("OK")
             }
         }

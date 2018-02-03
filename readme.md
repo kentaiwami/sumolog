@@ -74,7 +74,8 @@ response：
     "updated_at": "2018-01-01 05:40:04",
     "payday": 25,
     "price": 420,
-    "target_number": 20
+    "target_number": 20,
+    "address": "192.168.0.0"
 }
 ```
 
