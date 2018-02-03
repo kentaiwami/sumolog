@@ -216,6 +216,12 @@ class SettingViewController: FormViewController {
             self.indicator.showIndicator(view: self.tableView)
             
             if self.form.values()["sensor_have"] as! Bool {
+                /*
+                 センサーを所持している場合の更新処理
+                 1. デバイスへ接続確認
+                 2. アップデートAPIをたたく(user_dataの更新)
+                 3. セルの更新
+                 */
                 CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
                     return self.CallUpdateUserAPI()
                     }.then { _ -> Void in
@@ -228,8 +234,6 @@ class SettingViewController: FormViewController {
                         let tmp = err as NSError
                         self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
                 }
-                // callgetuuidで接続確認
-                // callupdateuserapiで更新
             }else {
                 // runraspiでuuid削除
                 // callupdateapiで更新処理
