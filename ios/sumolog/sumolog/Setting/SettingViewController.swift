@@ -201,9 +201,13 @@ class SettingViewController: FormViewController {
                     row.value = true
                 }
             }.onChange { row in
-                row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
-                row.updateCell()
-                self.RunRaspberryPIAPI(value: row.value!)
+                self.RunRaspberryPIAPI(value: row.value!).then { _ -> Void in
+                    row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
+                    row.updateCell()
+                    }.catch { err in
+                        let tmp = err as NSError
+                        self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
+                }
             }.cellSetup { cell, row in
                 cell.backgroundColor = .white
             }
@@ -261,7 +265,7 @@ class SettingViewController: FormViewController {
         address?.updateCell()
     }
     
-    func RunRaspberryPIAPI(value: Bool) {
+    func RunRaspberryPIAPI(value: Bool) -> Promise<String> {
         var method = ""
         if value {
             method = "POST"
@@ -273,20 +277,24 @@ class SettingViewController: FormViewController {
         
         let address = form.values()["address"] as! String
         let request = GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
-        
-        Alamofire.request(request).responseJSON { response in
-            self.indicator.stopIndicator()
-            
-            guard let obj = response.result.value else {return}
-            let json = JSON(obj)
-            print("***** RasPI results *****")
-            print(json)
-            print("***** RasPI results *****")
-            
-            if response.error != nil {
-                self.present(GetStandardAlert(title: "通信エラー", message: "センサーに接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+        let promise = Promise<String> { (resolve, reject) in
+            Alamofire.request(request).responseJSON { response in
+                self.indicator.stopIndicator()
+                
+                if response.error == nil {
+                    guard let obj = response.result.value else {return}
+                    let json = JSON(obj)
+                    print("***** RasPI results *****")
+                    print(json)
+                    print("***** RasPI results *****")
+                    
+                    resolve("OK")
+                }else {
+                    reject(NSError(domain: "センサーに接続できませんでした", code: -1))
+                }
             }
         }
+        return promise
     }
     
     func CallUpdateUserAPI() -> Promise<String> {
