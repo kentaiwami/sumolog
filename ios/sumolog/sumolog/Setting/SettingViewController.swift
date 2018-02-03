@@ -77,9 +77,9 @@ class SettingViewController: FormViewController {
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
         
-        var sensor_have = false
+        var sensor_set = false
         if user_data.Getaddress() != "" {
-            sensor_have = true
+            sensor_set = true
         }
         
         form +++ Section(header: "ユーザ情報", footer: "")
@@ -143,8 +143,8 @@ class SettingViewController: FormViewController {
             
             <<< SwitchRow(){
                 $0.title = "センサーを設置済み"
-                $0.value = sensor_have
-                $0.tag = "sensor_have"
+                $0.value = sensor_set
+                $0.tag = "sensor_set"
             }
             <<< TextRow(){
                 $0.title = "センサーのIPアドレス"
@@ -152,8 +152,8 @@ class SettingViewController: FormViewController {
                 $0.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "形式を確認してください。ex.) 192.168.0.0"))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "address"
-                $0.hidden = Condition.function(["sensor_have"], { form in
-                    return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                $0.hidden = Condition.function(["sensor_set"], { form in
+                    return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                 })
             }
             .onRowValidationChanged {cell, row in
@@ -167,8 +167,8 @@ class SettingViewController: FormViewController {
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
-                            $0.hidden = Condition.function(["sensor_have"], { form in
-                                return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                            $0.hidden = Condition.function(["sensor_set"], { form in
+                                return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                             })
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
@@ -192,8 +192,8 @@ class SettingViewController: FormViewController {
             <<< SwitchRow("SwitchRow") { row in
                 row.title = "Connecting"
                 row.tag = "switch"
-                row.disabled = Condition.function(["sensor_have"], { form in
-                    return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                row.disabled = Condition.function(["sensor_set"], { form in
+                    return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                 })
                 
                 if count == 0 {
@@ -232,7 +232,7 @@ class SettingViewController: FormViewController {
          2. セルの更新
          */
         
-        if form.values()["sensor_have"] as! Bool {
+        if form.values()["sensor_set"] as! Bool {
             CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
                 return self.CallUpdateUserAPI()
                 }.then { _ -> Void in
@@ -317,7 +317,7 @@ class SettingViewController: FormViewController {
         
         var values = form.values()
         var address = ""
-        if values["sensor_have"] as! Bool {
+        if values["sensor_set"] as! Bool {
             address = values["address"] as! String
         }
 
