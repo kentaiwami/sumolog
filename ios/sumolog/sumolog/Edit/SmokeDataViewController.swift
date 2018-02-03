@@ -12,6 +12,7 @@ import SwiftyJSON
 import Alamofire
 import KeychainAccess
 import StatusProvider
+import PromiseKit
 
 class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, StatusController {
 
@@ -79,6 +80,23 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             self.results = json["results"].arrayValue
             self.DrawView()
         }
+    }
+    
+    func CallCreateSmokeAPI() -> Promise<Int> {
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue
+        
+        let promise = Promise<Int> { (resolve, reject) in
+            Alamofire.request(urlString, method: .post, parameters: ["uuid":uuid], encoding: JSONEncoding(options: [])).responseJSON { (response) in
+                guard let object = response.result.value else{return}
+                let json = JSON(object)
+                print("Smoke 24hour results: ", json.count)
+                print(json)
+                
+                resolve(json["smoke_id"].intValue)
+            }
+        }
+        
+        return promise
     }
     
     func refresh(sender: UIRefreshControl) {
