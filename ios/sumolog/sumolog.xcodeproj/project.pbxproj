@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3703086D20028FB2003AB5B3 /* SmokeDataCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3703086C20028FB2003AB5B3 /* SmokeDataCreateViewController.swift */; };
 		3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3719E9711FA0591500E054EC /* AppDelegate.swift */; };
 		3719E9791FA0591500E054EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3719E9771FA0591500E054EC /* Main.storyboard */; };
 		3719E97B1FA0591500E054EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3719E97A1FA0591500E054EC /* Assets.xcassets */; };
@@ -26,7 +25,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3703086C20028FB2003AB5B3 /* SmokeDataCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataCreateViewController.swift; sourceTree = "<group>"; };
 		3719E96E1FA0591500E054EC /* sumolog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sumolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3719E9711FA0591500E054EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3719E9781FA0591500E054EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 			children = (
 				37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */,
 				37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */,
-				3703086C20028FB2003AB5B3 /* SmokeDataCreateViewController.swift */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -305,7 +302,6 @@
 				37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */,
 				3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */,
 				3730C26B1FFB4AF900184D2B /* SettingViewController.swift in Sources */,
-				3703086D20028FB2003AB5B3 /* SmokeDataCreateViewController.swift in Sources */,
 				37FF72761FFFD51900B9D4E2 /* SmokeDataEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
