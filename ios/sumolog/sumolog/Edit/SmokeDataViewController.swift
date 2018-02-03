@@ -84,9 +84,13 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     
     func CallCreateSmokeAPI(endpoint: String, method: HTTPMethod) -> Promise<Int> {
         let urlString = API.base.rawValue + API.v1.rawValue + endpoint
+        let param = [
+            "uuid": uuid,
+            "control": false
+            ] as [String : Any]
         
         let promise = Promise<Int> { (resolve, reject) in
-            Alamofire.request(urlString, method: method, parameters: ["uuid":uuid], encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            Alamofire.request(urlString, method: method, parameters: param, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
                 print("Smoke create update results: ", json.count)
