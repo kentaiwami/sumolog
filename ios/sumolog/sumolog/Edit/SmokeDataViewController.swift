@@ -82,11 +82,11 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         }
     }
     
-    func CallCreateSmokeAPI() -> Promise<Int> {
-        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue
+    func CallCreateSmokeAPI(endpoint: String, method: HTTPMethod) -> Promise<Int> {
+        let urlString = API.base.rawValue + API.v1.rawValue + endpoint
         
         let promise = Promise<Int> { (resolve, reject) in
-            Alamofire.request(urlString, method: .post, parameters: ["uuid":uuid], encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            Alamofire.request(urlString, method: method, parameters: ["uuid":uuid], encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
                 print("Smoke 24hour results: ", json.count)
@@ -150,7 +150,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     func TapSmokeStartButton() {
         indicator.showIndicator(view: self.view)
         
-        CallCreateSmokeAPI().then {smoke_id -> Void in
+        CallCreateSmokeAPI(endpoint: API.smoke.rawValue, method: .post).then {smoke_id -> Void in
             try! self.keychain.set(String(smoke_id), key: "smoke_id")
             try! self.keychain.set(String(true), key: "is_smoking")
             self.SetUpButton()
@@ -163,11 +163,20 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func TapSmokeEndButton() {
-        //TODO:
-        // 喫煙終了のAPIを叩く
-        // データ取得のAPIを叩く
-        // アラート表示
-        // 右上のボタンをプラスマークにする
+        let smoke_id = (try! keychain.getString("smoke_id"))!
+        
+        indicator.showIndicator(view: self.view)
+        
+        
+        CallCreateSmokeAPI(endpoint: API.smoke.rawValue+smoke_id, method: .put).then {_ -> Void in
+            try! self.keychain.set("", key: "smoke_id")
+            try! self.keychain.set(String(false), key: "is_smoking")
+            self.SetUpButton()
+            
+            self.indicator.stopIndicator()
+            self.CallGet24HourSmokeAPI(show_indicator: true)
+            self.present(GetStandardAlert(title: "Ended", message: "喫煙終了を記録しました。", b_title: "OK"), animated: true, completion: nil)
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
@@ -181,6 +190,5 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
