@@ -25,14 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let keychain = Keychain()
         
         if reset {
-            try! keychain.remove("uuid")
-            try! keychain.remove("id")
+            try! keychain.removeAll()
         }
         
         if GetInsertDummyDataFlag() {
             let data = GetDummyData()
-            try! keychain.set(data.0, key: "uuid")
-            try! keychain.set(data.1, key: "id")
+            try! keychain.set(data.uuid, key: "uuid")
+            try! keychain.set(data.id, key: "id")
+            try! keychain.set(String(data.is_smoking), key: "is_smoking")
         }
         
         let key = try! keychain.getString("uuid")

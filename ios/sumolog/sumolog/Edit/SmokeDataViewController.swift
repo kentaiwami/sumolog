@@ -22,21 +22,21 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     var id = ""
     var uuid = ""
     var results:[JSON] = []
+    let keychain = Keychain()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tabBarController?.navigationItem.title = "Edit"
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.ShowSmokeCreateViewController(sender:)))
-        self.tabBarController?.navigationItem.setRightBarButton(add, animated: true)
+        
+        SetUpButton()
         
         CallGet24HourSmokeAPI(show_indicator: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let keychain = Keychain()
+        
         id = (try! keychain.getString("id"))!
         uuid = (try! keychain.getString("uuid"))!
         
@@ -44,6 +44,16 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         
         self.tableView.refreshControl = self.refresh_controll
         self.refresh_controll.addTarget(self, action: #selector(self.refresh(sender:)), for: .valueChanged)
+    }
+    
+    func SetUpButton() {
+        if NSString(string: (try! keychain.getString("is_smoking"))!).boolValue {
+            let check = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(TapSmokeEndButton))
+            self.tabBarController?.navigationItem.setRightBarButton(check, animated: true)
+        }else {
+            let add = UIBarButtonItem(image: UIImage(named: "icon_add"), style: .plain, target: self, action: #selector(TapSmokeStartButton))
+            self.tabBarController?.navigationItem.setRightBarButton(add, animated: true)
+        }
     }
     
     func CallGet24HourSmokeAPI(show_indicator: Bool) {
@@ -119,9 +129,18 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         form.append(section)
     }
     
-    func ShowSmokeCreateViewController(sender: UIButton) {
-        let vc = SmokeDataCreateViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+    func TapSmokeStartButton() {
+        // 喫煙開始のAPIを叩く
+        // データ取得のAPIを叩く
+        // アラート表示
+        // 右上のボタンをチェックマークにする
+    }
+    
+    func TapSmokeEndButton() {
+        // 喫煙終了のAPIを叩く
+        // データ取得のAPIを叩く
+        // アラート表示
+        // 右上のボタンをプラスマークにする
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
