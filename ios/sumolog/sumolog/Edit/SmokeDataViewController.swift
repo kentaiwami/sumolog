@@ -89,7 +89,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             Alamofire.request(urlString, method: method, parameters: ["uuid":uuid], encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
-                print("Smoke 24hour results: ", json.count)
+                print("Smoke create update results: ", json.count)
                 print(json)
                 
                 resolve(json["smoke_id"].intValue)
