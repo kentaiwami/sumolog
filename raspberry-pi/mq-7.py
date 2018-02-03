@@ -6,8 +6,6 @@ from queue import Queue
 import os
 import sqlite3
 import setting
-import numpy as np
-import sys
 
 
 # change these as desired - they're the pins connected from the
