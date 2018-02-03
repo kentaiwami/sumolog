@@ -190,17 +190,19 @@ class SettingViewController: FormViewController {
         
         form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません")
             <<< SwitchRow("SwitchRow") { row in
-                row.title = "Connecting"
                 row.tag = "switch"
                 row.disabled = Condition.function(["sensor_set"], { form in
                     return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                 })
                 
                 if count == 0 {
+                    row.title = "Dis Connecting"
                     row.value = false
                 }else {
+                    row.title = "Connecting"
                     row.value = true
                 }
+                
             }.onChange { row in
                 self.CallSaveDeleteUUIDAPI(value: row.value!, address: self.form.values()["address"] as! String).then { _ -> Void in
                     row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
