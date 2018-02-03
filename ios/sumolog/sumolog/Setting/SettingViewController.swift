@@ -157,7 +157,8 @@ class SettingViewController: FormViewController {
                 })
             }
             .onRowValidationChanged {cell, row in
-                let rowIndex = row.indexPath!.row
+                guard let tmp_indexPath = row.indexPath else{return}
+                let rowIndex = tmp_indexPath.row
                 while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
                     row.section?.remove(at: rowIndex + 1)
                 }
@@ -201,7 +202,7 @@ class SettingViewController: FormViewController {
                     row.value = true
                 }
             }.onChange { row in
-                self.CallSaveDeleteUUIDAPI(value: row.value!).then { _ -> Void in
+                self.CallSaveDeleteUUIDAPI(value: row.value!, address: self.form.values()["address"] as! String).then { _ -> Void in
                     row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
                     row.updateCell()
                     }.catch { err in
@@ -216,35 +217,45 @@ class SettingViewController: FormViewController {
     }
     
     func RunUpdate() {
-        if IsCheckFormValue(form: form) {
-            self.indicator.showIndicator(view: self.tableView)
+        self.indicator.showIndicator(view: self.tableView)
             
-            if self.form.values()["sensor_have"] as! Bool {
-                /*
-                 センサーを所持している場合の更新処理
-                 1. デバイスへ接続確認
-                 2. アップデートAPIをたたく(user_dataの更新)
-                 3. セルの更新
-                 */
-                CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
-                    return self.CallUpdateUserAPI()
-                    }.then { _ -> Void in
-                        self.UpdateCell()
-                        self.indicator.stopIndicator()
-                        self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
-                    }.catch { err in
-                        self.UpdateCell()
-                        self.indicator.stopIndicator()
-                        let tmp = err as NSError
-                        self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
-                }
-            }else {
-                // runraspiでuuid削除
-                // callupdateapiで更新処理
-                // 連携スイッチをfalseへ設定
+        /*
+         センサー所持状態
+         1. デバイスへ接続確認
+         2. アップデートAPIをたたく(user_dataの更新)
+         3. セルの更新
+         */
+        
+        /*
+         センサー未来所持状態
+         1. アップデートAPIをたたく(user_dataの更新)
+         2. セルの更新
+         */
+        
+        if form.values()["sensor_have"] as! Bool {
+            CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
+                return self.CallUpdateUserAPI()
+                }.then { _ -> Void in
+                    self.UpdateCell()
+                    self.indicator.stopIndicator()
+                    self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
+                }.catch { err in
+                    self.UpdateCell()
+                    self.indicator.stopIndicator()
+                    let tmp = err as NSError
+                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
             }
         }else {
-            self.present(GetStandardAlert(title: "Error", message: "入力項目を再確認してください", b_title: "OK"), animated: true, completion: nil)
+            CallUpdateUserAPI().then { _ -> Void in
+                self.UpdateCell()
+                self.indicator.stopIndicator()
+                self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
+                }.catch { err in
+                    self.UpdateCell()
+                    self.indicator.stopIndicator()
+                    let tmp = err as NSError
+                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
+            }
         }
     }
     
@@ -265,7 +276,7 @@ class SettingViewController: FormViewController {
         address?.updateCell()
     }
     
-    func CallSaveDeleteUUIDAPI(value: Bool) -> Promise<String> {
+    func CallSaveDeleteUUIDAPI(value: Bool, address: String) -> Promise<String> {
         var method = ""
         if value {
             method = "POST"
@@ -275,7 +286,6 @@ class SettingViewController: FormViewController {
         
         indicator.showIndicator(view: self.view)
         
-        let address = form.values()["address"] as! String
         let request = GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
         let promise = Promise<String> { (resolve, reject) in
             Alamofire.request(request).responseJSON { response in
