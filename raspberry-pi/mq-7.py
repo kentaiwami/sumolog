@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import urllib.request
 import json
+from queue import Queue
 import queue
 from collections import Counter
 import os
@@ -71,7 +72,6 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
     return adcout
 
 
-# main ioop
 def main():
     global UUID, SMOKE_ID
 
@@ -108,7 +108,7 @@ def main():
 
         print(co_q.empty(), co_difference_q.empty(), UUID, SMOKE_ID, is_started)
 
-
+        # UUIDの保存件数が0件の場合は何もしないでひたすらスキップ
         if results[0] == 0:
             print('no user data')
 
