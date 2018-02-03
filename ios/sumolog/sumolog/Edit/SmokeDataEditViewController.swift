@@ -162,6 +162,16 @@ class SmokeDataEditViewController: FormViewController {
                 print(obj)
                 print("***** Update Smoke data results *****")
                 
+                // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
+                let keychain = Keychain()
+                let smoke_id = String((try! keychain.getString("smoke_id"))!)
+                
+                if smoke_id! == String(self.smoke_id) {
+                    try! keychain.set(String(false), key: "is_smoking")
+                    try! keychain.set("", key: "smoke_id")
+                }
+                
+                
                 self.navigationController?.popViewController(animated: true)
             }
         }else {

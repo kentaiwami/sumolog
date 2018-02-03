@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Eureka
 
 func GetStandardAlert(title: String, message: String, b_title: String) -> UIAlertController {
     let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -48,6 +49,42 @@ func GetDeleteCancelAlert(title: String, message: String, delete_action: @escapi
     alertController.addAction(cancel)
     
     return alertController
+}
+
+func GenerateDate() -> Array<Int> {
+    var date_array:[Int] = []
+    for i in 1...31 {
+        date_array.append(i)
+    }
+    
+    return date_array
+}
+
+func IsCheckFormValue(form: Form) -> Bool {
+    var err_count = 0
+    for row in form.allRows {
+        if !row.isHidden {
+            err_count += row.validate().count
+        }
+    }
+    
+    if err_count == 0 {
+        return true
+    }
+    
+    return false
+}
+
+func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
+    let urlString = "http://" + address + "/api/v1/user"
+    let tmp_req = ["uuid": uuid]
+    var request = URLRequest(url: URL(string: urlString)!)
+    request.httpMethod = method
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.timeoutInterval = 10
+    request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
+    
+    return request
 }
 
 class Indicator {

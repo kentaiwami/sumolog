@@ -74,7 +74,8 @@ response：
     "updated_at": "2018-01-01 05:40:04",
     "payday": 25,
     "price": 420,
-    "target_number": 20
+    "target_number": 20,
+    "address": "192.168.0.0"
 }
 ```
 
@@ -131,7 +132,8 @@ method：PUT
 endpoint：api/v1/smoke/{id}
 request：
 {
-    "uuid": "hogehoge"
+    "uuid": "hogehoge",
+    "control": true
 }
 response：
 {

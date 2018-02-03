@@ -57,7 +57,7 @@ def api_v1_delete_user():
     if request.method == 'DELETE':
         User.query.delete()
         db.session.commit()
-        return ''
+        return jsonify({'msg': 'ok'}), 200
 
 
 if __name__ == '__main__':
