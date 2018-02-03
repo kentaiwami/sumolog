@@ -3,10 +3,11 @@ import time
 import urllib.request
 import json
 from queue import Queue
-from collections import Counter
 import os
 import sqlite3
 import setting
+import numpy as np
+import sys
 
 
 # change these as desired - they're the pins connected from the
@@ -85,13 +86,14 @@ def main():
     conn = sqlite3.connect(db_filename)
     c = conn.cursor()
 
-    co_q = Queue()
-    co_q.maxsize = 30
-    co_difference_q = Queue()
-    co_difference_q.maxsize = 90
+    co_queue = Queue()
+    co_queue.maxsize = 30
 
     is_started = False
     co_difference_threshold = 0.5
+
+    min_difference_count = -1
+    prev_co = 0.0
 
     init()
     print("please wait...")
@@ -103,18 +105,19 @@ def main():
         user = c.execute(select_sql)
         results = user.fetchone()
 
-        print(co_q.empty(), co_difference_q.empty(), UUID, SMOKE_ID, is_started)
+        # print(co_queue.empty(), UUID, SMOKE_ID, is_started)
 
         # UUIDの保存件数が0件の場合は何もしないでひたすらスキップ
         if results[0] == 0:
             print('no user data')
 
             # 初期化
-            co_q.queue.clear()
-            co_difference_q.queue.clear()
+            co_queue.queue.clear()
             UUID = ''
             SMOKE_ID = '0'
             is_started = False
+            min_difference_count = -1
+            prev_co = 0.0
 
             time.sleep(1)
             continue
@@ -122,51 +125,50 @@ def main():
             UUID = results[1]
 
         COlevel = readadc(mq7_apin, SPICLK, SPIMOSI, SPIMISO, SPICS)
-        co_percent = (COlevel / 1024.) * 100
+        COpercent = (COlevel / 1024.) * 100
 
-        print(co_percent)
+        # 値がおかしい時は処理をスキップ
+        if COpercent > 30.0:
+            time.sleep(1)
+            continue
 
         # キューのサイズを超えないようにCO値を格納
-        if co_q.full():
-            co_q.get()
-            co_q.put(co_percent)
+        if co_queue.full():
+            co_queue.get()
+            co_queue.put(COpercent)
         else:
-            co_q.put(co_percent)
+            co_queue.put(COpercent)
 
-        ave = sum(list(co_q.queue)) / co_q.qsize()
+        ave = sum(list(co_queue.queue)) / co_queue.qsize()
 
-        co_difference = co_percent - ave
+        co_difference = COpercent - ave
 
         # CO値の差分が閾値を超えたらsmoke作成APIを叩く
         if co_difference > co_difference_threshold and not is_started:
             run_api(is_create=True)
             is_started = True
 
-            co_q.queue.clear()
+            prev_co = COpercent
+            co_queue.queue.clear()
 
-            print('start', ave, co_percent)
+            print('start', ave, COpercent)
 
-        # キューのサイズを超えないようにCO差分値を格納
-        if co_difference_q.full():
-            co_difference_q.get()
-            co_difference_q.put(co_difference)
-        else:
-            co_difference_q.put(co_difference)
+        if is_started:
+            if abs(prev_co - COpercent) >= 1.0:
+                min_difference_count = 0
+            else:
+                min_difference_count += 1
 
-        # 喫煙を開始していてかつ同じ値が一定数以上連続した場合
-        co_q_list = list(co_q.queue)
-        if len(co_q_list) == 0:
-            most_co_level_cnt = 0
-        else:
-            most_co_level_cnt = get_most_element(list(co_q.queue))
+            print(min_difference_count, prev_co - COpercent)
 
-        if most_co_level_cnt > co_q.maxsize-5 and is_started:
-            run_api(is_create=False)
-            is_started = False
+            if min_difference_count == 20:
+                run_api(is_create=False)
+                is_started = False
+                min_difference_count = -1
 
-            print('end', ave, co_percent)
+                print('end', ave, COpercent)
 
-        print("Current CO density is:" + str("%.2f" % ((COlevel / 1024.) * 100)) + " %")
+        print("Current CO density is:" + str("%f" % ((COlevel / 1024.) * 100)) + " %")
 
         time.sleep(1)
 
@@ -198,11 +200,6 @@ def run_api(is_create):
     result_objs = json.loads(response_body.split('\n')[0])
 
     SMOKE_ID = result_objs['smoke_id']
-
-
-def get_most_element(data):
-    counter = Counter(data)
-    return counter.most_common(1)[0][1]
 
 
 if __name__ == '__main__':
