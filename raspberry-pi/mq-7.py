@@ -142,7 +142,7 @@ def main():
 
         # CO値の差分が閾値を超えたらsmoke作成APIを叩く
         if co_difference > co_difference_threshold and not is_started:
-            run_api(True)
+            run_api(is_create=True)
             is_started = True
 
             co_q.queue.clear()
@@ -164,7 +164,7 @@ def main():
             most_co_level_cnt = get_most_element(list(co_q.queue))
 
         if most_co_level_cnt > co_level_count-5 and is_started:
-            run_api(False)
+            run_api(is_create=False)
             is_started = False
 
             print('end', ave, co_percent)
@@ -174,7 +174,7 @@ def main():
         time.sleep(1)
 
 
-def run_api(create_flag):
+def run_api(is_create):
     global SMOKE_ID
 
     base_url = 'https://kentaiwami.jp/sumolog/index.php/api/v1/smoke/'
@@ -184,7 +184,7 @@ def run_api(create_flag):
         'control': True
     }
 
-    if create_flag:
+    if is_create:
         api_url = base_url + ''
         method = 'POST'
 
