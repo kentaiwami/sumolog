@@ -148,13 +148,22 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func TapSmokeStartButton() {
-        // 喫煙開始のAPIを叩く
-        // データ取得のAPIを叩く
-        // アラート表示
-        // 右上のボタンをチェックマークにする
+        indicator.showIndicator(view: self.view)
+        
+        CallCreateSmokeAPI().then {smoke_id -> Void in
+            try! self.keychain.set(String(smoke_id), key: "smoke_id")
+            try! self.keychain.set(String(true), key: "is_smoking")
+            self.SetUpButton()
+            
+            self.indicator.stopIndicator()
+            self.CallGet24HourSmokeAPI(show_indicator: true)
+            
+            self.present(GetStandardAlert(title: "Created", message: "喫煙開始を記録しました。\n右上のチェックボタンをタップして喫煙終了を記録してください。", b_title: "OK"), animated: true, completion: nil)
+        }
     }
     
     func TapSmokeEndButton() {
+        //TODO:
         // 喫煙終了のAPIを叩く
         // データ取得のAPIを叩く
         // アラート表示
