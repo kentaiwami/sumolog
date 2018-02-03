@@ -142,7 +142,7 @@ class SettingViewController: FormViewController {
         
             
             <<< SwitchRow(){
-                $0.title = "センサーの所持状況"
+                $0.title = "センサーを設置済み"
                 $0.value = sensor_have
                 $0.tag = "sensor_have"
             }
