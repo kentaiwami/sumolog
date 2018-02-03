@@ -180,7 +180,8 @@ def run_api(create_flag):
     base_url = 'https://kentaiwami.jp/sumolog/index.php/api/v1/smoke/'
 
     obj = {
-        'uuid': UUID
+        'uuid': UUID,
+        'control': True
     }
 
     if create_flag:
