@@ -98,7 +98,7 @@ class SignUpViewController: FormViewController {
             <<< SwitchRow(){
                 $0.title = "センサーを設置済み"
                 $0.value = false
-                $0.tag = "sensor_have"
+                $0.tag = "sensor_set"
             }
             <<< TextRow(){
                 $0.title = "センサーのIPアドレス"
@@ -106,8 +106,8 @@ class SignUpViewController: FormViewController {
                 $0.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "形式を確認してください。ex.) 192.168.0.0"))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "address"
-                $0.hidden = Condition.function(["sensor_have"], { form in
-                    return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                $0.hidden = Condition.function(["sensor_set"], { form in
+                    return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                 })
             }
             .onRowValidationChanged {cell, row in
@@ -120,8 +120,8 @@ class SignUpViewController: FormViewController {
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
-                            $0.hidden = Condition.function(["sensor_have"], { form in
-                                return !((form.rowBy(tag: "sensor_have") as? SwitchRow)?.value ?? false)
+                            $0.hidden = Condition.function(["sensor_set"], { form in
+                                return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                             })
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
@@ -172,9 +172,9 @@ class SignUpViewController: FormViewController {
     
     func CallSaveUUIDAPI() -> Promise<String> {
         let uuid = NSUUID().uuidString
-        let sensor_have = form.values()["sensor_have"] as! Bool
+        let sensor_set = form.values()["sensor_set"] as! Bool
         
-        if !sensor_have {
+        if !sensor_set {
             let promise = Promise<String> { (resolve, reject) in
                 resolve(uuid)
             }
@@ -209,7 +209,7 @@ class SignUpViewController: FormViewController {
     func CallCreateUserAPI(uuid: String) -> Promise<JSON> {
         var values = form.values()
         var address = ""
-        if values["sensor_have"] as! Bool {
+        if values["sensor_set"] as! Bool {
             address = values["address"] as! String
         }
         
