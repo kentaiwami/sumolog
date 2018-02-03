@@ -276,18 +276,28 @@ class APISmokeController extends \App\Http\Controllers\Controller
         }
 
         if ($isput) {
+            $ended_at = date(now());
             if ($request->get('control')) {
-                /* 開始時間を超えない範囲で時間を調整する */
-                $ended_at = date(now());
+                /*
+                時間調整をマイナス1分してみて、開始時間を超えない場合は調整実施
+                超える場合は誤データとして削除
+                 */
                 if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 1 min'))) {
                     $ended_at = date('Y-m-d H:i:s', strtotime('- 1 min'));
-                }elseif ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
-                    $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
+                }else{
+                    try {
+                        $smoke->delete();
+                    } catch (\Exception $e) {
+                    }
+
+                    return Response()->json([
+                        'smoke_id'      => 0,
+                        'started_at'    => "",
+                        'ended_at'      => ""
+                    ]);
                 }
-            }else {
-                /* APIを叩いた時間で登録 */
-                $ended_at = date(now());
             }
+
             $smoke->ended_at = $ended_at;
             $smoke->save();
 
