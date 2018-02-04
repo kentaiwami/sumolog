@@ -82,7 +82,7 @@ class SmokeDataEditViewController: FormViewController {
                 var msg = ""
                 
                 if self.ended_at.count == 0 {
-                    msg = "センサーが終了時間を計測中の可能性があります。削除を実行した場合、センサーの再起動が必要です。\nそれでも削除しますか？"
+                    msg = "センサーを利用している場合は、センサーが計測中である可能性があります。削除を実行した場合、センサーの再起動が必要です。\nそれでも削除しますか？"
                 }else {
                     msg = "この喫煙データを削除しますか？"
                 }
