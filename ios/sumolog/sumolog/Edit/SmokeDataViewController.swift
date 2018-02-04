@@ -134,7 +134,14 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         
         for smoke in results {
             let start = Date.stringFromString(string: smoke["started_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
-            let end = Date.stringFromString(string: smoke["ended_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
+            
+            var end = ""
+            if smoke["ended_at"].stringValue == "" {
+                end = ""
+            }else {
+                end = Date.stringFromString(string: smoke["ended_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
+            }
+            
             let title = "Start \(start)\nEnd   \(end)"
             
             let vc = SmokeDataEditViewController()
