@@ -135,7 +135,7 @@ endpoint：api/v1/smoke/{id}
 request：
 {
     "uuid": "hogehoge",
-    "control": true
+    "is_minus": true
 }
 response：
 {

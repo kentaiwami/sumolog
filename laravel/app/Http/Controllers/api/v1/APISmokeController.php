@@ -247,7 +247,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
         if ($request->method() == 'PUT') {
             $validator_array = [
                 'uuid' => 'bail|required|string|max:191',
-                'control' => 'bail|required|boolean',
+                'is_minus' => 'bail|required|boolean',
             ];
 
         }else if ($request->method() == 'PATCH') {
@@ -277,7 +277,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
 
         if ($isput) {
             $ended_at = date(now());
-            if ($request->get('control')) {
+            if ($request->get('is_minus')) {
                 /*
                 時間調整をマイナス1分してみて、開始時間を超えない場合は調整実施
                 超える場合は誤データとして削除
