@@ -279,8 +279,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
             $ended_at = date(now());
             if ($request->get('is_minus')) {
                 /*
-                時間調整をマイナス1分してみて、開始時間を超えない場合は調整実施
-                超える場合は誤データとして削除
+                開始時間を超えない場合は調整実施。超える場合は誤データとして削除
                  */
                 if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
                     $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
