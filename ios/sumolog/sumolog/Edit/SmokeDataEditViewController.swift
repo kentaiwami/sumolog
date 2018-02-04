@@ -46,7 +46,7 @@ class SmokeDataEditViewController: FormViewController {
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        form +++ Section("喫煙情報")
+        form +++ Section("喫煙時間")
             <<< DateTimeRow(){
                 $0.title = "Start"
                 $0.value = dateFormatter.date(from: started_at)
