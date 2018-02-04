@@ -68,7 +68,7 @@ class SmokeDataEditViewController: FormViewController {
             }
             .onCellSelection {  cell, row in
                 if self.isempty {
-                    self.present(GetOKCancelAlert(title: "警告", message: "センサーが終了時間を計測中のため、編集を実行した場合センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。それでもよろしいですか？", ok_action: {
+                    self.present(GetOKCancelAlert(title: "警告", message: "センサーが終了時間を計測中の可能性があるため、編集を実行した場合センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
                         self.CallUpdateSmokeDataAPI()
                     }), animated: true, completion: nil)
                 }else {
@@ -87,7 +87,7 @@ class SmokeDataEditViewController: FormViewController {
                 var msg = ""
                 
                 if self.isempty {
-                    msg = "センサーが終了時間を計測中のため削除を実行した場合、センサーの再起動が必要です。それでも削除しますか？"
+                    msg = "センサーが終了時間を計測中の可能性があります。削除を実行した場合、センサーの再起動が必要です。\nそれでも削除しますか？"
                 }else {
                     msg = "この喫煙データを削除しますか？"
                 }
