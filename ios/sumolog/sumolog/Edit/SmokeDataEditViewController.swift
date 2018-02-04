@@ -101,41 +101,33 @@ class SmokeDataEditViewController: FormViewController {
     func CallUpdateSmokeDataAPI() {
         indicator.showIndicator(view: self.view)
         
-        var err_count = 0
-        for row in form.allRows {
-            err_count += row.validate().count
-        }
-        
-        if err_count == 0 {
-            let req = [
-                "uuid": uuid,
-                "started_at": form.values()["start"] as! String,
-                "ended_at": form.values()["end"] as! String
-            ]
-            let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + String(smoke_id)
-            Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-                self.indicator.stopIndicator()
-                
-                let obj = JSON(response.result.value)
-                print("***** Update Smoke data results *****")
-                print(obj)
-                print("***** Update Smoke data results *****")
-                
-                // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
-                let keychain = Keychain()
-                let smoke_id = String((try! keychain.getString("smoke_id"))!)
-                
-                if smoke_id! == String(self.smoke_id) {
-                    try! keychain.set(String(false), key: "is_smoking")
-                    try! keychain.set("", key: "smoke_id")
-                }
-                
-                
-                self.navigationController?.popViewController(animated: true)
-            }
-        }else {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let req = [
+            "uuid": uuid,
+            "started_at": dateFormatter.string(from: form.values()["start"] as! Date),
+            "ended_at": dateFormatter.string(from: form.values()["end"] as! Date)
+        ]
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + String(smoke_id)
+        Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             self.indicator.stopIndicator()
-            self.present(GetStandardAlert(title: "エラー", message: "入力項目を確認してください", b_title: "OK"), animated: true, completion: nil)
+
+            let obj = JSON(response.result.value)
+            print("***** Update Smoke data results *****")
+            print(obj)
+            print("***** Update Smoke data results *****")
+
+            // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
+            let keychain = Keychain()
+            let smoke_id = String((try! keychain.getString("smoke_id"))!)
+
+            if smoke_id! == String(self.smoke_id) {
+                try! keychain.set(String(false), key: "is_smoking")
+                try! keychain.set("", key: "smoke_id")
+            }
+
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
