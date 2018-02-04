@@ -30,10 +30,10 @@
 4. ラズパイ上で[Raspberry Pi API](raspberry-pi/api/api.py)と[Raspberry Pi Sensor](raspberry-pi/mq-7.py)をサービスとして起動する
 5. アプリを起動し設定を行う
     * 給与日
-    * 吸っているタバコ1箱の値段
+    * 吸っているタバコ1本の値段
     * 1日の目標本数
-    * Raspberry PiのIPアドレス
-    * Raspberry Piとのリンク
+    * センサー（Raspberry Pi）を設置済みかどうか
+    * センサー（Raspberry Pi）を設置済みの場合は、センサーのIPアドレス
 6. いつも通りタバコを吸う
 
 ## Laravel API
