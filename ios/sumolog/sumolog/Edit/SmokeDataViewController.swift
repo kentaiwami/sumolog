@@ -133,7 +133,17 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         let section = Section("24hour Smoked")
         
         for smoke in results {
-            let title = "Start： " + smoke["started_at"].stringValue + "\n" + "End：   " + smoke["ended_at"].stringValue
+            let start = Date.stringFromString(string: smoke["started_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
+            
+            var end = ""
+            if smoke["ended_at"].stringValue == "" {
+                end = ""
+            }else {
+                end = Date.stringFromString(string: smoke["ended_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
+            }
+            
+            let title = "Start \(start)\nEnd   \(end)"
+            
             let vc = SmokeDataEditViewController()
             vc.SetSmokeID(id: smoke["id"].intValue)
             vc.SetStartedAt(started_at: smoke["started_at"].stringValue)

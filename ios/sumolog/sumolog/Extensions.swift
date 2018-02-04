@@ -42,3 +42,12 @@ extension UITableView {
     }
 }
 
+extension Date {
+    static func stringFromString(string: String, formatIn: String, formatOut: String) -> String {
+        let formatterIn: DateFormatter = DateFormatter()
+        formatterIn.dateFormat = formatIn
+        let formatterOut: DateFormatter = DateFormatter()
+        formatterOut.dateFormat = formatOut
+        return formatterOut.string(from: formatterIn.date(from: string)!)
+    }
+}

@@ -41,64 +41,23 @@ class SmokeDataEditViewController: FormViewController {
         }
     }
     
-    func CreateForms() {
-        var rules = RuleSet<String>()
-        rules.add(rule: RuleRequired(msg: "必須項目です"))
-        rules.add(rule: RuleRegExp(regExpr: "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}", allowsEmpty: false, msg: "形式を確認してください。ex.) 2017-02-04 01:03:04"))
+    func CreateForms() {        
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        LabelRow.defaultCellUpdate = { cell, row in
-            cell.contentView.backgroundColor = .red
-            cell.textLabel?.textColor = .white
-            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-            cell.textLabel?.textAlignment = .right
-        }
-        
-        form +++ Section("喫煙情報")
-            <<< TextRow(){
-                $0.title = "Start Time"
-                $0.value = started_at
-                $0.add(ruleSet: rules)
-                $0.validationOptions = .validatesOnChange
+        form +++ Section("喫煙時間")
+            <<< DateTimeRow(){
+                $0.title = "Start"
+                $0.value = dateFormatter.date(from: started_at)
                 $0.tag = "start"
-            }.onRowValidationChanged {cell, row in
-                let rowIndex = row.indexPath!.row
-                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                    row.section?.remove(at: rowIndex + 1)
-                }
-                if !row.isValid {
-                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                        let labelRow = LabelRow() {
-                            $0.title = err
-                            $0.cell.height = { 30 }
-                        }
-                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                    }
-                }
             }
         
-        
-            <<< TextRow(){
-                $0.title = "End Time"
-                $0.value = ended_at
-                $0.add(ruleSet: rules)
-                $0.validationOptions = .validatesOnChange
+            <<< DateTimeRow(){
+                $0.title = "End"
+                $0.value = dateFormatter.date(from: ended_at)
                 $0.tag = "end"
-            }.onRowValidationChanged {cell, row in
-                let rowIndex = row.indexPath!.row
-                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                    row.section?.remove(at: rowIndex + 1)
-                }
-                if !row.isValid {
-                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                        let labelRow = LabelRow() {
-                            $0.title = err
-                            $0.cell.height = { 30 }
-                        }
-                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                    }
-                }
             }
-        
         
         form +++ Section(header: "", footer: "入力された情報で上書きします")
             <<< ButtonRow(){
@@ -142,41 +101,33 @@ class SmokeDataEditViewController: FormViewController {
     func CallUpdateSmokeDataAPI() {
         indicator.showIndicator(view: self.view)
         
-        var err_count = 0
-        for row in form.allRows {
-            err_count += row.validate().count
-        }
-        
-        if err_count == 0 {
-            let req = [
-                "uuid": uuid,
-                "started_at": form.values()["start"] as! String,
-                "ended_at": form.values()["end"] as! String
-            ]
-            let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + String(smoke_id)
-            Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-                self.indicator.stopIndicator()
-                
-                let obj = JSON(response.result.value)
-                print("***** Update Smoke data results *****")
-                print(obj)
-                print("***** Update Smoke data results *****")
-                
-                // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
-                let keychain = Keychain()
-                let smoke_id = String((try! keychain.getString("smoke_id"))!)
-                
-                if smoke_id! == String(self.smoke_id) {
-                    try! keychain.set(String(false), key: "is_smoking")
-                    try! keychain.set("", key: "smoke_id")
-                }
-                
-                
-                self.navigationController?.popViewController(animated: true)
-            }
-        }else {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let req = [
+            "uuid": uuid,
+            "started_at": dateFormatter.string(from: form.values()["start"] as! Date),
+            "ended_at": dateFormatter.string(from: form.values()["end"] as! Date)
+        ]
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + String(smoke_id)
+        Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             self.indicator.stopIndicator()
-            self.present(GetStandardAlert(title: "エラー", message: "入力項目を確認してください", b_title: "OK"), animated: true, completion: nil)
+
+            let obj = JSON(response.result.value)
+            print("***** Update Smoke data results *****")
+            print(obj)
+            print("***** Update Smoke data results *****")
+
+            // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
+            let keychain = Keychain()
+            let smoke_id = String((try! keychain.getString("smoke_id"))!)
+
+            if smoke_id! == String(self.smoke_id) {
+                try! keychain.set(String(false), key: "is_smoking")
+                try! keychain.set("", key: "smoke_id")
+            }
+
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
