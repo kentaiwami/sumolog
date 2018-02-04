@@ -159,7 +159,7 @@ def main():
 
             print(min_difference_count, COpercent - prev_co)
 
-            if min_difference_count == 20:
+            if min_difference_count == 15:
                 run_api(is_create=False)
                 is_started = False
                 min_difference_count = -1
@@ -178,7 +178,7 @@ def run_api(is_create):
 
     obj = {
         'uuid': UUID,
-        'control': True
+        'is_minus': True
     }
 
     if is_create:
