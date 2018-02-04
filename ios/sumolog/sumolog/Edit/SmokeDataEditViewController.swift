@@ -36,22 +36,28 @@ class SmokeDataEditViewController: FormViewController {
         tableView.isScrollEnabled = false
     }
     
-    func CreateForms() {        
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    func CreateForms() {
+        let dateFormatterSec = DateFormatter()
+        dateFormatterSec.timeZone = TimeZone.current
+        dateFormatterSec.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let dateFormatterMin = DateFormatter()
+        dateFormatterMin.timeZone = TimeZone.current
+        dateFormatterMin.dateFormat = "yyyy-MM-dd HH:mm"
         
         form +++ Section("喫煙時間")
             <<< DateTimeRow(){
                 $0.title = "Start"
-                $0.value = dateFormatter.date(from: started_at)
+                $0.value = dateFormatterSec.date(from: started_at)
                 $0.tag = "start"
+                $0.dateFormatter = dateFormatterMin
             }
         
             <<< DateTimeRow(){
                 $0.title = "End"
-                $0.value = dateFormatter.date(from: ended_at)
+                $0.value = dateFormatterSec.date(from: ended_at)
                 $0.tag = "end"
+                $0.dateFormatter = dateFormatterMin
             }
         
         form +++ Section(header: "", footer: "入力された情報で上書きします")
@@ -63,8 +69,9 @@ class SmokeDataEditViewController: FormViewController {
             }
             .onCellSelection {  cell, row in
                 if self.ended_at.count == 0 {
-                    self.present(GetOKCancelAlert(title: "警告", message: "センサーが終了時間を計測中の可能性があるため、編集を実行した場合センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
+                    self.present(GetOKCancelAlert(title: "警告", message: "センサーを利用している場合は、センサーが計測中である可能性があります。編集を実行した場合、センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
                         self.CallUpdateSmokeDataAPI()
+                        self.ResetKeyChainValues()
                     }), animated: true, completion: nil)
                 }else {
                     self.CallUpdateSmokeDataAPI()
@@ -89,18 +96,21 @@ class SmokeDataEditViewController: FormViewController {
                 
                 self.present(GetDeleteCancelAlert(title: "警告", message: msg, delete_action: {
                     self.CallDeleteSmokeDataAPI()
-                    
-                    // 削除したデータと手動で記録した喫煙中のデータが同じであった場合
-                    let keychain_smoke_id = Int((try! self.keychain.get("smoke_id"))!)
-                    
-                    if let keychain_smoke_id = keychain_smoke_id {
-                        if keychain_smoke_id == self.smoke_id {
-                            try! self.keychain.set("", key: "smoke_id")
-                            try! self.keychain.set(String(false), key: "is_smoking")
-                        }
-                    }
+                    self.ResetKeyChainValues()
                 }), animated: true, completion: nil)
             }
+    }
+    
+    func ResetKeyChainValues() {
+        // 削除 or 編集したデータと手動で記録した喫煙中のデータが同じであった場合にフラグなどをリセット
+        let keychain_smoke_id = Int((try! self.keychain.get("smoke_id"))!)
+        
+        if let keychain_smoke_id = keychain_smoke_id {
+            if keychain_smoke_id == self.smoke_id {
+                try! self.keychain.set("", key: "smoke_id")
+                try! self.keychain.set(String(false), key: "is_smoking")
+            }
+        }
     }
     
     func CallUpdateSmokeDataAPI() {
