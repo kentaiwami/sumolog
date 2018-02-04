@@ -241,11 +241,11 @@ endpoint：/api/v1/user
 ```
 
 ## 使用ライブラリ
-[Eureka](https://github.com/xmartlabs/Eureka)
-[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
-[Alamofire](https://github.com/Alamofire/Alamofire)
-[KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess)
-[TinyConstraints](https://github.com/roberthein/TinyConstraints)
-[StatusProvider](https://github.com/mariohahn/StatusProvider)
-[PromiseKit](https://github.com/mxcl/PromiseKit)
+[Eureka](https://github.com/xmartlabs/Eureka)  
+[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)  
+[Alamofire](https://github.com/Alamofire/Alamofire)  
+[KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess)  
+[TinyConstraints](https://github.com/roberthein/TinyConstraints)  
+[StatusProvider](https://github.com/mariohahn/StatusProvider)  
+[PromiseKit](https://github.com/mxcl/PromiseKit)  
 [ScrollableGraphView](https://github.com/philackm/ScrollableGraphView)
