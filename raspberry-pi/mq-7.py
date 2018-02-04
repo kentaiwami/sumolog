@@ -152,12 +152,12 @@ def main():
             print('start', ave, COpercent)
 
         if is_started:
-            if abs(prev_co - COpercent) >= 1.0:
+            if COpercent - prev_co >= 1.0:
                 min_difference_count = 0
             else:
                 min_difference_count += 1
 
-            print(min_difference_count, prev_co - COpercent)
+            print(min_difference_count, COpercent - prev_co)
 
             if min_difference_count == 20:
                 run_api(is_create=False)
