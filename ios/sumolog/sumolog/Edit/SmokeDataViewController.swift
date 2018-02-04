@@ -162,6 +162,20 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func TapSmokeStartButton() {
+        let ended_at_null = results.filter({$0["ended_at"].stringValue.count == 0})
+        
+        // ended_atがnull(文字数 0)がある場合は、センサーで計測中の可能性があるので警告アラートを表示
+        if ended_at_null.count == 0 {
+            self.CreateSmoke()
+        }else {
+            let alert = GetOKCancelAlert(title: "警告", message: "センサーが計測中の可能性があります。ここで新規に記録をした場合、2重で記録される場合があります。\nそれでも記録しますか？", ok_action: {
+                self.CreateSmoke()
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func CreateSmoke() {
         indicator.showIndicator(view: self.view)
         
         CallCreateSmokeAPI(endpoint: API.smoke.rawValue, method: .post).then {smoke_id -> Void in
