@@ -19,9 +19,9 @@ class SmokeDataEditViewController: FormViewController {
     var smoke_id = 0
     var started_at = ""
     var ended_at = ""
-    var isempty = false
     
     let indicator = Indicator()
+    let keychain = Keychain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,34 +29,36 @@ class SmokeDataEditViewController: FormViewController {
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "Smoke Edit"
         
-        let keychain = Keychain()
         uuid = (try! keychain.getString("uuid"))!
         user_id = (try! keychain.getString("id"))!
         
         CreateForms()
         tableView.isScrollEnabled = false
-        
-        if ended_at.count == 0 {
-            isempty = true
-        }
     }
     
-    func CreateForms() {        
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    func CreateForms() {
+        let dateFormatterSec = GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
+        let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
+        
+        // ended_atが空文字の場合は現在時刻を設定
+        var end_row_value = dateFormatterSec.date(from: ended_at)
+        if ended_at.count == 0 {
+            end_row_value = Date()
+        }
         
         form +++ Section("喫煙時間")
             <<< DateTimeRow(){
                 $0.title = "Start"
-                $0.value = dateFormatter.date(from: started_at)
+                $0.value = dateFormatterSec.date(from: started_at)
                 $0.tag = "start"
+                $0.dateFormatter = dateFormatterMin
             }
         
             <<< DateTimeRow(){
                 $0.title = "End"
-                $0.value = dateFormatter.date(from: ended_at)
+                $0.value = end_row_value
                 $0.tag = "end"
+                $0.dateFormatter = dateFormatterMin
             }
         
         form +++ Section(header: "", footer: "入力された情報で上書きします")
@@ -67,9 +69,10 @@ class SmokeDataEditViewController: FormViewController {
                 $0.tag = "update"
             }
             .onCellSelection {  cell, row in
-                if self.isempty {
-                    self.present(GetOKCancelAlert(title: "警告", message: "センサーが終了時間を計測中のため、編集を実行した場合センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。それでもよろしいですか？", ok_action: {
+                if self.ended_at.count == 0 {
+                    self.present(GetOKCancelAlert(title: "警告", message: "センサーを利用している場合は、センサーが計測中である可能性があります。編集を実行した場合、センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
                         self.CallUpdateSmokeDataAPI()
+                        self.ResetKeyChainValues()
                     }), animated: true, completion: nil)
                 }else {
                     self.CallUpdateSmokeDataAPI()
@@ -86,16 +89,29 @@ class SmokeDataEditViewController: FormViewController {
             .onCellSelection {  cell, row in
                 var msg = ""
                 
-                if self.isempty {
-                    msg = "センサーが終了時間を計測中のため削除を実行した場合、センサーの再起動が必要です。それでも削除しますか？"
+                if self.ended_at.count == 0 {
+                    msg = "センサーを利用している場合は、センサーが計測中である可能性があります。削除を実行した場合、センサーの再起動が必要です。\nそれでも削除しますか？"
                 }else {
                     msg = "この喫煙データを削除しますか？"
                 }
                 
                 self.present(GetDeleteCancelAlert(title: "警告", message: msg, delete_action: {
                     self.CallDeleteSmokeDataAPI()
+                    self.ResetKeyChainValues()
                 }), animated: true, completion: nil)
             }
+    }
+    
+    func ResetKeyChainValues() {
+        // 削除 or 編集したデータと手動で記録した喫煙中のデータが同じであった場合にフラグなどをリセット
+        let keychain_smoke_id = Int((try! self.keychain.get("smoke_id"))!)
+        
+        if let keychain_smoke_id = keychain_smoke_id {
+            if keychain_smoke_id == self.smoke_id {
+                try! self.keychain.set("", key: "smoke_id")
+                try! self.keychain.set(String(false), key: "is_smoking")
+            }
+        }
     }
     
     func CallUpdateSmokeDataAPI() {
