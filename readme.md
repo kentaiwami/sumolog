@@ -1,6 +1,6 @@
 <img src="app_icon.png" align="right" />
 
-スモログ(仮)
+Sumolog(スモログ)
 =============
 ## 概要
 喫煙にかける時間や頻度をセンサーで自動収集し、そのデータを提示して自分の喫煙を把握できるアプリです。
@@ -239,3 +239,13 @@ response：
 method：DELETE
 endpoint：/api/v1/user
 ```
+
+## 使用ライブラリ
+[Eureka](https://github.com/xmartlabs/Eureka)
+[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+[Alamofire](https://github.com/Alamofire/Alamofire)
+[KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess)
+[TinyConstraints](https://github.com/roberthein/TinyConstraints)
+[StatusProvider](https://github.com/mariohahn/StatusProvider)
+[PromiseKit](https://github.com/mxcl/PromiseKit)
+[ScrollableGraphView](https://github.com/philackm/ScrollableGraphView)
