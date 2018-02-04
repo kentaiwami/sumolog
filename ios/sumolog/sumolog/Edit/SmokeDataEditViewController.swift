@@ -37,13 +37,8 @@ class SmokeDataEditViewController: FormViewController {
     }
     
     func CreateForms() {
-        let dateFormatterSec = DateFormatter()
-        dateFormatterSec.timeZone = TimeZone.current
-        dateFormatterSec.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        let dateFormatterMin = DateFormatter()
-        dateFormatterMin.timeZone = TimeZone.current
-        dateFormatterMin.dateFormat = "yyyy-MM-dd HH:mm"
+        let dateFormatterSec = GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
+        let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
         
         form +++ Section("喫煙時間")
             <<< DateTimeRow(){

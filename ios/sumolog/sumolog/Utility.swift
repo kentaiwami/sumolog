@@ -87,6 +87,14 @@ func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String)
     return request
 }
 
+func GetDateFormatter(format: String) -> DateFormatter {
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeZone = TimeZone.current
+    dateFormatter.dateFormat = format
+    
+    return dateFormatter
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     
