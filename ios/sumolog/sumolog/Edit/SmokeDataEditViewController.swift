@@ -21,6 +21,7 @@ class SmokeDataEditViewController: FormViewController {
     var ended_at = ""
     
     let indicator = Indicator()
+    let keychain = Keychain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,6 @@ class SmokeDataEditViewController: FormViewController {
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "Smoke Edit"
         
-        let keychain = Keychain()
         uuid = (try! keychain.getString("uuid"))!
         user_id = (try! keychain.getString("id"))!
         
@@ -89,6 +89,16 @@ class SmokeDataEditViewController: FormViewController {
                 
                 self.present(GetDeleteCancelAlert(title: "警告", message: msg, delete_action: {
                     self.CallDeleteSmokeDataAPI()
+                    
+                    // 削除したデータと手動で記録した喫煙中のデータが同じであった場合
+                    let keychain_smoke_id = Int((try! self.keychain.get("smoke_id"))!)
+                    
+                    if let keychain_smoke_id = keychain_smoke_id {
+                        if keychain_smoke_id == self.smoke_id {
+                            try! self.keychain.set("", key: "smoke_id")
+                            try! self.keychain.set(String(false), key: "is_smoking")
+                        }
+                    }
                 }), animated: true, completion: nil)
             }
     }
