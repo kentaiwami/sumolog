@@ -19,7 +19,6 @@ class SmokeDataEditViewController: FormViewController {
     var smoke_id = 0
     var started_at = ""
     var ended_at = ""
-    var isempty = false
     
     let indicator = Indicator()
     
@@ -35,10 +34,6 @@ class SmokeDataEditViewController: FormViewController {
         
         CreateForms()
         tableView.isScrollEnabled = false
-        
-        if ended_at.count == 0 {
-            isempty = true
-        }
     }
     
     func CreateForms() {        
@@ -67,7 +62,7 @@ class SmokeDataEditViewController: FormViewController {
                 $0.tag = "update"
             }
             .onCellSelection {  cell, row in
-                if self.isempty {
+                if self.ended_at.count == 0 {
                     self.present(GetOKCancelAlert(title: "警告", message: "センサーが終了時間を計測中の可能性があるため、編集を実行した場合センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
                         self.CallUpdateSmokeDataAPI()
                     }), animated: true, completion: nil)
@@ -86,7 +81,7 @@ class SmokeDataEditViewController: FormViewController {
             .onCellSelection {  cell, row in
                 var msg = ""
                 
-                if self.isempty {
+                if self.ended_at.count == 0 {
                     msg = "センサーが終了時間を計測中の可能性があります。削除を実行した場合、センサーの再起動が必要です。\nそれでも削除しますか？"
                 }else {
                     msg = "この喫煙データを削除しますか？"
