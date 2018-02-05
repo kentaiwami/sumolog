@@ -142,7 +142,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
                 end = Date.stringFromString(string: smoke["ended_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
             }
             
-            let title = "Start \(start)\nEnd   \(end)"
+            let title = "\(start)\n\(end)"
             
             let vc = SmokeDataEditViewController()
             vc.SetSmokeID(id: smoke["id"].intValue)
@@ -153,6 +153,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
                 $0.title = title
                 $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc}, onDismiss: {vc in vc.navigationController?.popViewController(animated: true)})
                 $0.cell.textLabel?.numberOfLines = 0
+                $0.cell.textLabel?.text = title
             }
             
             section.append(row)

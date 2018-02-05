@@ -40,10 +40,9 @@ class SmokeDataEditViewController: FormViewController {
         let dateFormatterSec = GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
         let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
         
-        // ended_atが空文字の場合は現在時刻を設定
         var end_row_value = dateFormatterSec.date(from: ended_at)
-        if ended_at.count == 0 {
-            end_row_value = Date()
+        if ended_at.isEmpty {
+            end_row_value = nil
         }
         
         form +++ Section("喫煙時間")
