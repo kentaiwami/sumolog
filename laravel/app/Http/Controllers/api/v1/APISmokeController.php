@@ -276,14 +276,10 @@ class APISmokeController extends \App\Http\Controllers\Controller
         }
 
         if ($isput) {
-            /*
-            開始時間を超えない場合は調整実施。超える場合は誤データとして削除
-             */
             $minus_sec = '- ' .$request->get('minus_sec') . ' sec';
 
-            if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime($minus_sec))) {
-                $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
-            }else {
+            //開始時間を超える、1分より短いデータは誤データとして削除(ただし、時間調整が0の場合はどんなに短くても記録する)
+            if (strtotime($minus_sec) -  strtotime($smoke->started_at) < 60 and  $request->get('minus_sec') != 0) {
                 try {
                     $smoke->delete();
                 } catch (\Exception $e) {}
@@ -293,6 +289,8 @@ class APISmokeController extends \App\Http\Controllers\Controller
                     'started_at' => "",
                     'ended_at' => ""
                 ]);
+            }else {
+                $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
             }
 
             $smoke->ended_at = $ended_at;
