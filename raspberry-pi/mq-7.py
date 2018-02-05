@@ -127,14 +127,7 @@ def main():
         COlevel = readadc(mq7_apin, SPICLK, SPIMOSI, SPIMISO, SPICS)
         COpercent = (COlevel / 1024.) * 100
 
-        try:
-            # 書き込み UTF-8
-            with open('COpercentLog.csv', 'a') as csvfile:
-                writer = csv.writer(csvfile, lineterminator='\n')
-                writer.writerow([datetime.now().strftime('%Y/%m/%d %H:%M:%S'), COpercent])
-
-        except:
-            pass
+        write_file(COpercent=COpercent)
 
         # 値がおかしい時は処理をスキップ
         if COpercent > 30.0:
@@ -162,6 +155,7 @@ def main():
 
             print('start', ave, COpercent)
 
+        # 喫煙終了判定開始
         if is_started:
             if COpercent - prev_co >= 1.0:
                 min_difference_count = 0
@@ -209,6 +203,23 @@ def run_api(is_create):
     result_objs = json.loads(response_body.split('\n')[0])
 
     SMOKE_ID = result_objs['smoke_id']
+
+
+def write_file(COpercent):
+    folder = 'log'
+
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+
+    try:
+        now = datetime.now()
+        file_name = '{0:%Y-%m-%d}.csv'.format(now)
+        with open(folder + '/' + file_name, 'a') as csvfile:
+            writer = csv.writer(csvfile, lineterminator='\n')
+            writer.writerow([datetime.now().strftime('%Y/%m/%d %H:%M:%S'), COpercent])
+
+    except:
+        pass
 
 
 if __name__ == '__main__':
