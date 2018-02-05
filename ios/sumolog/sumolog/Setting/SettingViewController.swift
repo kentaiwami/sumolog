@@ -230,11 +230,11 @@ class SettingViewController: FormViewController {
                 row.title = "接続状況"
                 row.value = false
             }.onChange { row in
-                self.CallSaveDeleteUUIDAPI(value: row.value!, address: self.form.values()["address"] as! String).then { _ -> Void in
+                self.CallSaveDeleteUUIDAPI().then { _ -> Void in
                     row.updateCell()
-                    }.catch { err in
-                        let tmp = err as NSError
-                        self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
+                }.catch { err in
+                    let tmp = err as NSError
+                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
                 }
             }.cellSetup { cell, row in
                 cell.backgroundColor = .white
@@ -260,9 +260,12 @@ class SettingViewController: FormViewController {
         address?.updateCell()
     }
     
-    func CallSaveDeleteUUIDAPI(value: Bool, address: String) -> Promise<String> {
+    func CallSaveDeleteUUIDAPI() -> Promise<String> {
+        let switch_row = form.rowBy(tag: "connect")
+        let address = self.form.values()["address"] as! String
         var method = ""
-        if value {
+        
+        if switch_row?.baseValue as! Bool {
             method = "POST"
         }else {
             method = "DELETE"
@@ -274,14 +277,14 @@ class SettingViewController: FormViewController {
         let promise = Promise<String> { (resolve, reject) in
             Alamofire.request(request).responseJSON { response in
                 self.indicator.stopIndicator()
-                
+
                 if response.error == nil {
                     guard let obj = response.result.value else {return}
                     let json = JSON(obj)
                     print("***** RasPI results *****")
                     print(json)
                     print("***** RasPI results *****")
-                    
+
                     resolve("OK")
                 }else {
                     reject(NSError(domain: "センサーに接続できませんでした", code: -1))
