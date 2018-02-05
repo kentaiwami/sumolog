@@ -28,26 +28,6 @@ class SettingViewController: FormViewController {
         
         self.tabBarController?.navigationItem.title = "Setting"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        
-        UIView.setAnimationsEnabled(false)
-        form.removeAll()
-        UIView.setAnimationsEnabled(true)
-        
-        /*
-         1. ユーザの設定情報読み込み
-         2. UUIDの登録状況をデバイスへ問い合わせ
-         3. formの描画
-         */
-        indicator.showIndicator(view: tableView)
-        CallGetSettingAPI().then{_ in
-            return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
-            }.then { count -> Void in
-                self.CreateForm(count: count)
-                self.indicator.stopIndicator()
-            }.catch { err in
-                self.indicator.stopIndicator()
-                self.present(GetStandardAlert(title: "Error", message: "センサーへ接続できませんでした", b_title: "OK"), animated: true, completion: nil)
-        }
     }
     
     override func viewDidLoad() {
@@ -61,9 +41,28 @@ class SettingViewController: FormViewController {
         uuid = (try! keychain.getString("uuid"))!
         
         tableView.isScrollEnabled = false
+        
+        indicator.showIndicator(view: tableView)
+        
+        CallGetUserAPI().then{_ ->Promise<Int> in
+            self.CreateForm()
+            return self.CallGetUUIDCountAPI()
+        }.then { _ -> Void in
+            if self.user_data.GetCount() != 0 {
+                let switch_connect = self.form.rowBy(tag: "connect")
+                switch_connect?.baseValue = true
+                switch_connect?.updateCell()
+            }
+            self.indicator.stopIndicator()
+        }.catch { err in
+            self.indicator.stopIndicator()
+            let ns_err = err as NSError
+            let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    func CreateForm(count: Int) {
+    func CreateForm() {
         UIView.setAnimationsEnabled(false)
         
         LabelRow.defaultCellUpdate = { cell, row in
@@ -78,7 +77,7 @@ class SettingViewController: FormViewController {
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
         
         var sensor_set = false
-        if user_data.Getaddress() != "" {
+        if !user_data.Getaddress().isEmpty {
             sensor_set = true
         }
         
@@ -184,81 +183,44 @@ class SettingViewController: FormViewController {
                     $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                self.RunUpdate()
+                self.indicator.showIndicator(view: self.tableView)
+                self.CallUpdateUserAPI().then { _ -> Void in
+                    self.UpdateCell()
+                    self.indicator.stopIndicator()
+                    
+                    let alert = GetStandardAlert(title: "Success", message: "情報を更新しました", b_title: "OK")
+                    self.present(alert, animated: true, completion: nil)
+                }.catch{ err in
+                    self.UpdateCell()
+                    self.indicator.stopIndicator()
+                    let ns_err = err as NSError
+                    let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         
         
-        form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません")
-            <<< SwitchRow("SwitchRow") { row in
-                row.tag = "switch"
-                row.disabled = Condition.function(["sensor_set"], { form in
-                    return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
+        form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません"){ section in
+            section.hidden = Condition.function(["sensor_set"], {form in
+                return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                 })
-                
-                if count == 0 {
-                    row.title = "Dis Connecting"
-                    row.value = false
-                }else {
-                    row.title = "Connecting"
-                    row.value = true
-                }
-                
+            }
+            <<< SwitchRow("SwitchRow") { row in
+                row.tag = "connect"
+                row.title = "接続状況"
+                row.value = false
             }.onChange { row in
-                self.CallSaveDeleteUUIDAPI(value: row.value!, address: self.form.values()["address"] as! String).then { _ -> Void in
-                    row.title = (row.value ?? false) ? "Connecting" : "Dis Connecting"
+                self.CallSaveDeleteUUIDAPI().then { _ -> Void in
                     row.updateCell()
-                    }.catch { err in
-                        let tmp = err as NSError
-                        self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
+                }.catch { err in
+                    let tmp = err as NSError
+                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
                 }
             }.cellSetup { cell, row in
                 cell.backgroundColor = .white
             }
         
         UIView.setAnimationsEnabled(true)
-    }
-    
-    func RunUpdate() {
-        self.indicator.showIndicator(view: self.tableView)
-            
-        /*
-         センサー所持状態
-         1. デバイスへ接続確認
-         2. アップデートAPIをたたく(user_dataの更新)
-         3. セルの更新
-         */
-        
-        /*
-         センサー未来所持状態
-         1. アップデートAPIをたたく(user_dataの更新)
-         2. セルの更新
-         */
-        
-        if form.values()["sensor_set"] as! Bool {
-            CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
-                return self.CallUpdateUserAPI()
-                }.then { _ -> Void in
-                    self.UpdateCell()
-                    self.indicator.stopIndicator()
-                    self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
-                }.catch { err in
-                    self.UpdateCell()
-                    self.indicator.stopIndicator()
-                    let tmp = err as NSError
-                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
-            }
-        }else {
-            CallUpdateUserAPI().then { _ -> Void in
-                self.UpdateCell()
-                self.indicator.stopIndicator()
-                self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
-                }.catch { err in
-                    self.UpdateCell()
-                    self.indicator.stopIndicator()
-                    let tmp = err as NSError
-                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
-            }
-        }
     }
     
     func UpdateCell() {
@@ -278,9 +240,12 @@ class SettingViewController: FormViewController {
         address?.updateCell()
     }
     
-    func CallSaveDeleteUUIDAPI(value: Bool, address: String) -> Promise<String> {
+    func CallSaveDeleteUUIDAPI() -> Promise<String> {
+        let switch_row = form.rowBy(tag: "connect")
+        let address = self.form.values()["address"] as! String
         var method = ""
-        if value {
+        
+        if switch_row?.baseValue as! Bool {
             method = "POST"
         }else {
             method = "DELETE"
@@ -292,14 +257,14 @@ class SettingViewController: FormViewController {
         let promise = Promise<String> { (resolve, reject) in
             Alamofire.request(request).responseJSON { response in
                 self.indicator.stopIndicator()
-                
+
                 if response.error == nil {
                     guard let obj = response.result.value else {return}
                     let json = JSON(obj)
                     print("***** RasPI results *****")
                     print(json)
                     print("***** RasPI results *****")
-                    
+
                     resolve("OK")
                 }else {
                     reject(NSError(domain: "センサーに接続できませんでした", code: -1))
@@ -348,7 +313,7 @@ class SettingViewController: FormViewController {
         return promise
     }
     
-    func CallGetSettingAPI() -> Promise<String> {
+    func CallGetUserAPI() -> Promise<String> {
         let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + user_id
         let promise = Promise<String> { (resolve, reject) in
             Alamofire.request(urlString, method: .get).responseJSON { (response) in
@@ -365,15 +330,16 @@ class SettingViewController: FormViewController {
         return promise
     }
     
-    func CallGetUUIDCountAPI(address: String) -> Promise<Int> {
-        if address == "" {
+    func CallGetUUIDCountAPI() -> Promise<Int> {
+        if user_data.Getaddress().isEmpty {
             let promise = Promise<Int> { (resolve, reject) in
+                user_data.SetUUIDCount(count: 0)
                 resolve(0)
             }
             return promise
         }
         
-        let request = GetConnectRaspberryPIRequest(method: "GET", address: address, uuid: uuid)
+        let request = GetConnectRaspberryPIRequest(method: "GET", address: user_data.Getaddress(), uuid: uuid)
         let promise = Promise<Int> { (resolve, reject) in
             Alamofire.request(request).responseJSON { response in
                 guard let obj = response.result.value else {return reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
@@ -384,6 +350,7 @@ class SettingViewController: FormViewController {
                 print("***** raspi results *****")
                 
                 if response.error == nil {
+                    self.user_data.SetUUIDCount(count: json["count"].intValue)
                     resolve(json["count"].intValue)
                 }else {
                     reject(NSError(domain: "センサーに接続できませんでした", code: -1))
