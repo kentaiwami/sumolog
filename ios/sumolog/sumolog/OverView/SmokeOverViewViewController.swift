@@ -30,7 +30,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.tabBarController?.navigationItem.title = "Data"
+        self.tabBarController?.navigationItem.title = "OverView"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
         RemoveViews()
