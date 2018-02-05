@@ -321,12 +321,11 @@ class APISmokeController extends \App\Http\Controllers\Controller
      */
     public function destroy($v, $smoke_id, $user_id)
     {
-        $issuccess = Smoke::where([['id', $smoke_id],['user_id', $user_id]])->delete();
-
-        if ($issuccess) {
-            return Response()->json(['msg' => 'Success delete'],200);
-        }else {
-            return Response()->json(['msg' => 'Error delete'], 404);
+        try {
+            Smoke::where([['id', $smoke_id], ['user_id', $user_id]])->delete();
+        } catch (\Exception $e) {
+            return Response()->json(['msg' => 'Error'], 404);
         }
+        return Response()->json(['msg' => 'Success'],200);
     }
 }
