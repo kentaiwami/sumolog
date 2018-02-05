@@ -64,7 +64,7 @@ class SettingViewController: FormViewController {
         
         indicator.showIndicator(view: tableView)
         
-        CallGetSettingAPI().then{_ ->Promise<Int> in
+        CallGetUserAPI().then{_ ->Promise<Int> in
             self.CreateForm()
             return self.CallGetUUIDCountAPI()
         }.then { _ -> Void in
@@ -238,35 +238,6 @@ class SettingViewController: FormViewController {
         UIView.setAnimationsEnabled(true)
     }
     
-//    func RunUpdate() {
-//        self.indicator.showIndicator(view: self.tableView)
-    
-//            CallGetUUIDCountAPI(address: form.values()["address"] as! String).then { _ in
-//                return self.CallUpdateUserAPI()
-//                }.then { _ -> Void in
-//                    self.UpdateCell()
-//                    self.indicator.stopIndicator()
-//                    self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
-//                }.catch { err in
-//                    self.UpdateCell()
-//                    self.indicator.stopIndicator()
-//                    let tmp = err as NSError
-//                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
-//            }
-        
-//            CallUpdateUserAPI().then { _ -> Void in
-//                self.UpdateCell()
-//                self.indicator.stopIndicator()
-//                self.present(GetStandardAlert(title: "Success", message: "情報の更新が完了しました", b_title: "OK"), animated: true, completion: nil)
-//                }.catch { err in
-//                    self.UpdateCell()
-//                    self.indicator.stopIndicator()
-//                    let tmp = err as NSError
-//                    self.present(GetStandardAlert(title: "Error", message: tmp.domain, b_title: "OK"), animated: true, completion: nil)
-//            }
-//        }
-//    }
-    
     func UpdateCell() {
         let payday = form.rowBy(tag: "payday")
         let price = form.rowBy(tag: "price")
@@ -354,7 +325,7 @@ class SettingViewController: FormViewController {
         return promise
     }
     
-    func CallGetSettingAPI() -> Promise<String> {
+    func CallGetUserAPI() -> Promise<String> {
         let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + user_id
         let promise = Promise<String> { (resolve, reject) in
             Alamofire.request(urlString, method: .get).responseJSON { (response) in
