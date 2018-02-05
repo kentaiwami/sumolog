@@ -163,7 +163,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func TapSmokeStartButton() {
-        let ended_at_null = results.filter({$0["ended_at"].stringValue.count == 0})
+        let ended_at_null = results.filter({$0["ended_at"].stringValue.isEmpty})
         
         // ended_atがnull(文字数 0)のレコードがある場合は、センサーで計測中の可能性があるので警告アラートを表示
         if ended_at_null.count == 0 {
