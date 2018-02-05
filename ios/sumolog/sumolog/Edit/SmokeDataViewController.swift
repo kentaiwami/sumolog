@@ -186,7 +186,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             self.indicator.stopIndicator()
             self.CallGet24HourSmokeAPI(show_indicator: true)
             
-            self.present(GetStandardAlert(title: "Created", message: "喫煙開始を記録しました。\n右上のチェックボタンをタップして喫煙終了を記録してください。", b_title: "OK"), animated: true, completion: nil)
+            self.present(GetStandardAlert(title: "Started", message: "喫煙開始を記録しました。\n右上のチェックボタンをタップして喫煙終了を記録してください。", b_title: "OK"), animated: true, completion: nil)
         }
     }
     
