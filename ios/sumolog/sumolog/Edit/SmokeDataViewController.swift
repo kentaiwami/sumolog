@@ -142,7 +142,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
                 end = Date.stringFromString(string: smoke["ended_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
             }
             
-            let title = "Start \(start)\nEnd   \(end)"
+            let title = "\(start)\n\(end)"
             
             let vc = SmokeDataEditViewController()
             vc.SetSmokeID(id: smoke["id"].intValue)
@@ -153,6 +153,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
                 $0.title = title
                 $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc}, onDismiss: {vc in vc.navigationController?.popViewController(animated: true)})
                 $0.cell.textLabel?.numberOfLines = 0
+                $0.cell.textLabel?.text = title
             }
             
             section.append(row)
@@ -162,7 +163,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func TapSmokeStartButton() {
-        let ended_at_null = results.filter({$0["ended_at"].stringValue.count == 0})
+        let ended_at_null = results.filter({$0["ended_at"].stringValue.isEmpty})
         
         // ended_atがnull(文字数 0)のレコードがある場合は、センサーで計測中の可能性があるので警告アラートを表示
         if ended_at_null.count == 0 {
