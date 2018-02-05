@@ -8,6 +8,7 @@ import sqlite3
 import setting
 import csv
 from datetime import datetime
+import sys
 
 
 # change these as desired - they're the pins connected from the
@@ -157,14 +158,14 @@ def main():
 
         # 喫煙終了判定開始
         if is_started:
-            if COpercent - prev_co >= 1.0:
+            if COpercent - prev_co > 0.1:
                 min_difference_count = 0
             else:
                 min_difference_count += 1
 
             print(min_difference_count, COpercent - prev_co)
 
-            if min_difference_count == 15:
+            if min_difference_count == 30:
                 run_api(is_create=False)
                 is_started = False
                 min_difference_count = -1
@@ -208,7 +209,7 @@ def run_api(is_create):
 
 
 def write_file(COpercent):
-    folder = 'log'
+    folder = '/home/pi/Documents/sumolog/log'
 
     if not os.path.isdir(folder):
         os.mkdir(folder)
