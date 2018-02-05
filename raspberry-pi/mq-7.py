@@ -171,6 +171,8 @@ def main():
 
                 print('end', ave, COpercent)
 
+        prev_co = COpercent
+
         print("Current CO density is:" + str("%f" % ((COlevel / 1024.) * 100)) + " %")
 
         time.sleep(1)
