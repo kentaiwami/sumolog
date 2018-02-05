@@ -29,25 +29,25 @@ class SettingViewController: FormViewController {
         self.tabBarController?.navigationItem.title = "Setting"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
-        UIView.setAnimationsEnabled(false)
-        form.removeAll()
-        UIView.setAnimationsEnabled(true)
-        
-        /*
-         1. ユーザの設定情報読み込み
-         2. UUIDの登録状況をデバイスへ問い合わせ
-         3. formの描画
-         */
-        indicator.showIndicator(view: tableView)
-        CallGetSettingAPI().then{_ in
-            return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
-            }.then { count -> Void in
-                self.CreateForm(count: count)
-                self.indicator.stopIndicator()
-            }.catch { err in
-                self.indicator.stopIndicator()
-                self.present(GetStandardAlert(title: "Error", message: "センサーへ接続できませんでした", b_title: "OK"), animated: true, completion: nil)
-        }
+//        UIView.setAnimationsEnabled(false)
+//        form.removeAll()
+//        UIView.setAnimationsEnabled(true)
+//
+//        /*
+//         1. ユーザの設定情報読み込み
+//         2. UUIDの登録状況をデバイスへ問い合わせ
+//         3. formの描画
+//         */
+//        indicator.showIndicator(view: tableView)
+//        CallGetSettingAPI().then{_ in
+//            return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
+//            }.then { count -> Void in
+//                self.CreateForm(count: count)
+//                self.indicator.stopIndicator()
+//            }.catch { err in
+//                self.indicator.stopIndicator()
+//                self.present(GetStandardAlert(title: "Error", message: "センサーへ接続できませんでした", b_title: "OK"), animated: true, completion: nil)
+//        }
     }
     
     override func viewDidLoad() {
@@ -61,9 +61,21 @@ class SettingViewController: FormViewController {
         uuid = (try! keychain.getString("uuid"))!
         
         tableView.isScrollEnabled = false
+        
+        indicator.showIndicator(view: tableView)
+        
+        CallGetSettingAPI().then{_ -> Void in
+            self.indicator.stopIndicator()
+            return self.CreateForm()
+        }.catch { err in
+            self.indicator.stopIndicator()
+            let ns_err = err as NSError
+            let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    func CreateForm(count: Int) {
+    func CreateForm() {
         UIView.setAnimationsEnabled(false)
         
         LabelRow.defaultCellUpdate = { cell, row in
@@ -78,7 +90,7 @@ class SettingViewController: FormViewController {
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
         
         var sensor_set = false
-        if user_data.Getaddress() != "" {
+        if !user_data.Getaddress().isEmpty {
             sensor_set = true
         }
         
@@ -191,17 +203,11 @@ class SettingViewController: FormViewController {
         form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません")
             <<< SwitchRow("SwitchRow") { row in
                 row.tag = "switch"
+                row.title = "Checking connection..."
+                row.value = false
                 row.disabled = Condition.function(["sensor_set"], { form in
                     return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                 })
-                
-                if count == 0 {
-                    row.title = "Dis Connecting"
-                    row.value = false
-                }else {
-                    row.title = "Connecting"
-                    row.value = true
-                }
                 
             }.onChange { row in
                 self.CallSaveDeleteUUIDAPI(value: row.value!, address: self.form.values()["address"] as! String).then { _ -> Void in
