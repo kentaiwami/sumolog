@@ -247,7 +247,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
         if ($request->method() == 'PUT') {
             $validator_array = [
                 'uuid' => 'bail|required|string|max:191',
-                'is_minus' => 'bail|required|boolean',
+                'minus_sec' => 'bail|required|integer|min:0',
             ];
 
         }else if ($request->method() == 'PATCH') {
@@ -276,25 +276,23 @@ class APISmokeController extends \App\Http\Controllers\Controller
         }
 
         if ($isput) {
-            $ended_at = date(now());
-            if ($request->get('is_minus')) {
-                /*
-                開始時間を超えない場合は調整実施。超える場合は誤データとして削除
-                 */
-                if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime('- 30 sec'))) {
-                    $ended_at = date('Y-m-d H:i:s', strtotime('- 30 sec'));
-                }else{
-                    try {
-                        $smoke->delete();
-                    } catch (\Exception $e) {
-                    }
+            /*
+            開始時間を超えない場合は調整実施。超える場合は誤データとして削除
+             */
+            $minus_sec = '- ' .$request->get('minus_sec') . ' sec';
 
-                    return Response()->json([
-                        'smoke_id'      => 0,
-                        'started_at'    => "",
-                        'ended_at'      => ""
-                    ]);
-                }
+            if ($smoke->started_at <= date('Y-m-d H:i:s', strtotime($minus_sec))) {
+                $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
+            }else {
+                try {
+                    $smoke->delete();
+                } catch (\Exception $e) {}
+
+                return Response()->json([
+                    'smoke_id' => 0,
+                    'started_at' => "",
+                    'ended_at' => ""
+                ]);
             }
 
             $smoke->ended_at = $ended_at;
