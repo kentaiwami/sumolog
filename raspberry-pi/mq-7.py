@@ -183,7 +183,7 @@ def run_api(is_create):
 
     obj = {
         'uuid': UUID,
-        'is_minus': True
+        'is_minus': False
     }
 
     if is_create:
