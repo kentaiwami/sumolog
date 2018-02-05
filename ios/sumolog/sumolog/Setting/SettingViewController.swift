@@ -221,7 +221,7 @@ class SettingViewController: FormViewController {
                 })
             }
             <<< SwitchRow("SwitchRow") { row in
-                row.tag = "switch"
+                row.tag = "connect"
                 row.title = "接続状況"
                 row.value = false
             }.onChange { row in
