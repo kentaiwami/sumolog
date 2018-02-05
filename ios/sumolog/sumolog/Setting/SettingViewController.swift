@@ -68,6 +68,11 @@ class SettingViewController: FormViewController {
             self.CreateForm()
             return self.CallGetUUIDCountAPI()
         }.then { _ -> Void in
+            if self.user_data.GetCount() != 0 {
+                let switch_connect = self.form.rowBy(tag: "connect")
+                switch_connect?.baseValue = true
+                switch_connect?.updateCell()
+            }
             self.indicator.stopIndicator()
         }.catch { err in
             self.indicator.stopIndicator()
