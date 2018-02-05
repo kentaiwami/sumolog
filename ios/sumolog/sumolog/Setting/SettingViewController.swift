@@ -28,26 +28,6 @@ class SettingViewController: FormViewController {
         
         self.tabBarController?.navigationItem.title = "Setting"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        
-//        UIView.setAnimationsEnabled(false)
-//        form.removeAll()
-//        UIView.setAnimationsEnabled(true)
-//
-//        /*
-//         1. ユーザの設定情報読み込み
-//         2. UUIDの登録状況をデバイスへ問い合わせ
-//         3. formの描画
-//         */
-//        indicator.showIndicator(view: tableView)
-//        CallGetSettingAPI().then{_ in
-//            return self.CallGetUUIDCountAPI(address: self.user_data.Getaddress())
-//            }.then { count -> Void in
-//                self.CreateForm(count: count)
-//                self.indicator.stopIndicator()
-//            }.catch { err in
-//                self.indicator.stopIndicator()
-//                self.present(GetStandardAlert(title: "Error", message: "センサーへ接続できませんでした", b_title: "OK"), animated: true, completion: nil)
-//        }
     }
     
     override func viewDidLoad() {
