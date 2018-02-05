@@ -6,6 +6,8 @@ from queue import Queue
 import os
 import sqlite3
 import setting
+import csv
+from datetime import datetime
 
 
 # change these as desired - they're the pins connected from the
@@ -124,6 +126,15 @@ def main():
 
         COlevel = readadc(mq7_apin, SPICLK, SPIMOSI, SPIMISO, SPICS)
         COpercent = (COlevel / 1024.) * 100
+
+        try:
+            # 書き込み UTF-8
+            with open('COpercentLog.csv', 'a') as csvfile:
+                writer = csv.writer(csvfile, lineterminator='\n')
+                writer.writerow([datetime.now().strftime('%Y/%m/%d %H:%M:%S'), COpercent])
+
+        except:
+            pass
 
         # 値がおかしい時は処理をスキップ
         if COpercent > 30.0:
