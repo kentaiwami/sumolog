@@ -120,7 +120,7 @@ def main():
             min_difference_count = -1
             prev_co = 0.0
 
-            time.sleep(1)
+            time.sleep(1.5)
             continue
         else:
             UUID = results[1]
@@ -132,7 +132,7 @@ def main():
 
         # 値がおかしい時は処理をスキップ
         if COpercent > 30.0:
-            time.sleep(1)
+            time.sleep(1.5)
             continue
 
         # キューのサイズを超えないようにCO値を格納
@@ -176,7 +176,7 @@ def main():
 
         print("Current CO density is:" + str("%f" % ((COlevel / 1024.) * 100)) + " %")
 
-        time.sleep(1)
+        time.sleep(1.5)
 
 
 def run_api(is_create):
