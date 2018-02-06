@@ -28,6 +28,25 @@ class SettingViewController: FormViewController {
         
         self.tabBarController?.navigationItem.title = "Setting"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        
+        indicator.showIndicator(view: tableView)
+        
+        CallGetUserAPI().then{_ ->Promise<Int> in
+            self.CreateForm()
+            return self.CallGetUUIDCountAPI()
+            }.then { _ -> Void in
+                if self.user_data.GetCount() != 0 {
+                    let switch_connect = self.form.rowBy(tag: "connect")
+                    switch_connect?.baseValue = true
+                    switch_connect?.updateCell()
+                }
+                self.indicator.stopIndicator()
+            }.catch { err in
+                self.indicator.stopIndicator()
+                let ns_err = err as NSError
+                let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
+                self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func viewDidLoad() {
@@ -41,29 +60,12 @@ class SettingViewController: FormViewController {
         uuid = (try! keychain.getString("uuid"))!
         
         tableView.isScrollEnabled = false
-        
-        indicator.showIndicator(view: tableView)
-        
-        CallGetUserAPI().then{_ ->Promise<Int> in
-            self.CreateForm()
-            return self.CallGetUUIDCountAPI()
-        }.then { _ -> Void in
-            if self.user_data.GetCount() != 0 {
-                let switch_connect = self.form.rowBy(tag: "connect")
-                switch_connect?.baseValue = true
-                switch_connect?.updateCell()
-            }
-            self.indicator.stopIndicator()
-        }.catch { err in
-            self.indicator.stopIndicator()
-            let ns_err = err as NSError
-            let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
-            self.present(alert, animated: true, completion: nil)
-        }
     }
     
     func CreateForm() {
         UIView.setAnimationsEnabled(false)
+        
+        form.removeAll()
         
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
