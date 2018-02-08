@@ -36,6 +36,7 @@
 		3730C2701FFB5F4100184D2B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		3730C2721FFB713600184D2B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		375525D42022F96D0097A589 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		379B4A7B202C220E005697F3 /* sumolog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sumolog.entitlements; sourceTree = "<group>"; };
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewViewController.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
@@ -79,6 +80,7 @@
 		3719E9701FA0591500E054EC /* sumolog */ = {
 			isa = PBXGroup;
 			children = (
+				379B4A7B202C220E005697F3 /* sumolog.entitlements */,
 				375525D32022F9450097A589 /* SignUp */,
 				377E92C02022F9070033F9C2 /* Setting */,
 				377E92BF2022F8FA0033F9C2 /* OverView */,
@@ -183,6 +185,11 @@
 					3719E96D1FA0591500E054EC = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -441,6 +448,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = sumolog/sumolog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TLVYAZUQZL;
 				INFOPLIST_FILE = sumolog/Info.plist;
@@ -458,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = sumolog/sumolog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TLVYAZUQZL;
 				INFOPLIST_FILE = sumolog/Info.plist;
