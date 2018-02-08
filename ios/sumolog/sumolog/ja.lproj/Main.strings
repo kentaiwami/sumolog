@@ -1,0 +1,9 @@
+
+/* Class = "UITabBarItem"; title = "OverView"; ObjectID = "1TC-3R-vZV"; */
+"1TC-3R-vZV.title" = "OverView";
+
+/* Class = "UITabBarItem"; title = "Setting"; ObjectID = "cPa-gy-q4n"; */
+"cPa-gy-q4n.title" = "Setting";
+
+/* Class = "UITabBarItem"; title = "Edit"; ObjectID = "kpw-Sp-mqN"; */
+"kpw-Sp-mqN.title" = "Edit";

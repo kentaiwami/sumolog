@@ -8,6 +8,8 @@
 
 import UIKit
 import KeychainAccess
+import Alamofire
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -47,6 +49,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error)
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var deviceToken = String(format: "%@", deviceToken as CVarArg) as String
+        print("deviceToken = \(deviceToken)")
+        
+        let characterSet: CharacterSet = CharacterSet.init(charactersIn: "<>")
+        deviceToken = deviceToken.trimmingCharacters(in: characterSet)
+        deviceToken = deviceToken.replacingOccurrences(of: " ", with: "")
+        
+        SendToken(token: deviceToken)
+        
+        print("deviceToken = \(deviceToken)")
+    }
+    
+    func SendToken(token: String){
+        let keychain = Keychain()
+        let uuid = (try! keychain.get("uuid"))!
+        
+        let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + API.token.rawValue
+        let params = [
+            "token": token,
+            "uuid": uuid
+        ]
+        
+        Alamofire.request(urlString, method: .put, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            guard let obj = response.result.value else {return}
+            let json = JSON(obj)
+
+            print("***** API results *****")
+            print(json)
+            print("***** API results *****")
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

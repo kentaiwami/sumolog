@@ -61,23 +61,6 @@ class SmokeDataEditViewController: FormViewController {
                 $0.value = dateFormatterSec.date(from: started_at)
                 $0.tag = "start"
                 $0.dateFormatter = dateFormatterMin
-                $0.add(ruleSet: rules)
-                $0.validationOptions = .validatesOnChange
-            }
-            .onRowValidationChanged {cell, row in
-                let rowIndex = row.indexPath!.row
-                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                    row.section?.remove(at: rowIndex + 1)
-                }
-                if !row.isValid {
-                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                        let labelRow = LabelRow() {
-                            $0.title = err
-                            $0.cell.height = { 30 }
-                        }
-                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                    }
-                }
             }
         
             <<< DateTimeRow(){
@@ -112,14 +95,22 @@ class SmokeDataEditViewController: FormViewController {
                 $0.tag = "update"
             }
             .onCellSelection {  cell, row in
-                if IsCheckFormValue(form: self.form) {
-                    if self.ended_at.isEmpty {
-                        self.present(GetOKCancelAlert(title: "警告", message: "センサーを利用している場合は、センサーが計測中である可能性があります。編集を実行した場合、センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
-                            self.CallUpdateSmokeDataAPI()
-                            self.ResetKeyChainValues()
-                        }), animated: true, completion: nil)
+                if IsCheckFormValue(form: self.form){
+                    let start = self.form.values()["start"] as! Date
+                    let end = self.form.values()["end"] as! Date
+                    
+                    if start > end {
+                        let alert = GetStandardAlert(title: "Error", message: "終了時間は開始時間よりも後の時刻を設定してください。", b_title: "OK")
+                        self.present(alert, animated: true, completion: nil)
                     }else {
-                        self.CallUpdateSmokeDataAPI()
+                        if self.ended_at.isEmpty {
+                            self.present(GetOKCancelAlert(title: "警告", message: "センサーを利用している場合は、センサーが計測中である可能性があります。編集を実行した場合、センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？", ok_action: {
+                                self.CallUpdateSmokeDataAPI()
+                                self.ResetKeyChainValues()
+                            }), animated: true, completion: nil)
+                        }else {
+                            self.CallUpdateSmokeDataAPI()
+                        }
                     }
                 }else {
                     let alert = GetStandardAlert(title: "Error", message: "入力されていない項目があります。再確認してください。", b_title: "OK")

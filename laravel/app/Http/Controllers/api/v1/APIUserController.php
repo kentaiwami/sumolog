@@ -102,16 +102,31 @@ class APIUserController extends \App\Http\Controllers\Controller
      * @param   int     $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $v, $id)
+    public function update(Request $request, $v, $id="")
     {
-        /* Check validation */
-        $validator = Validator::make($request->all(), [
-            'uuid' => 'bail|required|string|max:191',
-            'payday'            => 'bail|required|integer|min:1|max:31',
-            'price'             => 'bail|required|integer|max:9999',
-            'target_number'     => 'bail|required|integer|max:9999',
-            'address'           => 'bail|nullable|ip',
-        ]);
+        $current_url = url()->current();
+        $pattern_update_profile = "#api/".$v."/user/[0-9]+#";
+        $pattern_register_token = "#api/".$v."/user/token#";
+
+
+        if (preg_match($pattern_update_profile, $current_url)) {
+            $validator_array = [
+                'uuid'              => 'bail|required|string|max:191',
+                'payday'            => 'bail|required|integer|min:1|max:31',
+                'price'             => 'bail|required|integer|max:9999',
+                'target_number'     => 'bail|required|integer|max:9999',
+                'address'           => 'bail|nullable|ip',
+            ];
+        }else if (preg_match($pattern_register_token, $current_url)) {
+            $validator_array = [
+                'uuid'  => 'bail|required|string|max:191',
+                'token' => 'bail|nullable|string|max:191',
+            ];
+        }else {
+            return Response('', 404);
+        }
+
+        $validator = Validator::make($request->all(), $validator_array);
 
         if($validator->fails())
             return Response()->json($validator->errors());
@@ -120,15 +135,21 @@ class APIUserController extends \App\Http\Controllers\Controller
         /* Check user id */
         $user = User::where('uuid', $request->uuid)->firstOrFail();
 
-        if ($user->id != $id)
+        // idが指定されている場合にidとuuidで取得したidを照合
+        if ($id != "" and $user->id != $id)
             return Response('', 404);
 
 
-        /* Save user data */
-        $user->payday = $request->get('payday');
-        $user->price = $request->get('price');
-        $user->target_number = $request->get('target_number');
-        $user->address = $request->get('address');
+        if (preg_match($pattern_update_profile, $current_url)) {
+            // Update user profile
+            $user->payday = $request->get('payday');
+            $user->price = $request->get('price');
+            $user->target_number = $request->get('target_number');
+            $user->address = $request->get('address');
+        }else if (preg_match($pattern_register_token, $current_url)) {
+            // update user token
+            $user->token = $request->get('token');
+        }
 
         $user->save();
 
