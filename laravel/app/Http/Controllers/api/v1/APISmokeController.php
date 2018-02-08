@@ -86,6 +86,10 @@ class APISmokeController extends \App\Http\Controllers\Controller
             $new_smoke->user_id = $user->id;
             $new_smoke->save();
 
+            (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
+                ->to($user->token)
+                ->send('喫煙開始をセンサーが検知しました');
+
             return Response()->json([
                 'uuid'      => $request->get('uuid'),
                 'smoke_id'  => $new_smoke->id
@@ -284,6 +288,10 @@ class APISmokeController extends \App\Http\Controllers\Controller
                     $smoke->delete();
                 } catch (\Exception $e) {}
 
+                (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
+                    ->to($user->token)
+                    ->send('誤検出したデータを削除しました');
+
                 return Response()->json([
                     'smoke_id' => 0,
                     'started_at' => "",
@@ -291,6 +299,10 @@ class APISmokeController extends \App\Http\Controllers\Controller
                 ]);
             }else {
                 $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
+
+                (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
+                    ->to($user->token)
+                    ->send('喫煙終了をセンサーが検知しました');
             }
 
             $smoke->ended_at = $ended_at;

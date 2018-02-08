@@ -18,6 +18,9 @@ Route::group(['namespace' => 'api\v1', 'prefix' => '{API1}'], function(){
     //  Create user
     Route::post('user', 'APIUserController@store');
 
+    // Register token
+    Route::put('user/token', 'APIUserController@update');
+
     //  Update user profile
     Route::put('user/{id}', 'APIUserController@update');
 
