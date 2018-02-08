@@ -290,7 +290,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
 
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
-                    ->send('喫煙時間が短いため、誤データとして削除しました');
+                    ->send('誤検出したデータを削除しました');
 
                 return Response()->json([
                     'smoke_id' => 0,
