@@ -63,8 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         deviceToken = deviceToken.trimmingCharacters(in: characterSet)
         deviceToken = deviceToken.replacingOccurrences(of: " ", with: "")
         
-        //MARK:
-//        SendToken(token: deviceToken)
+        SendToken(token: deviceToken)
         
         print("deviceToken = \(deviceToken)")
     }
@@ -79,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "uuid": uuid
         ]
         
-        Alamofire.request(urlString, method: .post, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+        Alamofire.request(urlString, method: .put, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             guard let obj = response.result.value else {return}
             let json = JSON(obj)
 
