@@ -25,8 +25,6 @@ class UserController extends CrudController{
         $this->grid->add('id', 'ID', true);
         $this->grid->add('uuid', 'UUID');
         $this->grid->add('token', 'Token');
-        $this->grid->add('created_at', 'Created_at', true);
-        $this->grid->add('updated_at', 'Updated_at', true);
         $this->grid->add('payday', 'PayDay', true);
         $this->grid->add('price', 'Price', true);
         $this->grid->add('target_number', 'Target Number', true);
