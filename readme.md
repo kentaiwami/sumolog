@@ -57,6 +57,21 @@ response：
 }
 ```
 
+#### Register Token
+```
+method：POST
+endpoint：api/v1/user/token/
+request：
+{
+    "uuid": "hogehoge",
+    "token": "abcdefg",
+}
+response：
+{
+    "uuid": "hogehoge"
+}
+```
+
 #### Update User Profile
 ```
 method：PUT
