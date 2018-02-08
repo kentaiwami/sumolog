@@ -8,7 +8,8 @@
 
 import UIKit
 import KeychainAccess
-import UserNotifications
+import Alamofire
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,17 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
-        UNUserNotificationCenter.current().requestAuthorization(
-        options: [.badge, .alert, .sound]) {(accepted, error) in
-            if accepted {
-                print("Notification access accepted !")
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-            else{
-                print("Notification access denied.")
-            }
-        }
         
         let reset = GetResetFlag()
         let keychain = Keychain()
@@ -66,8 +56,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let deviceToken = String(format: "%@", deviceToken as CVarArg) as String
+        var deviceToken = String(format: "%@", deviceToken as CVarArg) as String
         print("deviceToken = \(deviceToken)")
+        
+        let characterSet: CharacterSet = CharacterSet.init(charactersIn: "<>")
+        deviceToken = deviceToken.trimmingCharacters(in: characterSet)
+        deviceToken = deviceToken.replacingOccurrences(of: " ", with: "")
+        
+        //MARK:
+//        SendToken(token: deviceToken)
+        
+        print("deviceToken = \(deviceToken)")
+    }
+    
+    func SendToken(token: String){
+        let keychain = Keychain()
+        let uuid = (try! keychain.get("uuid"))!
+        
+        let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + API.token.rawValue
+        let params = [
+            "token": token,
+            "uuid": uuid
+        ]
+        
+        Alamofire.request(urlString, method: .post, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            guard let obj = response.result.value else {return}
+            let json = JSON(obj)
+
+            print("***** API results *****")
+            print(json)
+            print("***** API results *****")
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
