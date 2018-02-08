@@ -8,6 +8,7 @@
 
 import UIKit
 import KeychainAccess
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        UNUserNotificationCenter.current().requestAuthorization(
+        options: [.badge, .alert, .sound]) {(accepted, error) in
+            if accepted {
+                print("Notification access accepted !")
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+            else{
+                print("Notification access denied.")
+            }
+        }
         
         let reset = GetResetFlag()
         let keychain = Keychain()
@@ -47,6 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
