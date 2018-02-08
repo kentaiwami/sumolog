@@ -37,6 +37,8 @@
 		3730C2721FFB713600184D2B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		375525D42022F96D0097A589 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		379B4A7B202C220E005697F3 /* sumolog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sumolog.entitlements; sourceTree = "<group>"; };
+		379B4A7C202CAD72005697F3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		379B4A7D202CAD72005697F3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewViewController.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3719E9781FA0591500E054EC /* Base */,
+				379B4A7C202CAD72005697F3 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3719E97D1FA0591500E054EC /* Base */,
+				379B4A7D202CAD72005697F3 /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
