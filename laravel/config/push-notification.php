@@ -5,7 +5,7 @@ $certificate = env('PUSH_CERTIFICATE');
 $passPhrase = env('PUSH_PASSPHRASE');
 
 return array(
-    'appNameIOS'     => array(
+    'Sumolog'     => array(
         'environment' =>$environment,
         'certificate' =>$certificate,
         'passPhrase'  =>$passPhrase,
