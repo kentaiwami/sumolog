@@ -45,7 +45,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         id = (try! keychain.getString("id"))!
         
         UNUserNotificationCenter.current().requestAuthorization(
-        options: [.badge, .alert, .sound]) {(accepted, error) in
+        options: [.alert, .sound]) {(accepted, error) in
             if accepted {
                 print("Notification access accepted !")
                 DispatchQueue.main.async {
