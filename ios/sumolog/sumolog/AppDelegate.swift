@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try! keychain.set(data.uuid, key: "uuid")
             try! keychain.set(data.id, key: "id")
             try! keychain.set(String(data.is_smoking), key: "is_smoking")
-            try! keychain.set("", key: "smoke_id")
+            try! keychain.set(data.smoke_id, key: "smoke_id")
         }
         
         let key = try! keychain.getString("uuid")

@@ -153,6 +153,8 @@ class SignUpViewController: FormViewController {
                     
                     try! self.keychain.set(json["uuid"].stringValue, key: "uuid")
                     try! self.keychain.set(String(json["id"].intValue), key: "id")
+                    try! self.keychain.set(String(false), key: "is_smoking")
+                    try! self.keychain.set("", key: "smoke_id")
                     
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let topVC = storyboard.instantiateInitialViewController()

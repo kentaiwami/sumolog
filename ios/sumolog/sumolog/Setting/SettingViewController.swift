@@ -58,8 +58,6 @@ class SettingViewController: FormViewController {
         let keychain = Keychain()
         user_id = (try! keychain.getString("id"))!
         uuid = (try! keychain.getString("uuid"))!
-        
-        tableView.isScrollEnabled = false
     }
     
     func CreateForm() {
