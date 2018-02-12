@@ -41,6 +41,17 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         id = (try! keychain.getString("id"))!
         uuid = (try! keychain.getString("uuid"))!
         
+        let is_smoking = try! keychain.getString("is_smoking")
+        let smoke_id = try! keychain.getString("smoke_id")
+        
+        if is_smoking == nil {
+            try! keychain.set(String(false), key: "is_smoking")
+        }
+        
+        if smoke_id == nil {
+            try! keychain.set("", key: "smoke_id")
+        }
+        
         self.tabBarController?.delegate = self
         
         self.tableView.refreshControl = self.refresh_controll
