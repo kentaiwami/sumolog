@@ -65,6 +65,23 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             self.indicator.stopIndicator()
             
+            // 存在しないユーザデータでアクセスした場合にはサインアップを求める
+            if response.response?.statusCode == 404 {
+                self.dismiss(animated: true, completion: nil)
+                
+                let signupVC = SignUpViewController()
+                let keychain = Keychain()
+                try! keychain.removeAll()
+                let nav = UINavigationController()
+                nav.viewControllers = [signupVC]
+                
+                signupVC.modalTransitionStyle = .flipHorizontal
+                
+                self.present(nav, animated: true, completion: nil)
+                
+                return
+            }
+            
             guard let object = response.result.value else{
                 let status = Status(title: "No Data", description: "喫煙記録がないため、データを表示できません", actionTitle: "Reload", image: nil) {
                     self.hideStatus()
