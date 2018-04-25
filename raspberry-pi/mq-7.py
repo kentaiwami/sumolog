@@ -182,7 +182,7 @@ def main():
 def run_api(is_create):
     global SMOKE_ID
 
-    base_url = 'https://kentaiwami.jp/sumolog/index.php/api/v1/smoke/'
+    base_url = 'https://kentaiwami.jp/sumolog/api/v1/smoke/'
 
     obj = {
         'uuid': UUID,
