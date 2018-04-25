@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\v1;
+namespace App\Http\Controllers\api\v1\user;
 
 use App\User;
 use Illuminate\Http\Request;
@@ -9,26 +9,6 @@ use App\Http\Controllers\Controller;
 
 class APIUserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return Response('', 404);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return Response('', 404);
-    }
-
     /**
      * Store a new user.
      *
@@ -86,15 +66,6 @@ class APIUserController extends Controller
     }
 
     /**
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit()
-    {
-        return Response('', 404);
-    }
-
-    /**
      * Update a user settings.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -130,15 +101,5 @@ class APIUserController extends Controller
         $user->save();
 
         return Response()->json($user);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy()
-    {
-        return Response('', 404);
     }
 }

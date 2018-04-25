@@ -14,39 +14,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::pattern('API1', 'v1');
-Route::group(['namespace' => 'api\v1', 'prefix' => '{API1}'], function(){
-    //  Create user
-    Route::post('user', 'APIUserController@store');
 
-    // Register token
+Route::group(['namespace' => 'api\v1\user', 'prefix' => '{API1}'], function(){
     Route::put('token', 'APITokenController@update');
 
-    //  Update user profile
-    Route::put('user/{id}', 'APIUserController@update');
-
-    //  Get user data
+    Route::post('user', 'APIUserController@store');
     Route::get('user/{id}', 'APIUserController@show');
+    Route::put('user/{id}', 'APIUserController@update');
+});
 
 
-    //  Create smoke
-    Route::post('smoke', 'APISmokeController@store');
+Route::group(['namespace' => 'api\v1\smoke\store', 'prefix' => '{API1}'], function(){
+    Route::post('smoke', 'APIStoreSmokeController@store');
+    Route::post('smoke/all', 'APIStoreAllSmokeController@store');
+});
 
-    //  Create smoke all data
-    Route::post('smoke/all', 'APISmokeController@store');
+
+Route::group(['namespace' => 'api\v1\smoke\show', 'prefix' => '{API1}'], function(){
+    Route::get('smoke/24hour/user/{id}', 'APIShow24hourSmokeController@show');
+    Route::get('smoke/overview/user/{id}', 'APIShowOverViewSmokeController@show');
+});
 
 
-    //  Update end smoke time
-    Route::put('smoke/{id}', 'APISmokeController@update');
+Route::group(['namespace' => 'api\v1\smoke\destroy', 'prefix' => '{API1}'], function(){
+    Route::delete('smoke/{smoke_id}/user/{user_id}', 'APIDestroySmokeController@destroy');
+});
 
-    // Update smoke data
-    Route::patch('smoke/{id}', 'APISmokeController@update');
 
-    // Delete smoke data
-    Route::delete('smoke/{smoke_id}/user/{user_id}', 'APISmokeController@destroy');
-
-    //  Get user's smoke overview data
-    Route::get('smoke/overview/user/{id}', 'APISmokeController@show');
-
-    //  Get user's 24hour smoke data
-    Route::get('smoke/24hour/user/{id}/{uuid}', 'APISmokeController@show');
+Route::group(['namespace' => 'api\v1\smoke\update', 'prefix' => '{API1}'], function(){
+    Route::put('smoke/{id}', 'APIUpdateSmokeController@update');
+    Route::patch('smoke/{id}', 'APIUpdateAllSmokeController@update');
 });
