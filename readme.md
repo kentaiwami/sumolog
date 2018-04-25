@@ -59,8 +59,8 @@ response：
 
 #### Register Token
 ```
-method：POST
-endpoint：api/v1/user/token/
+method：PUT
+endpoint：api/v1/token/
 request：
 {
     "uuid": "hogehoge",
