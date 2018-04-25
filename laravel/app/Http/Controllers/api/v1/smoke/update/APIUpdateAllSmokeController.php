@@ -15,9 +15,10 @@ class APIUpdateAllSmokeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @param  string $v
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $v, $id)
     {
         $validator_array = [
             'uuid' => 'bail|required|string|max:191',
