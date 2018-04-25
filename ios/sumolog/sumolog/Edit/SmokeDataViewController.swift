@@ -73,7 +73,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             indicator.showIndicator(view: self.view)
         }
         
-        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.hour24.rawValue + API.user.rawValue + id + "/" + uuid
+        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.hour24.rawValue + API.user.rawValue + id
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             // pullされてAPIを叩かれた場合
