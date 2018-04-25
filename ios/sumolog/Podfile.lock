@@ -20,7 +20,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
-  - Eureka (from `https://github.com/xmartlabs/Eureka.git`, branch `feature/Xcode9-Swift3_2`)
+  - Eureka (from `https://github.com/xmartlabs/Eureka.git`, branch `Swift-3.3`)
   - KeychainAccess
   - PromiseKit (~> 4.4)
   - ScrollableGraphView
@@ -30,7 +30,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Eureka:
-    :branch: feature/Xcode9-Swift3_2
+    :branch: Swift-3.3
     :git: https://github.com/xmartlabs/Eureka.git
   TinyConstraints:
     :branch: Release_2.1.2
@@ -38,7 +38,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Eureka:
-    :commit: 05acfb04c24a480f1868e671d19b39e0f22fc265
+    :commit: 8fcc11477411b1ac96339d3d9d0973956ed05151
     :git: https://github.com/xmartlabs/Eureka.git
   TinyConstraints:
     :commit: c26d600fffa01bb408ab9d2349f832e6c43ef1cb
@@ -54,6 +54,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TinyConstraints: 3a841eba583f2492c405f88552c5c274056f47e2
 
-PODFILE CHECKSUM: 0aded1da29a848779471a000e6d186606b6abf4b
+PODFILE CHECKSUM: 7615f62880616745d2eebebd554847bca505e6e4
 
 COCOAPODS: 1.4.0
