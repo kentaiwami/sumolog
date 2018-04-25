@@ -216,7 +216,7 @@ response：
 #### Get User's 24hour Smoke Data
 ```
 method：GET
-endpoint：api/v1/smoke/24hour/user/{id}/{uuid}
+endpoint：api/v1/smoke/24hour/user/{id}
 response：
 {
     [
