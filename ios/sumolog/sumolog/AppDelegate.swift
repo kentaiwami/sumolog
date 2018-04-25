@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let keychain = Keychain()
         let uuid = (try! keychain.get("uuid"))!
         
-        let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + API.token.rawValue
+        let urlString = API.base.rawValue + API.v1.rawValue + API.token.rawValue
         let params = [
             "token": token,
             "uuid": uuid

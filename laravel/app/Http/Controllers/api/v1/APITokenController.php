@@ -62,6 +62,7 @@ class APITokenController extends Controller
 
         $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
         $user->token = $request->get('token');
+        $user->save();
 
         return Response()->json($user);
     }
