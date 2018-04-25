@@ -5,8 +5,9 @@ namespace App\Http\Controllers\api\v1;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use App\Http\Controllers\Controller;
 
-class APIUserController extends \App\Http\Controllers\Controller
+class APIUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class APIUserController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        //
+        return Response('', 404);
     }
 
     /**
@@ -25,7 +26,7 @@ class APIUserController extends \App\Http\Controllers\Controller
      */
     public function create()
     {
-        //
+        return Response('', 404);
     }
 
     /**
@@ -86,12 +87,11 @@ class APIUserController extends \App\Http\Controllers\Controller
 
     /**
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        return Response('', 404);
     }
 
     /**
@@ -99,7 +99,7 @@ class APIUserController extends \App\Http\Controllers\Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param   string  $v
-     * @param   int     $id
+     * @param   string     $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $v, $id="")
@@ -159,11 +159,10 @@ class APIUserController extends \App\Http\Controllers\Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        return Response('', 404);
     }
 }

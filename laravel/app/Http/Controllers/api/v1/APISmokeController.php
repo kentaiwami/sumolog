@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Http\Controllers\Controller;
 use App\Smoke;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
-class APISmokeController extends \App\Http\Controllers\Controller
+class APISmokeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +18,7 @@ class APISmokeController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        //
+        return Response('', 404);
     }
 
     /**
@@ -27,13 +28,14 @@ class APISmokeController extends \App\Http\Controllers\Controller
      */
     public function create()
     {
-        //
+        return Response('', 404);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request $v
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $v)
@@ -228,12 +230,11 @@ class APISmokeController extends \App\Http\Controllers\Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        return Response('', 404);
     }
 
     /**
