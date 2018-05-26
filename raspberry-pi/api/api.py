@@ -62,4 +62,4 @@ def api_v1_delete_user():
 
 if __name__ == '__main__':
     db_create()
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=False)
