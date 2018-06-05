@@ -1313,16 +1313,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.23",
+            "version": "v5.6.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f547f0a71a12763d1adb8493237d541c9e3a5d10"
+                "reference": "56290edeb0d8051826d40b4cbd8ed3c30348b2b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f547f0a71a12763d1adb8493237d541c9e3a5d10",
-                "reference": "f547f0a71a12763d1adb8493237d541c9e3a5d10",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/56290edeb0d8051826d40b4cbd8ed3c30348b2b5",
+                "reference": "56290edeb0d8051826d40b4cbd8ed3c30348b2b5",
                 "shasum": ""
             },
             "require": {
@@ -1448,7 +1448,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-05-22T14:55:57+00:00"
+            "time": "2018-06-04T14:51:03+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2666,16 +2666,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.38",
+            "version": "2.1.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "e5d1221cd876e8cca146886c590a08d721e00b4f"
+                "reference": "f92460bdf9bb210296e2aaaf47fbe8a04c770937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/e5d1221cd876e8cca146886c590a08d721e00b4f",
-                "reference": "e5d1221cd876e8cca146886c590a08d721e00b4f",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/f92460bdf9bb210296e2aaaf47fbe8a04c770937",
+                "reference": "f92460bdf9bb210296e2aaaf47fbe8a04c770937",
                 "shasum": ""
             },
             "require": {
@@ -2720,7 +2720,7 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2018-05-05T04:45:26+00:00"
+            "time": "2018-06-05T07:36:51+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
