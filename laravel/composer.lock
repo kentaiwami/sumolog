@@ -1667,16 +1667,16 @@
         },
         {
             "name": "league/flysystem-cached-adapter",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-cached-adapter.git",
-                "reference": "93eec679c57f8510816577f361988b10b5b57351"
+                "reference": "60d73d9157b86643551209351c4b8a8fcf5f6da0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/93eec679c57f8510816577f361988b10b5b57351",
-                "reference": "93eec679c57f8510816577f361988b10b5b57351",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/60d73d9157b86643551209351c4b8a8fcf5f6da0",
+                "reference": "60d73d9157b86643551209351c4b8a8fcf5f6da0",
                 "shasum": ""
             },
             "require": {
@@ -1684,10 +1684,9 @@
                 "psr/cache": "^1.0.0"
             },
             "require-dev": {
-                "henrikbjorn/phpspec-code-coverage": "~1.0@dev",
                 "mockery/mockery": "~0.9",
-                "phpspec/phpspec": "~2.1",
-                "phpunit/phpunit": "~4.1",
+                "phpspec/phpspec": "^3.4",
+                "phpunit/phpunit": "^5.7",
                 "predis/predis": "~1.0",
                 "tedivm/stash": "~0.12"
             },
@@ -1711,7 +1710,7 @@
                 }
             ],
             "description": "An adapter decorator to enable meta-data caching.",
-            "time": "2017-03-20T09:59:34+00:00"
+            "time": "2018-06-05T18:59:20+00:00"
         },
         {
             "name": "maatwebsite/excel",
