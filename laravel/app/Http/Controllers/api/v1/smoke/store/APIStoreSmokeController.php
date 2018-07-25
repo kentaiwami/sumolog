@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Smoke;
 use App\User;
+use Sly\NotificationPusher\Model\Message;
 use Validator;
 
 class APIStoreSmokeController extends Controller
@@ -35,7 +36,7 @@ class APIStoreSmokeController extends Controller
         if ($user->token != "") {
             (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                 ->to($user->token)
-                ->send('喫煙開始をセンサーが検知しました');
+                ->send('喫煙開始をセンサーが検知しました', array('badge' => 1, 'sound' => 'default'));
         }
 
         return Response()->json([
