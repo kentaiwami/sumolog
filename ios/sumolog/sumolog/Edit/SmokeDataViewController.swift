@@ -97,7 +97,8 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         let urlString = API.base.rawValue + API.v1.rawValue + endpoint
         let param = [
             "uuid": uuid,
-            "minus_sec": 0
+            "minus_sec": 0,
+            "is_sensor": false
             ] as [String : Any]
         
         let promise = Promise<Int> { (resolve, reject) in
