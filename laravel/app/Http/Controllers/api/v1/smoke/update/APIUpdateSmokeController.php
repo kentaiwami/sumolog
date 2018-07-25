@@ -51,7 +51,7 @@ class APIUpdateSmokeController extends Controller
             if ($user->token != "") {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
-                    ->send('誤検出したデータを削除しました');
+                    ->send('誤検出したデータを削除しました', array('badge' => 1, 'sound' => 'default'));
             }
 
             return Response()->json([
@@ -65,7 +65,7 @@ class APIUpdateSmokeController extends Controller
             if ($user->token != "" and $request->get('is_sensor')) {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
-                    ->send('喫煙終了をセンサーが検知しました');
+                    ->send('喫煙終了をセンサーが検知しました', array('badge' => 1, 'sound' => 'default'));
             }
         }
 
