@@ -186,7 +186,8 @@ def run_api(is_create):
 
     obj = {
         'uuid': UUID,
-        'minus_sec': 30
+        'minus_sec': 30,
+        'is_sensor': True
     }
 
     if is_create:
