@@ -23,6 +23,7 @@ class APIUpdateSmokeController extends Controller
         $validator_array = [
             'uuid' => 'bail|required|string|max:191',
             'minus_sec' => 'bail|required|integer|min:0',
+            'is_sensor' => 'bail|required|boolean'
         ];
 
         $validator = Validator::make($request->all(), $validator_array);
@@ -46,6 +47,7 @@ class APIUpdateSmokeController extends Controller
                 $smoke->delete();
             } catch (\Exception $e) {}
 
+            // スマホからのアクセスは時間調整が0のためここには来ないので、is_sensorは不要。
             if ($user->token != "") {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
@@ -60,7 +62,7 @@ class APIUpdateSmokeController extends Controller
         }else {
             $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
 
-            if ($user->token != "") {
+            if ($user->token != "" and $request->get('is_sensor')) {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
                     ->send('喫煙終了をセンサーが検知しました');
