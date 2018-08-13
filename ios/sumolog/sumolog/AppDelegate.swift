@@ -72,10 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("deviceToken = \(deviceToken)")
     }
     
-    func SendToken(token: String){
-        
-    }
-    
     func applicationWillEnterForeground(_ application: UIApplication) {
         resetNotification()
     }
