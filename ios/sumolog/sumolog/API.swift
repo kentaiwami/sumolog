@@ -26,11 +26,10 @@ class API {
                     print(json)
                     print("***** GET API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) && !json["code"].exists() {
+                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
                     }else {
-                        let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
-                        seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
+                        seal.reject(NSError(domain: "エラーが発生しました[-1]", code: (response.response?.statusCode)!))
                     }
                 case .failure(_):
                     let err_msg = "エラーが発生しました[-1]"
@@ -52,11 +51,10 @@ class API {
                     print(json)
                     print("***** GET API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) && !json["code"].exists() {
+                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json["uuid"].stringValue)
                     }else {
-                        let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
-                        seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
+                        seal.reject(NSError(domain: "エラーが発生しました[-1]", code: (response.response?.statusCode)!))
                     }
                 case .failure(_):
                     let err_msg = "エラーが発生しました[-1]"
@@ -77,11 +75,10 @@ class API {
                     print(json)
                     print("***** "+String(httpMethod.rawValue)!+" Auth API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) && !json["code"].exists() {
+                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
                     }else {
-                        let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
-                        seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
+                        seal.reject(NSError(domain: "エラーが発生しました[-1]", code: (response.response?.statusCode)!))
                     }
                 case .failure(_):
                     let err_msg = "エラーが発生しました[-1]"
@@ -137,5 +134,15 @@ extension API {
             print(json)
             print("***** API results *****")
         }
+    }
+}
+
+
+extension API {
+    func getOverView() -> Promise<JSON> {
+        let keychain = Keychain()
+        let id = try! keychain.get("id")!
+        let endPoint = "smoke/overview/user/" + id
+        return get(url: base + version + endPoint)
     }
 }

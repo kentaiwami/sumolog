@@ -1,25 +1,25 @@
 //
-//  SmokeOverViewViewController.swift
+//  SmokeOverViewController.swift
 //  sumolog
 //
-//  Created by 岩見建汰 on 2018/01/03.
+//  Created by 岩見建汰 on 2018/08/13.
 //  Copyright © 2018年 Kenta. All rights reserved.
 //
 
 import UIKit
-import TinyConstraints
-import Alamofire
-import KeychainAccess
-import SwiftyJSON
 import ScrollableGraphView
 import StatusProvider
 import UserNotifications
+import TinyConstraints
 
-class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSource, StatusController {
-    var data = SmokeOverViewData()
-    let indicator = Indicator()
-    var id = ""
-    
+protocol SmokeOverViewInterface: class {
+    func initViews()
+    func showNoData()
+    func showAlert(title: String, msg: String)
+}
+
+class SmokeOverViewController: UIViewController, StatusController,  SmokeOverViewInterface {
+    fileprivate var presenter: SmokeOverViewPresenter!
     var latestLabel = UILabel()
     var aveLabel = UILabel()
     var smoke_countLabel = UILabel()
@@ -28,21 +28,10 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     var borderView: [UIView] = []
     var graphView = ScrollableGraphView()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.tabBarController?.navigationItem.title = "OverView"
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        
-        RemoveViews()
-        CallGetOverViewAPI()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let keychain = Keychain()
-        id = (try! keychain.getString("id"))!
+        initializePresenter()
         
         UNUserNotificationCenter.current().requestAuthorization(
         options: [.alert, .sound]) {(accepted, error) in
@@ -58,75 +47,46 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         }
     }
     
-    func CallGetOverViewAPI() {
-        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.smoke.rawValue + APIOld.overview.rawValue + APIOld.user.rawValue + id
-        indicator.showIndicator(view: self.view)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        Alamofire.request(urlString, method: .get).responseJSON { (response) in
-            self.indicator.stopIndicator()
-            
-            // 存在しないユーザデータでアクセスした場合にはサインアップを求める
-            if response.response?.statusCode == 404 {
-                self.dismiss(animated: true, completion: nil)
-                
-                let signupVC = SignUpViewController()
-                let keychain = Keychain()
-                try! keychain.removeAll()
-                let nav = UINavigationController()
-                nav.viewControllers = [signupVC]
-                
-                signupVC.modalTransitionStyle = .flipHorizontal
-                
-                self.present(nav, animated: true, completion: nil)
-                
-                return
-            }
-            
-            guard let object = response.result.value else{
-                let status = Status(title: "No Data", description: "喫煙記録がないため、データを表示できません", actionTitle: "Reload", image: nil) {
-                    self.hideStatus()
-                    self.RemoveViews()
-                    self.CallGetOverViewAPI()
-                }
-                
-                self.show(status: status)
-                
-                return
-                
-            }
-            let json = JSON(object)
-            print("Smoke Overview results: ", json.count)
-            print(json)
-            
-            self.data.SetAll(json: json)
-            
-            self.CreateViews()
+        self.tabBarController?.navigationItem.title = "概要"
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        
+        removeViews()
+        presenter.setOverViewData()
+    }
+    
+    private func initializePresenter() {
+        presenter = SmokeOverViewPresenter(view: self)
+    }
+    
+    fileprivate func createViews() {
+        // 直近の喫煙時間、平均時間
+        createLatestLabel()
+        createDescriptionLabel(str: "Latest", target: latestLabel)
+        createAveLabel()
+        createDescriptionLabel(str: "Ave", target: aveLabel)
+        createBorderView(target: descriptionLabel.last!)
+        
+        // 24時間の喫煙本数
+        createSumSmokesCountLabel()
+        createDescriptionLabel(str: "24hour smoked", target: smoke_countLabel)
+        createBorderView(target: descriptionLabel.last!)
+        
+        // 使用済みの金額
+        createUsedLabel()
+        createDescriptionLabel(str: "Used this month", target: usedLabel)
+        createBorderView(target: descriptionLabel.last!)
+        createGraphView()
+        
+        let tmpOver = presenter.getOverViewData().GetOver()
+        if tmpOver > 0 {
+            ShowStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
         }
     }
     
-    func CreateViews() {
-        // 直近の喫煙時間、平均時間
-        CreateLatestLabel()
-        CreateDescriptionLabel(str: "Latest", target: latestLabel)
-        CreateAveLabel()
-        CreateDescriptionLabel(str: "Ave", target: aveLabel)
-        CreateBorderView(target: descriptionLabel.last!)
-        
-        // 24時間の喫煙本数
-        CreateSumSmokesCountLabel()
-        CreateDescriptionLabel(str: "24hour smoked", target: smoke_countLabel)
-        CreateBorderView(target: descriptionLabel.last!)
-        
-        // 使用済みの金額
-        CreateUsedLabel()
-        CreateDescriptionLabel(str: "Used this month", target: usedLabel)
-        CreateBorderView(target: descriptionLabel.last!)
-        CreateGraphView()
-
-        GenerateAlert()
-    }
-    
-    func RemoveViews() {
+    fileprivate func removeViews() {
         self.hideStatus()
         
         latestLabel.removeFromSuperview()
@@ -146,30 +106,38 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         borderView.removeAll()
         descriptionLabel.removeAll()
     }
+
+}
+
+// MARK: - Presenterから呼び出される関数一覧
+extension SmokeOverViewController {
+    func initViews() {
+        createViews()
+    }
     
-    func CreateLatestLabel() {
-        var h = 0
-        var m = 0
-        var str = ""
-        let min = data.GetMin()
-        if min >= 60 {
-            h = min / 60
-            m = min % 60
-            
-            if m == 0 {
-                str = String(h)+"h"
-            }else {
-                str = String(h)+"h"+String(m)+"m"
-            }
-        }else {
-            m = min
-            str = String(m)+"m"
+    func showNoData() {
+        let status = Status(title: "No Data", description: "喫煙記録がないため、データを表示できません", actionTitle: "Reload", image: nil) {
+            self.hideStatus()
+            self.removeViews()
+            self.presenter.setOverViewData()
         }
         
+        self.show(status: status)
+    }
+    
+    func showAlert(title: String, msg: String) {
+        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+    }
+}
+
+
+// MARK: - Labelなどの要素の生成関連
+extension SmokeOverViewController {
+    fileprivate func createLatestLabel() {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.attributedText = GetAttrString(str: str)
+        label.attributedText = getAttrString(str: presenter.getLatestLabelText(min: presenter.getOverViewData().GetMin()))
         
         latestLabel = label
         
@@ -179,11 +147,11 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         label.centerX(to: self.view, offset: -100)
     }
     
-    func CreateAveLabel() {
+    fileprivate func createAveLabel() {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.attributedText = GetAttrString(str: String(data.GetAve()) + "m")
+        label.attributedText = getAttrString(str: String(presenter.getOverViewData().GetAve()) + "m")
         
         aveLabel = label
         
@@ -193,7 +161,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         label.centerX(to: self.view, offset: 100)
     }
     
-    func GetAttrString(str: String) -> NSAttributedString {
+    fileprivate func getAttrString(str: String) -> NSAttributedString {
         let attr_str = NSMutableAttributedString(string: str)
         
         let chars:[Character] = ["h", "m", "n", "u"]
@@ -210,7 +178,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         return attr_str
     }
     
-    func CreateDescriptionLabel(str: String, target: UILabel) {
+    fileprivate func createDescriptionLabel(str: String, target: UILabel) {
         let attr_str = NSMutableAttributedString(string: str)
         attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 15)!, range: NSRange(location: 0, length: attr_str.length))
         
@@ -227,7 +195,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         label.centerX(to: target)
     }
     
-    func CreateBorderView(target: UILabel) {
+    fileprivate func createBorderView(target: UILabel) {
         let view = UIView()
         view.backgroundColor = UIColor.hex(Color.gray.rawValue, alpha: 0.25)
         
@@ -240,31 +208,31 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         view.width(self.view.frame.width)
     }
     
-    func CreateSumSmokesCountLabel() {
+    fileprivate func createSumSmokesCountLabel() {
         // 目標本数を超過していたら赤文字
         var textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        if data.GetOver() > 0 {
+        if presenter.getOverViewData().GetOver() > 0 {
             textColor = UIColor.red
         }
-
+        
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = textColor
-        label.attributedText = GetAttrString(str: String(data.GetCount()) + "num")
-
+        label.attributedText = getAttrString(str: String(presenter.getOverViewData().GetCount()) + "num")
+        
         smoke_countLabel = label
-
+        
         self.view.addSubview(label)
-
+        
         label.topToBottom(of: borderView.last!, offset: 25)
         label.centerX(to: self.view)
     }
     
-    func CreateUsedLabel() {
+    fileprivate func createUsedLabel() {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.text = "¥" + String(GetNumberFormatter(num: data.GetUsed()))
+        label.text = "¥" + getNumber(num: presenter.getOverViewData().GetUsed())
         
         usedLabel = label
         
@@ -274,60 +242,62 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         label.centerX(to: self.view)
     }
     
-    func GetNumberFormatter(num: Int) -> String {
+    private func getNumber(num: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.groupingSeparator = ","
         formatter.groupingSize = 3
-
+        
         let result = formatter.string(from: NSNumber(value: num))
-
+        
         return result!
     }
     
-    
-    func CreateGraphView() {
-
+    fileprivate func createGraphView() {
+        
         let frame = CGRect.zero
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         let barPlot = BarPlot(identifier: "bar")
-
+        
         barPlot.barWidth = 5
         barPlot.barLineWidth = 1
         barPlot.barLineColor = UIColor.clear
         barPlot.barColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
         barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         barPlot.animationDuration = 1.0
-
+        
         let referenceLines = ReferenceLines()
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
         referenceLines.referenceLineColor = UIColor.hex(Color.gray.rawValue, alpha: 0.1)
         referenceLines.referenceLineLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         referenceLines.dataPointLabelColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-
-
+        
+        
         graphView.rangeMin = 0
-        graphView.rangeMax = CalcMaxRange()
+        graphView.rangeMax = presenter.getMaxRange()
         graphView.backgroundFillColor = UIColor.white
         graphView.shouldAnimateOnStartup = true
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.direction = .rightToLeft
         graphView.dataPointSpacing = 30
-
+        
         self.graphView = graphView
-
+        
         self.view.addSubview(graphView)
-
         graphView.width(to: self.view)
         graphView.leading(to: self.view)
         graphView.trailing(to: self.view)
         graphView.topToBottom(of: borderView.last!, offset: 20)
         graphView.bottom(to: self.view, offset: -80)
     }
-    
+}
+
+
+// MARK: - ScrollableGraphView
+extension SmokeOverViewController: ScrollableGraphViewDataSource {
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
-        let hour = data.GetHour()
+        let hour = presenter.getOverViewData().GetHour()
         
         switch(plot.identifier) {
         case "bar":
@@ -340,47 +310,11 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
         }
     }
     
-    func CalcMaxRange() -> Double {
-        let data_split = 4
-        
-        // 最大値を求める
-        var max = 0
-        for obj in data.GetHour() {
-            let key = obj.keys.first!
-            
-            if max < obj[key]! {
-                max = obj[key]!
-            }
-        }
-        
-        // MaxRangeを求める
-        if max == 0 {
-            return Double(data_split)
-        }
-        
-        if max % data_split == 0 {
-            return Double(max)
-        }else {
-            return Double((max/data_split+1) * data_split)
-        }
-    }
-    
     func label(atIndex pointIndex: Int) -> String {
-        return data.GetHour()[pointIndex].keys.first! + "時"
+        return presenter.getOverViewData().GetHour()[pointIndex].keys.first! + "時"
     }
     
     func numberOfPoints() -> Int {
-        return data.GetHour().count
-    }
-    
-    func GenerateAlert() {
-        if data.GetOver() > 0 {
-            self.present(GetStandardAlert(title: "", message: "目標本数を"+String(data.GetOver())+"本超過しています", b_title: "OK"), animated: true, completion: nil)
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        return presenter.getOverViewData().GetHour().count
     }
 }

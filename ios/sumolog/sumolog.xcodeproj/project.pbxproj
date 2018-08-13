@@ -11,7 +11,6 @@
 		3719E9791FA0591500E054EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3719E9771FA0591500E054EC /* Main.storyboard */; };
 		3719E97B1FA0591500E054EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3719E97A1FA0591500E054EC /* Assets.xcassets */; };
 		3719E97E1FA0591500E054EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3719E97C1FA0591500E054EC /* LaunchScreen.storyboard */; };
-		3730C26B1FFB4AF900184D2B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C26A1FFB4AF900184D2B /* SettingViewController.swift */; };
 		3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C26E1FFB5B0F00184D2B /* Enum.swift */; };
 		3730C2711FFB5F4100184D2B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C2701FFB5F4100184D2B /* Data.swift */; };
 		3730C2731FFB713600184D2B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3730C2721FFB713600184D2B /* Utility.swift */; };
@@ -19,8 +18,12 @@
 		376DAE6E212096B70040B3D8 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE6D212096B70040B3D8 /* SignUpViewModel.swift */; };
 		376DAE70212097540040B3D8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE6F212097540040B3D8 /* SignUpViewController.swift */; };
 		376DAE722120A8630040B3D8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE712120A8630040B3D8 /* API.swift */; };
+		376DAE782121666B0040B3D8 /* OldSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE742121666A0040B3D8 /* OldSettingViewController.swift */; };
+		376DAE7F212166BB0040B3D8 /* SmokeOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7B212166BB0040B3D8 /* SmokeOverViewController.swift */; };
+		376DAE80212166BB0040B3D8 /* SmokeOverViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7C212166BB0040B3D8 /* SmokeOverViewPresenter.swift */; };
+		376DAE82212166BB0040B3D8 /* SmokeOverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7E212166BB0040B3D8 /* SmokeOverViewModel.swift */; };
+		376DAE842121682A0040B3D8 /* SmokeOverViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */; };
 		37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA71FFC1790006E6B09 /* Extensions.swift */; };
-		37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */; };
 		37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAB1FFC1F31006E6B09 /* Setting.swift */; };
 		37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */; };
 		37FF72761FFFD51900B9D4E2 /* SmokeDataEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */; };
@@ -34,7 +37,6 @@
 		3719E97A1FA0591500E054EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3719E97D1FA0591500E054EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3719E97F1FA0591500E054EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3730C26A1FFB4AF900184D2B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		3730C26E1FFB5B0F00184D2B /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		3730C2701FFB5F4100184D2B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		3730C2721FFB713600184D2B /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
@@ -42,11 +44,15 @@
 		376DAE6D212096B70040B3D8 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		376DAE6F212097540040B3D8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		376DAE712120A8630040B3D8 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		376DAE742121666A0040B3D8 /* OldSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldSettingViewController.swift; sourceTree = "<group>"; };
+		376DAE7B212166BB0040B3D8 /* SmokeOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeOverViewController.swift; sourceTree = "<group>"; };
+		376DAE7C212166BB0040B3D8 /* SmokeOverViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeOverViewPresenter.swift; sourceTree = "<group>"; };
+		376DAE7E212166BB0040B3D8 /* SmokeOverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeOverViewModel.swift; sourceTree = "<group>"; };
+		376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewEntity.swift; sourceTree = "<group>"; };
+		376DAE852121DF3B0040B3D8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		376DAE862121DF3B0040B3D8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		379B4A7B202C220E005697F3 /* sumolog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sumolog.entitlements; sourceTree = "<group>"; };
-		379B4A7C202CAD72005697F3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
-		379B4A7D202CAD72005697F3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewViewController.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataViewController.swift; sourceTree = "<group>"; };
 		37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataEditViewController.swift; sourceTree = "<group>"; };
@@ -130,7 +136,10 @@
 		377E92BF2022F8FA0033F9C2 /* OverView */ = {
 			isa = PBXGroup;
 			children = (
-				37B69EA91FFC1DB4006E6B09 /* SmokeOverViewViewController.swift */,
+				376DAE7B212166BB0040B3D8 /* SmokeOverViewController.swift */,
+				376DAE7C212166BB0040B3D8 /* SmokeOverViewPresenter.swift */,
+				376DAE7E212166BB0040B3D8 /* SmokeOverViewModel.swift */,
+				376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */,
 			);
 			path = OverView;
 			sourceTree = "<group>";
@@ -138,7 +147,7 @@
 		377E92C02022F9070033F9C2 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				3730C26A1FFB4AF900184D2B /* SettingViewController.swift */,
+				376DAE742121666A0040B3D8 /* OldSettingViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -296,17 +305,20 @@
 			files = (
 				37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */,
 				376DAE6E212096B70040B3D8 /* SignUpViewModel.swift in Sources */,
+				376DAE80212166BB0040B3D8 /* SmokeOverViewPresenter.swift in Sources */,
 				3730C2731FFB713600184D2B /* Utility.swift in Sources */,
+				376DAE842121682A0040B3D8 /* SmokeOverViewEntity.swift in Sources */,
 				3730C2711FFB5F4100184D2B /* Data.swift in Sources */,
 				376DAE722120A8630040B3D8 /* API.swift in Sources */,
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,
+				376DAE7F212166BB0040B3D8 /* SmokeOverViewController.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
 				37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */,
 				376DAE6C212096590040B3D8 /* SignUpViewPresenter.swift in Sources */,
+				376DAE782121666B0040B3D8 /* OldSettingViewController.swift in Sources */,
 				376DAE70212097540040B3D8 /* SignUpViewController.swift in Sources */,
-				37B69EAA1FFC1DB4006E6B09 /* SmokeOverViewViewController.swift in Sources */,
 				3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */,
-				3730C26B1FFB4AF900184D2B /* SettingViewController.swift in Sources */,
+				376DAE82212166BB0040B3D8 /* SmokeOverViewModel.swift in Sources */,
 				37FF72761FFFD51900B9D4E2 /* SmokeDataEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,7 +330,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3719E9781FA0591500E054EC /* Base */,
-				379B4A7C202CAD72005697F3 /* ja */,
+				376DAE852121DF3B0040B3D8 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -327,7 +339,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3719E97D1FA0591500E054EC /* Base */,
-				379B4A7D202CAD72005697F3 /* ja */,
+				376DAE862121DF3B0040B3D8 /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
