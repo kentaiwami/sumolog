@@ -131,6 +131,38 @@ extension SmokeOverViewController {
 }
 
 
+
+// MARK: - 補助関数
+extension SmokeOverViewController {
+    fileprivate func getAttrString(str: String) -> NSAttributedString {
+        let attr_str = NSMutableAttributedString(string: str)
+        
+        let chars:[Character] = ["h", "m", "n", "u"]
+        
+        for char in chars {
+            let char_index = str.index(of: char)
+            
+            if let char_index = char_index {
+                let position = str.distance(from: str.startIndex, to: char_index).advanced(by: 0)
+                attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 30)!, range: NSRange(location: position, length: 1))
+            }
+        }
+        
+        return attr_str
+    }
+    
+    fileprivate func getNumber(num: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        formatter.groupingSeparator = ","
+        formatter.groupingSize = 3
+        
+        let result = formatter.string(from: NSNumber(value: num))
+        
+        return result!
+    }
+}
+
 // MARK: - Labelなどの要素の生成関連
 extension SmokeOverViewController {
     fileprivate func createLatestLabel() {
@@ -159,23 +191,6 @@ extension SmokeOverViewController {
         
         label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: 25)
         label.centerX(to: self.view, offset: 100)
-    }
-    
-    fileprivate func getAttrString(str: String) -> NSAttributedString {
-        let attr_str = NSMutableAttributedString(string: str)
-        
-        let chars:[Character] = ["h", "m", "n", "u"]
-        
-        for char in chars {
-            let char_index = str.index(of: char)
-            
-            if let char_index = char_index {
-                let position = str.distance(from: str.startIndex, to: char_index).advanced(by: 0)
-                attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 30)!, range: NSRange(location: position, length: 1))
-            }
-        }
-        
-        return attr_str
     }
     
     fileprivate func createDescriptionLabel(str: String, target: UILabel) {
@@ -240,17 +255,6 @@ extension SmokeOverViewController {
         
         label.topToBottom(of: borderView.last!, offset: 25)
         label.centerX(to: self.view)
-    }
-    
-    private func getNumber(num: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = NumberFormatter.Style.decimal
-        formatter.groupingSeparator = ","
-        formatter.groupingSize = 3
-        
-        let result = formatter.string(from: NSNumber(value: num))
-        
-        return result!
     }
     
     fileprivate func createGraphView() {
