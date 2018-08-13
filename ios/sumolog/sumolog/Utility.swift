@@ -8,6 +8,8 @@
 
 import UIKit
 import Eureka
+import PopupDialog
+
 
 func GetStandardAlert(title: String, message: String, b_title: String) -> UIAlertController {
     let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -75,8 +77,7 @@ func IsCheckFormValue(form: Form) -> Bool {
     return false
 }
 
-func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
-    let urlString = "http://" + address + "/api/v1/user"
+func GetConnectRaspberryPIRequest(method: String, urlString: String, uuid: String) -> URLRequest {
     let tmp_req = ["uuid": uuid]
     var request = URLRequest(url: URL(string: urlString)!)
     request.httpMethod = method
@@ -93,6 +94,29 @@ func GetDateFormatter(format: String) -> DateFormatter {
     dateFormatter.dateFormat = format
     
     return dateFormatter
+}
+
+func ShowStandardAlert(title: String, msg: String, vc: UIViewController, completion: (() -> Void)?) {
+    let button = DefaultButton(title: "OK", dismissOnTap: true) {}
+    let popup = PopupDialog(title: title, message: msg) {
+        if let tmpCompletion = completion {
+            tmpCompletion()
+        }
+    }
+    popup.transitionStyle = .zoomIn
+    popup.addButtons([button])
+    vc.present(popup, animated: true, completion: nil)
+}
+
+func IsHTTPStatus(statusCode: Int?) -> Bool {
+    let code = String(statusCode!)
+    var results:[String] = []
+    
+    if code.pregMatche(pattern: "2..", matches: &results) {
+        return true
+    }else {
+        return false
+    }
 }
 
 class Indicator {

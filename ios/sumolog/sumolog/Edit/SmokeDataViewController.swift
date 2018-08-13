@@ -73,7 +73,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             indicator.showIndicator(view: self.view)
         }
         
-        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.hour24.rawValue + API.user.rawValue + id
+        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.smoke.rawValue + APIOld.hour24.rawValue + APIOld.user.rawValue + id
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             // pullされてAPIを叩かれた場合
@@ -94,21 +94,20 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func CallCreateSmokeAPI(endpoint: String, method: HTTPMethod) -> Promise<Int> {
-        let urlString = API.base.rawValue + API.v1.rawValue + endpoint
+        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + endpoint
         let param = [
             "uuid": uuid,
             "minus_sec": 0,
             "is_sensor": false
             ] as [String : Any]
         
-        let promise = Promise<Int> { (resolve, reject) in
+        let promise = Promise<Int> { seal in
             Alamofire.request(urlString, method: method, parameters: param, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
                 print("Smoke create update results: ", json.count)
                 print(json)
-                
-                resolve(json["smoke_id"].intValue)
+                seal.fulfill(json["smoke_id"].intValue)
             }
         }
         
@@ -191,7 +190,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     func CreateSmoke() {
         indicator.showIndicator(view: self.view)
         
-        CallCreateSmokeAPI(endpoint: API.smoke.rawValue, method: .post).then {smoke_id -> Void in
+        CallCreateSmokeAPI(endpoint: APIOld.smoke.rawValue, method: .post).done { smoke_id in
             try! self.keychain.set(String(smoke_id), key: "smoke_id")
             try! self.keychain.set(String(true), key: "is_smoking")
             self.SetUpButton()
@@ -209,7 +208,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
         indicator.showIndicator(view: self.view)
         
         
-        CallCreateSmokeAPI(endpoint: API.smoke.rawValue+smoke_id, method: .put).then {_ -> Void in
+        CallCreateSmokeAPI(endpoint: APIOld.smoke.rawValue+smoke_id, method: .put).done { _ in
             try! self.keychain.set("", key: "smoke_id")
             try! self.keychain.set(String(false), key: "is_smoking")
             self.SetUpButton()

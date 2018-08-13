@@ -7,7 +7,7 @@
 //
 
 
-enum API: String {
+enum APIOld: String {
     case base = "https://kentaiwami.jp/sumolog/index.php/api/"
     case v1 = "v1/"
     case user = "user/"

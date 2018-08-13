@@ -2,16 +2,15 @@ PODS:
   - Alamofire (4.6.0)
   - Eureka (3.0.0)
   - KeychainAccess (3.1.0)
-  - PromiseKit (4.5.0):
-    - PromiseKit/Foundation (= 4.5.0)
-    - PromiseKit/QuartzCore (= 4.5.0)
-    - PromiseKit/UIKit (= 4.5.0)
-  - PromiseKit/CorePromise (4.5.0)
-  - PromiseKit/Foundation (4.5.0):
+  - PopupDialog (0.5.4)
+  - PromiseKit (6.2.3):
+    - PromiseKit/CorePromise (= 6.2.3)
+    - PromiseKit/Foundation (= 6.2.3)
+    - PromiseKit/UIKit (= 6.2.3)
+  - PromiseKit/CorePromise (6.2.3)
+  - PromiseKit/Foundation (6.2.3):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.5.0):
-    - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.5.0):
+  - PromiseKit/UIKit (6.2.3):
     - PromiseKit/CorePromise
   - ScrollableGraphView (4.0.4)
   - StatusProvider (1.2.6)
@@ -22,11 +21,22 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Eureka (from `https://github.com/xmartlabs/Eureka.git`, branch `Swift-3.3`)
   - KeychainAccess
-  - PromiseKit (~> 4.4)
+  - PopupDialog (= 0.5.4)
+  - PromiseKit (~> 6.0)
   - ScrollableGraphView
   - StatusProvider
   - SwiftyJSON
   - TinyConstraints (from `https://github.com/roberthein/TinyConstraints.git`, branch `Release_2.1.2`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - KeychainAccess
+    - PopupDialog
+    - PromiseKit
+    - ScrollableGraphView
+    - StatusProvider
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
   Eureka:
@@ -48,12 +58,13 @@ SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Eureka: 5b9418d7bfdc21ca977d69d124a6409f3e9af2c7
   KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
-  PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
+  PopupDialog: 75cf955693590b0cb2fdde00223fb65d99c57247
+  PromiseKit: 62f37bb4900a9b0b7550d017e41497171d93face
   ScrollableGraphView: 072ea302f4ca27779692656a49d51fe537b2b1e7
   StatusProvider: b2c794d71f7166516950098e811e91ddbcc8d030
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TinyConstraints: 3a841eba583f2492c405f88552c5c274056f47e2
 
-PODFILE CHECKSUM: 7615f62880616745d2eebebd554847bca505e6e4
+PODFILE CHECKSUM: 94b6408c8bb8d7f56a49c2c00e0e81412c5f9817
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

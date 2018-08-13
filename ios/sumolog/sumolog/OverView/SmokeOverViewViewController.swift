@@ -59,7 +59,7 @@ class SmokeOverViewViewController: UIViewController, ScrollableGraphViewDataSour
     }
     
     func CallGetOverViewAPI() {
-        let urlString = API.base.rawValue + API.v1.rawValue + API.smoke.rawValue + API.overview.rawValue + API.user.rawValue + id
+        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.smoke.rawValue + APIOld.overview.rawValue + APIOld.user.rawValue + id
         indicator.showIndicator(view: self.view)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in

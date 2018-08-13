@@ -34,7 +34,7 @@ class SettingViewController: FormViewController {
         CallGetUserAPI().then{_ ->Promise<Int> in
             self.CreateForm()
             return self.CallGetUUIDCountAPI()
-            }.then { _ -> Void in
+            }.done { _ in
                 if self.user_data.GetCount() != 0 {
                     let switch_connect = self.form.rowBy(tag: "connect")
                     switch_connect?.baseValue = true
@@ -184,7 +184,7 @@ class SettingViewController: FormViewController {
             }
             .onCellSelection {  cell, row in
                 self.indicator.showIndicator(view: self.tableView)
-                self.CallUpdateUserAPI().then { _ -> Void in
+                self.CallUpdateUserAPI().done { _ in
                     self.UpdateCell()
                     self.indicator.stopIndicator()
                     
@@ -210,7 +210,7 @@ class SettingViewController: FormViewController {
                 row.title = "接続状況"
                 row.value = false
             }.onChange { row in
-                self.CallSaveDeleteUUIDAPI().then { _ -> Void in
+                self.CallSaveDeleteUUIDAPI().done { _ in
                     row.updateCell()
                 }.catch { err in
                     let tmp = err as NSError
@@ -253,8 +253,8 @@ class SettingViewController: FormViewController {
         
         indicator.showIndicator(view: self.view)
         
-        let request = GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
-        let promise = Promise<String> { (resolve, reject) in
+        let request = GetConnectRaspberryPIRequest(method: method, urlString: address, uuid: uuid)
+        let promise = Promise<String> { seal in
             Alamofire.request(request).responseJSON { response in
                 self.indicator.stopIndicator()
 
@@ -265,9 +265,9 @@ class SettingViewController: FormViewController {
                     print(json)
                     print("***** RasPI results *****")
 
-                    resolve("OK")
+                    seal.fulfill("OK")
                 }else {
-                    reject(NSError(domain: "センサーに接続できませんでした", code: -1))
+                    seal.reject(NSError(domain: "センサーに接続できませんでした", code: -1))
                 }
             }
         }
@@ -276,8 +276,8 @@ class SettingViewController: FormViewController {
     
     func CallUpdateUserAPI() -> Promise<String> {
         if !IsCheckFormValue(form: form) {
-            let promise = Promise<String> { (resolve, reject) in
-                reject(NSError(domain: "必須項目を入力してください", code: -1))
+            let promise = Promise<String> { seal in
+                seal.reject(NSError(domain: "必須項目を入力してください", code: -1))
             }
             return promise
         }
@@ -296,9 +296,9 @@ class SettingViewController: FormViewController {
             "address": address
             ] as [String : Any]
 
-        let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + user_id
+        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.user.rawValue + user_id
         
-        let promise = Promise<String> { (resolve, reject) in
+        let promise = Promise<String> { seal in
             Alamofire.request(urlString, method: .put, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
                 guard let obj = response.result.value else {return}
                 let json = JSON(obj)
@@ -306,7 +306,7 @@ class SettingViewController: FormViewController {
                 print(json)
                 print("***** API results *****")
                 self.user_data.SetAll(json: json)
-                resolve("OK")
+                seal.fulfill("OK")
             }
         }
         
@@ -314,8 +314,8 @@ class SettingViewController: FormViewController {
     }
     
     func CallGetUserAPI() -> Promise<String> {
-        let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue + user_id
-        let promise = Promise<String> { (resolve, reject) in
+        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.user.rawValue + user_id
+        let promise = Promise<String> { seal in
             Alamofire.request(urlString, method: .get).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
@@ -323,7 +323,7 @@ class SettingViewController: FormViewController {
                 print(json)
                 
                 self.user_data.SetAll(json: json)
-                resolve("OK")
+                seal.fulfill("OK")
             }
         }
         
@@ -332,17 +332,17 @@ class SettingViewController: FormViewController {
     
     func CallGetUUIDCountAPI() -> Promise<Int> {
         if user_data.Getaddress().isEmpty {
-            let promise = Promise<Int> { (resolve, reject) in
+            let promise = Promise<Int> { seal in
                 user_data.SetUUIDCount(count: 0)
-                resolve(0)
+                seal.fulfill(0)
             }
             return promise
         }
         
-        let request = GetConnectRaspberryPIRequest(method: "GET", address: user_data.Getaddress(), uuid: uuid)
-        let promise = Promise<Int> { (resolve, reject) in
+        let request = GetConnectRaspberryPIRequest(method: "GET", urlString: user_data.Getaddress(), uuid: uuid)
+        let promise = Promise<Int> { seal in
             Alamofire.request(request).responseJSON { response in
-                guard let obj = response.result.value else {return reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
+                guard let obj = response.result.value else {return seal.reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
                 let json = JSON(obj)
                 print("***** raspi results *****")
                 print(json)
@@ -351,9 +351,9 @@ class SettingViewController: FormViewController {
                 
                 if response.error == nil {
                     self.user_data.SetUUIDCount(count: json["count"].intValue)
-                    resolve(json["count"].intValue)
+                    seal.fulfill(json["count"].intValue)
                 }else {
-                    reject(NSError(domain: "センサーに接続できませんでした", code: -1))
+                    seal.reject(NSError(domain: "センサーに接続できませんでした", code: -1))
                 }
             }
         }
