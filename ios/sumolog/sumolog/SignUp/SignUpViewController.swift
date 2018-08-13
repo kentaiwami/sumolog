@@ -27,7 +27,7 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "Sign Up"
+        self.navigationItem.title = "サインアップ"
         tableView.isScrollEnabled = false
         initializePresenter()
         CreateForm()
@@ -146,7 +146,7 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
 
         form +++ Section()
             <<< ButtonRow(){
-                $0.title = "Sign Up"
+                $0.title = "サインアップ"
                 $0.baseCell.backgroundColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
                 $0.baseCell.tintColor = UIColor.white
             }
