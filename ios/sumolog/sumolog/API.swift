@@ -116,6 +116,8 @@ extension API {
     }
 }
 
+
+// MARK: - Token
 extension API {
     func sendToken(token: String) {
         let keychain = Keychain()
