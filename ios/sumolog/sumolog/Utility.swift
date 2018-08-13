@@ -119,20 +119,37 @@ func IsHTTPStatus(statusCode: Int?) -> Bool {
     }
 }
 
+fileprivate func getTopViewController() -> UIViewController? {
+    if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
+        var topViewControlelr: UIViewController = rootViewController
+        
+        while let presentedViewController = topViewControlelr.presentedViewController {
+            topViewControlelr = presentedViewController
+        }
+        
+        return topViewControlelr
+    } else {
+        return nil
+    }
+}
+
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     
-    func showIndicator(view: UIView) {
-        indicator.activityIndicatorViewStyle = .whiteLarge
-        indicator.center = view.center
-        indicator.color = UIColor.gray
-        indicator.hidesWhenStopped = true
-        view.addSubview(indicator)
-        view.bringSubview(toFront: indicator)
-        indicator.startAnimating()
+    func start() {
+        if let topViewController: UIViewController = getTopViewController() {
+            indicator.activityIndicatorViewStyle = .whiteLarge
+            indicator.center = topViewController.view.center
+            indicator.color = UIColor.gray
+            indicator.hidesWhenStopped = true
+            topViewController.view.addSubview(indicator)
+            topViewController.view.bringSubview(toFront: indicator)
+            indicator.startAnimating()
+        }
     }
     
-    func stopIndicator() {
+    func stop() {
         self.indicator.stopAnimating()
     }
 }

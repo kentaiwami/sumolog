@@ -29,7 +29,7 @@ class SettingViewController: FormViewController {
         self.tabBarController?.navigationItem.title = "Setting"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
-        indicator.showIndicator(view: tableView)
+        indicator.start()
         
         CallGetUserAPI().then{_ ->Promise<Int> in
             self.CreateForm()
@@ -40,9 +40,9 @@ class SettingViewController: FormViewController {
                     switch_connect?.baseValue = true
                     switch_connect?.updateCell()
                 }
-                self.indicator.stopIndicator()
+                self.indicator.stop()
             }.catch { err in
-                self.indicator.stopIndicator()
+                self.indicator.stop()
                 let ns_err = err as NSError
                 let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
                 self.present(alert, animated: true, completion: nil)
@@ -183,16 +183,16 @@ class SettingViewController: FormViewController {
                     $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                self.indicator.showIndicator(view: self.tableView)
+                self.indicator.start()
                 self.CallUpdateUserAPI().done { _ in
                     self.UpdateCell()
-                    self.indicator.stopIndicator()
+                    self.indicator.stop()
                     
                     let alert = GetStandardAlert(title: "Success", message: "情報を更新しました", b_title: "OK")
                     self.present(alert, animated: true, completion: nil)
                 }.catch{ err in
                     self.UpdateCell()
-                    self.indicator.stopIndicator()
+                    self.indicator.stop()
                     let ns_err = err as NSError
                     let alert = GetStandardAlert(title: "Error", message: ns_err.domain, b_title: "OK")
                     self.present(alert, animated: true, completion: nil)
@@ -251,12 +251,12 @@ class SettingViewController: FormViewController {
             method = "DELETE"
         }
         
-        indicator.showIndicator(view: self.view)
+        indicator.start()
         
         let request = GetConnectRaspberryPIRequest(method: method, urlString: address, uuid: uuid)
         let promise = Promise<String> { seal in
             Alamofire.request(request).responseJSON { response in
-                self.indicator.stopIndicator()
+                self.indicator.stop()
 
                 if response.error == nil {
                     guard let obj = response.result.value else {return}

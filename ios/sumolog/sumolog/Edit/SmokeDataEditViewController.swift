@@ -154,7 +154,7 @@ class SmokeDataEditViewController: FormViewController {
     }
     
     func CallUpdateSmokeDataAPI() {
-        indicator.showIndicator(view: self.view)
+        indicator.start()
         
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
@@ -166,7 +166,7 @@ class SmokeDataEditViewController: FormViewController {
         ]
         let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.smoke.rawValue + String(smoke_id)
         Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            self.indicator.stopIndicator()
+            self.indicator.stop()
 
             let obj = JSON(response.result.value)
             print("***** Update Smoke data results *****")
@@ -187,11 +187,11 @@ class SmokeDataEditViewController: FormViewController {
     }
     
     func CallDeleteSmokeDataAPI() {
-        indicator.showIndicator(view: self.view)
+        indicator.start()
         
         let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.smoke.rawValue + String(smoke_id) + "/" + APIOld.user.rawValue + user_id
         Alamofire.request(urlString, method: .delete, parameters: [:], encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            self.indicator.stopIndicator()
+            self.indicator.stop()
             
             let obj = JSON(response.result.value)
             print("***** Delete Smoke data results *****")

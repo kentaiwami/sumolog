@@ -70,7 +70,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     
     func CallGet24HourSmokeAPI(show_indicator: Bool) {
         if show_indicator {
-            indicator.showIndicator(view: self.view)
+            indicator.start()
         }
         
         let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.smoke.rawValue + APIOld.hour24.rawValue + APIOld.user.rawValue + id
@@ -81,7 +81,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
                 self.refresh_controll.endRefreshing()
             }
             
-            self.indicator.stopIndicator()
+            self.indicator.stop()
             
             guard let object = response.result.value else{return}
             let json = JSON(object)
@@ -188,14 +188,14 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     }
     
     func CreateSmoke() {
-        indicator.showIndicator(view: self.view)
+        indicator.start()
         
         CallCreateSmokeAPI(endpoint: APIOld.smoke.rawValue, method: .post).done { smoke_id in
             try! self.keychain.set(String(smoke_id), key: "smoke_id")
             try! self.keychain.set(String(true), key: "is_smoking")
             self.SetUpButton()
             
-            self.indicator.stopIndicator()
+            self.indicator.stop()
             self.CallGet24HourSmokeAPI(show_indicator: true)
             
             self.present(GetStandardAlert(title: "Started", message: "喫煙開始を記録しました。\n右上のチェックボタンをタップして喫煙終了を記録してください。", b_title: "OK"), animated: true, completion: nil)
@@ -205,7 +205,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
     func TapSmokeEndButton() {
         let smoke_id = (try! keychain.getString("smoke_id"))!
         
-        indicator.showIndicator(view: self.view)
+        indicator.start()
         
         
         CallCreateSmokeAPI(endpoint: APIOld.smoke.rawValue+smoke_id, method: .put).done { _ in
@@ -213,7 +213,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             try! self.keychain.set(String(false), key: "is_smoking")
             self.SetUpButton()
             
-            self.indicator.stopIndicator()
+            self.indicator.stop()
             self.CallGet24HourSmokeAPI(show_indicator: true)
             self.present(GetStandardAlert(title: "Ended", message: "喫煙終了を記録しました。", b_title: "OK"), animated: true, completion: nil)
         }

@@ -17,8 +17,13 @@ class API {
     let version = "v1/"
     
     fileprivate func get(url: String) -> Promise<JSON> {
+        let indicator = Indicator()
+        indicator.start()
+        
         let promise = Promise<JSON> { seal in
             Alamofire.request(url, method: .get).validate(statusCode: 200..<600).responseJSON { (response) in
+                indicator.stop()
+                
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -41,9 +46,14 @@ class API {
     }
     
     fileprivate func URLRequest(url: String, method: String, uuid: String) -> Promise<String> {
+        let indicator = Indicator()
+        indicator.start()
+        
         let request = GetConnectRaspberryPIRequest(method: method, urlString: url, uuid: uuid)
         let promise = Promise<String> { seal in
             Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
+                indicator.stop()
+                
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -66,8 +76,13 @@ class API {
     }
     
     fileprivate func postPutPatchDeleteAuth(url: String, params: [String:Any], httpMethod: HTTPMethod) -> Promise<JSON> {
+        let indicator = Indicator()
+        indicator.start()
+        
         let promise = Promise<JSON> { seal in
             Alamofire.request(url, method: httpMethod, parameters: params, encoding: JSONEncoding(options: [])).validate(statusCode: 200..<600).responseJSON { (response) in
+                indicator.stop()
+                
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -119,21 +134,13 @@ extension API {
     func sendToken(token: String) {
         let keychain = Keychain()
         let uuid = (try! keychain.get("uuid"))!
-        
-        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.token.rawValue
         let params = [
             "token": token,
             "uuid": uuid
         ]
         
-        Alamofire.request(urlString, method: .put, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            guard let obj = response.result.value else {return}
-            let json = JSON(obj)
-            
-            print("***** API results *****")
-            print(json)
-            print("***** API results *****")
-        }
+        let endPoint = "token"
+        let _ = postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put).done { (_) in}
     }
 }
 
