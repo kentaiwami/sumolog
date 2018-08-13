@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import PromiseKit
+import KeychainAccess
 
 class API {
     let base = GetHost() + "api/"
@@ -92,6 +93,9 @@ class API {
     }
 }
 
+
+
+// MARK: - SignUp
 extension API {
     func saveUUIDInSensor(isSensorSet: Bool, url: String) -> Promise<String> {
         let uuid = NSUUID().uuidString
@@ -109,5 +113,27 @@ extension API {
     func createUser(params: [String:Any]) -> Promise<JSON> {
         let endPoint = "user"
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .post)
+    }
+}
+
+extension API {
+    func sendToken(token: String) {
+        let keychain = Keychain()
+        let uuid = (try! keychain.get("uuid"))!
+        
+        let urlString = APIOld.base.rawValue + APIOld.v1.rawValue + APIOld.token.rawValue
+        let params = [
+            "token": token,
+            "uuid": uuid
+        ]
+        
+        Alamofire.request(urlString, method: .put, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            guard let obj = response.result.value else {return}
+            let json = JSON(obj)
+            
+            print("***** API results *****")
+            print(json)
+            print("***** API results *****")
+        }
     }
 }
