@@ -16,9 +16,12 @@ class API {
     let base = GetHost() + "api/"
     let version = "v1/"
     
-    fileprivate func get(url: String) -> Promise<JSON> {
+    fileprivate func get(url: String, isShowIndicator: Bool) -> Promise<JSON> {
         let indicator = Indicator()
-        indicator.start()
+        
+        if isShowIndicator {
+            indicator.start()
+        }
         
         let promise = Promise<JSON> { seal in
             Alamofire.request(url, method: .get).validate(statusCode: 200..<600).responseJSON { (response) in
@@ -145,11 +148,49 @@ extension API {
 }
 
 
+
+// MARK: - OverView
 extension API {
     func getOverView() -> Promise<JSON> {
         let keychain = Keychain()
         let id = try! keychain.get("id")!
         let endPoint = "smoke/overview/user/" + id
-        return get(url: base + version + endPoint)
+        return get(url: base + version + endPoint, isShowIndicator: true)
+    }
+}
+
+
+extension API {
+    func get24HourSmoke(isShowIndicator: Bool) -> Promise<JSON> {
+        let keychain = Keychain()
+        let id = try! keychain.get("id")!
+        let endPoint = "smoke/24hour/user/" + id
+        return get(url: base + version + endPoint, isShowIndicator: isShowIndicator)
+    }
+    
+    func startSmoke() -> Promise<JSON> {
+        let keychain = Keychain()
+        let uuid = (try! keychain.get("uuid"))!
+        let endPoint = "smoke"
+        let param = [
+            "uuid": uuid,
+            "is_sensor": false
+            ] as [String : Any]
+        
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: param, httpMethod: .post)
+    }
+    
+    func endSmoke() -> Promise<JSON> {
+        let keychain = Keychain()
+        let smokeID = (try! keychain.getString("smoke_id"))!
+        let uuid = (try! keychain.get("uuid"))!
+        let endPoint = "smoke/" + smokeID
+        let param = [
+            "uuid": uuid,
+            "minus_sec": 0,
+            "is_sensor": false
+            ] as [String : Any]
+        
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: param, httpMethod: .put)
     }
 }

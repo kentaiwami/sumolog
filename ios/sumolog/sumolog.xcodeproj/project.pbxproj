@@ -23,10 +23,13 @@
 		376DAE80212166BB0040B3D8 /* SmokeOverViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7C212166BB0040B3D8 /* SmokeOverViewPresenter.swift */; };
 		376DAE82212166BB0040B3D8 /* SmokeOverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7E212166BB0040B3D8 /* SmokeOverViewModel.swift */; };
 		376DAE842121682A0040B3D8 /* SmokeOverViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */; };
+		379B054F2121ECE7002D72FA /* SmokeDataViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B054C2121ECE5002D72FA /* SmokeDataViewPresenter.swift */; };
+		379B05502121ECE7002D72FA /* SmokeDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B054D2121ECE6002D72FA /* SmokeDataViewModel.swift */; };
+		379B05512121ECE7002D72FA /* SmokeDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B054E2121ECE7002D72FA /* SmokeDataViewController.swift */; };
 		37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EA71FFC1790006E6B09 /* Extensions.swift */; };
 		37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B69EAB1FFC1F31006E6B09 /* Setting.swift */; };
-		37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */; };
-		37FF72761FFFD51900B9D4E2 /* SmokeDataEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */; };
+		37FF72741FFFA81900B9D4E2 /* OldSmokeDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72731FFFA81900B9D4E2 /* OldSmokeDataViewController.swift */; };
+		37FF72761FFFD51900B9D4E2 /* OldSmokeDataEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FF72751FFFD51900B9D4E2 /* OldSmokeDataEditViewController.swift */; };
 		EAEE5979EF848BD5650722CE /* Pods_sumolog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,11 +54,14 @@
 		376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewEntity.swift; sourceTree = "<group>"; };
 		376DAE852121DF3B0040B3D8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		376DAE862121DF3B0040B3D8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		379B054C2121ECE5002D72FA /* SmokeDataViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeDataViewPresenter.swift; sourceTree = "<group>"; };
+		379B054D2121ECE6002D72FA /* SmokeDataViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeDataViewModel.swift; sourceTree = "<group>"; };
+		379B054E2121ECE7002D72FA /* SmokeDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeDataViewController.swift; sourceTree = "<group>"; };
 		379B4A7B202C220E005697F3 /* sumolog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sumolog.entitlements; sourceTree = "<group>"; };
 		37B69EA71FFC1790006E6B09 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37B69EAB1FFC1F31006E6B09 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
-		37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataViewController.swift; sourceTree = "<group>"; };
-		37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeDataEditViewController.swift; sourceTree = "<group>"; };
+		37FF72731FFFA81900B9D4E2 /* OldSmokeDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSmokeDataViewController.swift; sourceTree = "<group>"; };
+		37FF72751FFFD51900B9D4E2 /* OldSmokeDataEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSmokeDataEditViewController.swift; sourceTree = "<group>"; };
 		8BD63810A3E31146B7C9796F /* Pods-sumolog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sumolog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sumolog/Pods-sumolog.debug.xcconfig"; sourceTree = "<group>"; };
 		C31DFB5548C3E0F4F6C5F4E6 /* Pods-sumolog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sumolog.release.xcconfig"; path = "Pods/Target Support Files/Pods-sumolog/Pods-sumolog.release.xcconfig"; sourceTree = "<group>"; };
 		EAF33FF848C67B5DE3B6E86E /* Pods_sumolog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sumolog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,8 +133,8 @@
 		377E92BE2022F8E20033F9C2 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
-				37FF72731FFFA81900B9D4E2 /* SmokeDataViewController.swift */,
-				37FF72751FFFD51900B9D4E2 /* SmokeDataEditViewController.swift */,
+				379B054B2121EC87002D72FA /* DataEdit */,
+				379B054A2121EC77002D72FA /* DataView */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -150,6 +156,25 @@
 				376DAE742121666A0040B3D8 /* OldSettingViewController.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		379B054A2121EC77002D72FA /* DataView */ = {
+			isa = PBXGroup;
+			children = (
+				379B054E2121ECE7002D72FA /* SmokeDataViewController.swift */,
+				379B054C2121ECE5002D72FA /* SmokeDataViewPresenter.swift */,
+				379B054D2121ECE6002D72FA /* SmokeDataViewModel.swift */,
+				37FF72731FFFA81900B9D4E2 /* OldSmokeDataViewController.swift */,
+			);
+			path = DataView;
+			sourceTree = "<group>";
+		};
+		379B054B2121EC87002D72FA /* DataEdit */ = {
+			isa = PBXGroup;
+			children = (
+				37FF72751FFFD51900B9D4E2 /* OldSmokeDataEditViewController.swift */,
+			);
+			path = DataEdit;
 			sourceTree = "<group>";
 		};
 		49982238021F3C136B9C9F0D /* Frameworks */ = {
@@ -313,13 +338,16 @@
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,
 				376DAE7F212166BB0040B3D8 /* SmokeOverViewController.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
-				37FF72741FFFA81900B9D4E2 /* SmokeDataViewController.swift in Sources */,
+				37FF72741FFFA81900B9D4E2 /* OldSmokeDataViewController.swift in Sources */,
 				376DAE6C212096590040B3D8 /* SignUpViewPresenter.swift in Sources */,
+				379B05512121ECE7002D72FA /* SmokeDataViewController.swift in Sources */,
 				376DAE782121666B0040B3D8 /* OldSettingViewController.swift in Sources */,
 				376DAE70212097540040B3D8 /* SignUpViewController.swift in Sources */,
 				3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */,
 				376DAE82212166BB0040B3D8 /* SmokeOverViewModel.swift in Sources */,
-				37FF72761FFFD51900B9D4E2 /* SmokeDataEditViewController.swift in Sources */,
+				379B05502121ECE7002D72FA /* SmokeDataViewModel.swift in Sources */,
+				37FF72761FFFD51900B9D4E2 /* OldSmokeDataEditViewController.swift in Sources */,
+				379B054F2121ECE7002D72FA /* SmokeDataViewPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,7 +14,7 @@ import KeychainAccess
 import StatusProvider
 import PromiseKit
 
-class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, StatusController {
+class OldSmokeDataViewController: FormViewController, UITabBarControllerDelegate, StatusController {
 
     var preViewName = StoryBoardID.edit.rawValue
     let indicator = Indicator()
@@ -155,7 +155,7 @@ class SmokeDataViewController: FormViewController, UITabBarControllerDelegate, S
             
             let title = "\(start)\n\(end)"
             
-            let vc = SmokeDataEditViewController()
+            let vc = OldSmokeDataEditViewController()
             vc.SetSmokeID(id: smoke["id"].intValue)
             vc.SetStartedAt(started_at: smoke["started_at"].stringValue)
             vc.SetEndedAt(ended_at: smoke["ended_at"].stringValue)

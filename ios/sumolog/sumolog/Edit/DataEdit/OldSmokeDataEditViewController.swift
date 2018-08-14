@@ -12,7 +12,7 @@ import KeychainAccess
 import SwiftyJSON
 import Alamofire
 
-class SmokeDataEditViewController: FormViewController {
+class OldSmokeDataEditViewController: FormViewController {
 
     var uuid = ""
     var user_id = ""
