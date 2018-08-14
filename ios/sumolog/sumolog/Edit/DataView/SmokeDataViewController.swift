@@ -92,7 +92,7 @@ extension SmokeDataViewController {
     }
     
     fileprivate func createTable() {
-        let section = Section("24hour Smoked")
+        let section = Section("過去24時間の喫煙情報")
         
         for smoke in presenter.getResults() {
             let start = Date.stringFromString(string: smoke["started_at"].stringValue, formatIn: "yyyy-MM-dd HH:mm:ss", formatOut: "yyyy-MM-dd HH:mm")
@@ -106,10 +106,8 @@ extension SmokeDataViewController {
             
             let title = "\(start)\n\(end)"
             
-            let vc = OldSmokeDataEditViewController()
-            vc.SetSmokeID(id: smoke["id"].intValue)
-            vc.SetStartedAt(started_at: smoke["started_at"].stringValue)
-            vc.SetEndedAt(ended_at: smoke["ended_at"].stringValue)
+            let vc = SmokeDataEditViewController()
+            vc.setSmokeInfo(start: smoke["started_at"].stringValue, end: smoke["ended_at"].stringValue, ID: smoke["id"].intValue)
             
             let row = ButtonRow() {
                 $0.title = title

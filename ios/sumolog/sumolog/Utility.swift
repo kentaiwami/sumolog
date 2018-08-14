@@ -20,39 +20,6 @@ func GetStandardAlert(title: String, message: String, b_title: String) -> UIAler
     return alertController
 }
 
-func GetAppDelegate() -> AppDelegate {
-    return UIApplication.shared.delegate as! AppDelegate
-}
-
-func GetOKCancelAlert(title: String, message: String, ok_action: @escaping () -> Void) -> UIAlertController {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-    
-    let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler:{(action: UIAlertAction!) -> Void in
-        print("OK")
-        ok_action()
-    })
-    let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel)
-
-    alertController.addAction(ok)
-    alertController.addAction(cancel)
-    
-    return alertController
-}
-
-func GetDeleteCancelAlert(title: String, message: String, delete_action: @escaping () -> Void) -> UIAlertController {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-    
-    let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler:{(action: UIAlertAction!) -> Void in
-        delete_action()
-    })
-    let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel)
-    
-    alertController.addAction(delete)
-    alertController.addAction(cancel)
-    
-    return alertController
-}
-
 func GenerateDate() -> Array<Int> {
     var date_array:[Int] = []
     for i in 1...31 {

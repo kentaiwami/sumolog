@@ -64,19 +64,19 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
     fileprivate func createViews() {
         // 直近の喫煙時間、平均時間
         createLatestLabel()
-        createDescriptionLabel(str: "Latest", target: latestLabel)
+        createDescriptionLabel(str: "直近の喫煙", target: latestLabel)
         createAveLabel()
-        createDescriptionLabel(str: "Ave", target: aveLabel)
+        createDescriptionLabel(str: "1本あたりの喫煙時間", target: aveLabel)
         createBorderView(target: descriptionLabel.last!)
         
         // 24時間の喫煙本数
         createSumSmokesCountLabel()
-        createDescriptionLabel(str: "24hour smoked", target: smoke_countLabel)
+        createDescriptionLabel(str: "過去24時間の喫煙本数", target: smoke_countLabel)
         createBorderView(target: descriptionLabel.last!)
         
         // 使用済みの金額
         createUsedLabel()
-        createDescriptionLabel(str: "Used this month", target: usedLabel)
+        createDescriptionLabel(str: "給与日から使用した金額", target: usedLabel)
         createBorderView(target: descriptionLabel.last!)
         createGraphView()
         
@@ -137,7 +137,7 @@ extension SmokeOverViewController {
     fileprivate func getAttrString(str: String) -> NSAttributedString {
         let attr_str = NSMutableAttributedString(string: str)
         
-        let chars:[Character] = ["h", "m", "n", "u"]
+        let chars:[Character] = ["h", "m", "本"]
         
         for char in chars {
             let char_index = str.index(of: char)
@@ -233,7 +233,7 @@ extension SmokeOverViewController {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = textColor
-        label.attributedText = getAttrString(str: String(presenter.getOverViewData().GetCount()) + "num")
+        label.attributedText = getAttrString(str: String(presenter.getOverViewData().GetCount()) + "本")
         
         smoke_countLabel = label
         

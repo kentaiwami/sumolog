@@ -194,3 +194,26 @@ extension API {
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: param, httpMethod: .put)
     }
 }
+
+
+extension API {
+    func deleteSmoke(smokeID: Int) -> Promise<JSON> {
+        let keychain = Keychain()
+        let userID = (try! keychain.getString("id"))!
+        let endPoint = "smoke/"+String(smokeID)+"/user/"+userID
+
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: [:], httpMethod: .delete)
+    }
+    
+    func updateSmoke(start: String, end: String, smokeID: String) -> Promise<JSON> {
+        let keychain = Keychain()
+        let uuid = (try! keychain.get("uuid"))!
+        let endPoint = "smoke/" + smokeID
+        let params = [
+            "uuid": uuid,
+            "started_at": start,
+            "ended_at": end
+        ]
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .patch)
+    }
+}
