@@ -1,5 +1,5 @@
 //
-//  SmokeDataEditViewPresenter.swift
+//  SmokeListEditViewPresenter.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -9,14 +9,14 @@
 import Foundation
 import SwiftyJSON
 
-class SmokeDataEditViewPresenter {
+class SmokeListEditViewPresenter {
     
-    weak var view: SmokeDataEditViewInterface?
-    let model: SmokeDataEditViewModel
+    weak var view: SmokeListEditViewInterface?
+    let model: SmokeListEditViewModel
     
-    init(view: SmokeDataEditViewInterface) {
+    init(view: SmokeListEditViewInterface) {
         self.view = view
-        self.model = SmokeDataEditViewModel()
+        self.model = SmokeListEditViewModel()
         model.delegate = self
     }
     
@@ -43,7 +43,7 @@ class SmokeDataEditViewPresenter {
     }
 }
 
-extension SmokeDataEditViewPresenter: SmokeDataEditViewModelDelegate {
+extension SmokeListEditViewPresenter: SmokeListEditViewModelDelegate {
     func successUpdateOrDeleteSmoke() {
         view?.popView()
     }

@@ -1,5 +1,5 @@
 //
-//  SmokeDataViewPresenter.swift
+//  SmokeListViewPresenter.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -9,14 +9,14 @@
 import Foundation
 import SwiftyJSON
 
-class SmokeDataViewPresenter {
+class SmokeListViewPresenter {
     
-    weak var view: SmokeDataViewInterface?
-    let model: SmokeDataViewModel
+    weak var view: SmokeListViewInterface?
+    let model: SmokeListViewModel
     
-    init(view: SmokeDataViewInterface) {
+    init(view: SmokeListViewInterface) {
         self.view = view
-        self.model = SmokeDataViewModel()
+        self.model = SmokeListViewModel()
         model.delegate = self
     }
     
@@ -49,7 +49,7 @@ class SmokeDataViewPresenter {
     }
 }
 
-extension SmokeDataViewPresenter: SmokeDataViewModelDelegate {
+extension SmokeListViewPresenter: SmokeListViewModelDelegate {
     func drawView() {
         view?.drawView()
     }

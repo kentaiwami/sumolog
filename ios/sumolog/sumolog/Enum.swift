@@ -30,6 +30,6 @@ enum Font: String {
 
 enum StoryBoardID: String {
     case data = "Data"
-    case edit = "Edit"
+    case list = "List"
     case setting = "Setting"
 }

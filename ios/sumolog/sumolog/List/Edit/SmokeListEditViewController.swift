@@ -1,5 +1,5 @@
 //
-//  SmokeDataEditViewController.swift
+//  SmokeListEditViewController.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -10,7 +10,7 @@ import UIKit
 import Eureka
 import PopupDialog
 
-protocol SmokeDataEditViewInterface: class {
+protocol SmokeListEditViewInterface: class {
     var start: Date { get }
     var end: Date { get }
     
@@ -18,7 +18,7 @@ protocol SmokeDataEditViewInterface: class {
     func showAlert(title: String, msg: String)
 }
 
-class SmokeDataEditViewController: FormViewController,  SmokeDataEditViewInterface {
+class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterface {
     var start: Date {
         return form.values()["start"] as! Date
     }
@@ -27,7 +27,7 @@ class SmokeDataEditViewController: FormViewController,  SmokeDataEditViewInterfa
         return form.values()["end"] as! Date
     }
     
-    fileprivate var presenter: SmokeDataEditViewPresenter!
+    fileprivate var presenter: SmokeListEditViewPresenter!
     
     // インスタンス化された際に値を一時保存
     var tmpStart = ""
@@ -155,13 +155,13 @@ class SmokeDataEditViewController: FormViewController,  SmokeDataEditViewInterfa
     }
     
     private func initializePresenter() {
-        presenter = SmokeDataEditViewPresenter(view: self)
+        presenter = SmokeListEditViewPresenter(view: self)
     }
 }
 
 
 // MARK: - インスタンス化の際に呼び出す関数
-extension SmokeDataEditViewController {
+extension SmokeListEditViewController {
     func setSmokeInfo(start: String, end: String, ID: Int) {
         tmpStart = start
         tmpEnd = end
@@ -170,7 +170,7 @@ extension SmokeDataEditViewController {
 }
 
 // MARK: - Presenterから呼び出される関数一覧
-extension SmokeDataEditViewController {
+extension SmokeListEditViewController {
     func popView() {
         self.navigationController?.popViewController(animated: true)
     }

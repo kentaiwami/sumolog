@@ -42,17 +42,17 @@
             </objects>
             <point key="canvasLocation" x="830" y="-798"/>
         </scene>
-        <!--編集-->
+        <!--一覧-->
         <scene sceneID="Jm6-gM-Dio">
             <objects>
-                <viewController storyboardIdentifier="Edit" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dbM-LS-UBY" customClass="SmokeDataViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="List" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dbM-LS-UBY" customClass="SmokeListViewController" customModule="sumolog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="h3f-Fq-ODy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="obf-Ax-swu"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="編集" image="tab_edit" selectedImage="tab_edit" id="kpw-Sp-mqN"/>
+                    <tabBarItem key="tabBarItem" title="一覧" image="tab_list" selectedImage="tab_list" id="kpw-Sp-mqN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hQP-FL-dtC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -97,7 +97,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="tab_edit" width="30" height="30"/>
+        <image name="tab_list" width="30" height="30"/>
         <image name="tab_overview" width="30" height="30"/>
         <image name="tab_setting" width="30" height="30"/>
     </resources>

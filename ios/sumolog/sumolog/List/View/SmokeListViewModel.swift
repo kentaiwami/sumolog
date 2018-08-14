@@ -1,5 +1,5 @@
 //
-//  SmokeDataViewModel.swift
+//  SmokeListViewModel.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -11,15 +11,15 @@ import PromiseKit
 import SwiftyJSON
 import KeychainAccess
 
-protocol SmokeDataViewModelDelegate: class {
+protocol SmokeListViewModelDelegate: class {
     func drawView()
     func successStartSmoke()
     func successEndSmoke()
     func faildAPI(title: String, msg: String)
 }
 
-class SmokeDataViewModel {
-    weak var delegate: SmokeDataViewModelDelegate?
+class SmokeListViewModel {
+    weak var delegate: SmokeListViewModelDelegate?
     private let api = API()
     private let keychain = Keychain()
     

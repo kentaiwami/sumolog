@@ -1,5 +1,5 @@
 //
-//  SmokeDataViewController.swift
+//  SmokeListViewController.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -11,17 +11,17 @@ import Eureka
 import StatusProvider
 import PopupDialog
 
-protocol SmokeDataViewInterface: class {
+protocol SmokeListViewInterface: class {
     func drawView()
     func successStartSmoke()
     func successEndSmoke()
     func showAlert(title: String, msg: String)
 }
 
-class SmokeDataViewController: FormViewController, StatusController,  SmokeDataViewInterface {
-    fileprivate var presenter: SmokeDataViewPresenter!
+class SmokeListViewController: FormViewController, StatusController,  SmokeListViewInterface {
+    fileprivate var presenter: SmokeListViewPresenter!
     
-    var preViewName = StoryBoardID.edit.rawValue
+    var preViewName = StoryBoardID.list.rawValue
     let refresh_controll = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class SmokeDataViewController: FormViewController, StatusController,  SmokeDataV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "編集"
+        self.tabBarController?.navigationItem.title = "一覧"
         
         setUpNavigationButton()
         presenter.set24HourSmoke(isShowIndicator: false)
@@ -79,13 +79,13 @@ class SmokeDataViewController: FormViewController, StatusController,  SmokeDataV
     }
     
     private func initializePresenter() {
-        presenter = SmokeDataViewPresenter(view: self)
+        presenter = SmokeListViewPresenter(view: self)
     }
 }
 
 
 // MARK: - View関係
-extension SmokeDataViewController {
+extension SmokeListViewController {
     fileprivate func resetViews() {
         self.hideStatus()
         form.removeAll()
@@ -106,7 +106,7 @@ extension SmokeDataViewController {
             
             let title = "\(start)\n\(end)"
             
-            let vc = SmokeDataEditViewController()
+            let vc = SmokeListEditViewController()
             vc.setSmokeInfo(start: smoke["started_at"].stringValue, end: smoke["ended_at"].stringValue, ID: smoke["id"].intValue)
             
             let row = ButtonRow() {
@@ -124,7 +124,7 @@ extension SmokeDataViewController {
 }
 
 // MARK: - Presenterから呼び出される関数一覧
-extension SmokeDataViewController {
+extension SmokeListViewController {
     func drawView() {
         UIView.setAnimationsEnabled(false)
         resetViews()
@@ -160,9 +160,9 @@ extension SmokeDataViewController {
 }
 
 
-extension SmokeDataViewController: UITabBarControllerDelegate {
+extension SmokeListViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController.restorationIdentifier! == StoryBoardID.edit.rawValue && preViewName == StoryBoardID.edit.rawValue {
+        if viewController.restorationIdentifier! == StoryBoardID.list.rawValue && preViewName == StoryBoardID.list.rawValue {
             tableView.scroll(to: .top, animated: true)
         }
         
