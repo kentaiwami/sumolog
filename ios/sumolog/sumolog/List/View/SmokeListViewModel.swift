@@ -47,7 +47,9 @@ class SmokeListViewModel {
     }
     
     func setResults(isShowIndicator: Bool) {
-        api.get24HourSmoke(isShowIndicator: isShowIndicator).done { (json) in
+        let userID = try! keychain.get("id")!
+        
+        api.get24HourSmoke(isShowIndicator: isShowIndicator, userID: userID).done { (json) in
             self.results = json["results"].arrayValue
             self.delegate?.drawView()
         }
@@ -63,7 +65,13 @@ class SmokeListViewModel {
     }
     
     func startSmoke() {
-        api.startSmoke().done { (json) in
+        let uuid = (try! keychain.get("uuid"))!
+        let params = [
+            "uuid": uuid,
+            "is_sensor": false
+            ] as [String : Any]
+        
+        api.startSmoke(params: params).done { (json) in
             try! self.keychain.set(String(json["smoke_id"].intValue), key: "smoke_id")
             try! self.keychain.set(String(true), key: "is_smoking")
             self.delegate?.successStartSmoke()
@@ -76,7 +84,15 @@ class SmokeListViewModel {
     }
     
     func endSmoke() {
-        api.endSmoke().done { (json) in
+        let smokeID = (try! keychain.getString("smoke_id"))!
+        let uuid = (try! keychain.get("uuid"))!
+        let params = [
+            "uuid": uuid,
+            "minus_sec": 0,
+            "is_sensor": false
+            ] as [String : Any]
+        
+        api.endSmoke(params: params, smokeID: smokeID).done { (json) in
             try! self.keychain.set("", key: "smoke_id")
             try! self.keychain.set(String(false), key: "is_smoking")
             self.delegate?.successEndSmoke()

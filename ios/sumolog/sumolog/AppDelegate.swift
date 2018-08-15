@@ -67,7 +67,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         deviceToken = deviceToken.trimmingCharacters(in: characterSet)
         deviceToken = deviceToken.replacingOccurrences(of: " ", with: "")
         
-        API().sendToken(token: deviceToken)
+        let keychain = Keychain()
+        let uuid = (try! keychain.get("uuid"))!
+        let params = [
+            "token": deviceToken,
+            "uuid": uuid
+        ]
+        
+        API().sendToken(params: params)
         
         print("deviceToken = \(deviceToken)")
     }

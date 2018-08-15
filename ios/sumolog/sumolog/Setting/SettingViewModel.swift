@@ -25,7 +25,9 @@ class SettingViewModel {
     private(set) var userData = UserData()
     
     func setUserData() {
-        api.getUserData().done { (json) in
+        let userID = (try! keychain.getString("id"))!
+
+        api.getUserData(userID: userID).done { (json) in
             self.userData.setAll(json: json)
             self.delegate?.successGetUserData()
         }

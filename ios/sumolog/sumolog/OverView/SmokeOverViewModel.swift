@@ -19,6 +19,7 @@ protocol SmokeOverViewModelDelegate: class {
 
 class SmokeOverViewModel {
     weak var delegate: SmokeOverViewModelDelegate?
+    private let keychain = Keychain()
     private let api = API()
     
     private(set) var data = SmokeOverViewData()
@@ -76,7 +77,9 @@ class SmokeOverViewModel {
     }
     
     func setOverViewData() {
-        api.getOverView().done { (json) in
+        let userID = try! keychain.get("id")!
+        
+        api.getOverView(userID: userID).done { (json) in
             self.data.setAll(json: json)
             self.delegate?.initViews()
         }

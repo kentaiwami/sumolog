@@ -10,7 +10,6 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import PromiseKit
-import KeychainAccess
 
 class API {
     let base = GetHost() + "api/"
@@ -199,14 +198,7 @@ extension API {
 
 // MARK: - Token
 extension API {
-    func sendToken(token: String) {
-        let keychain = Keychain()
-        let uuid = (try! keychain.get("uuid"))!
-        let params = [
-            "token": token,
-            "uuid": uuid
-        ]
-        
+    func sendToken(params: [String:String]) {
         let endPoint = "token"
         let _ = postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put).done { (_) in}
     }
@@ -216,10 +208,8 @@ extension API {
 
 // MARK: - OverView
 extension API {
-    func getOverView() -> Promise<JSON> {
-        let keychain = Keychain()
-        let id = try! keychain.get("id")!
-        let endPoint = "smoke/overview/user/" + id
+    func getOverView(userID: String) -> Promise<JSON> {
+        let endPoint = "smoke/overview/user/" + userID
         return get(url: base + version + endPoint, isShowIndicator: true)
     }
 }
@@ -228,37 +218,19 @@ extension API {
 
 // MARK: - ListView
 extension API {
-    func get24HourSmoke(isShowIndicator: Bool) -> Promise<JSON> {
-        let keychain = Keychain()
-        let id = try! keychain.get("id")!
-        let endPoint = "smoke/24hour/user/" + id
+    func get24HourSmoke(isShowIndicator: Bool, userID: String) -> Promise<JSON> {
+        let endPoint = "smoke/24hour/user/" + userID
         return get(url: base + version + endPoint, isShowIndicator: isShowIndicator)
     }
     
-    func startSmoke() -> Promise<JSON> {
-        let keychain = Keychain()
-        let uuid = (try! keychain.get("uuid"))!
+    func startSmoke(params: [String:Any]) -> Promise<JSON> {
         let endPoint = "smoke"
-        let param = [
-            "uuid": uuid,
-            "is_sensor": false
-            ] as [String : Any]
-        
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: param, httpMethod: .post)
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .post)
     }
     
-    func endSmoke() -> Promise<JSON> {
-        let keychain = Keychain()
-        let smokeID = (try! keychain.getString("smoke_id"))!
-        let uuid = (try! keychain.get("uuid"))!
+    func endSmoke(params: [String:Any], smokeID: String) -> Promise<JSON> {
         let endPoint = "smoke/" + smokeID
-        let param = [
-            "uuid": uuid,
-            "minus_sec": 0,
-            "is_sensor": false
-            ] as [String : Any]
-        
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: param, httpMethod: .put)
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put)
     }
 }
 
@@ -266,23 +238,13 @@ extension API {
 
 // MARK: - ListEdit
 extension API {
-    func deleteSmoke(smokeID: Int) -> Promise<JSON> {
-        let keychain = Keychain()
-        let userID = (try! keychain.getString("id"))!
+    func deleteSmoke(smokeID: Int, userID: String) -> Promise<JSON> {
         let endPoint = "smoke/"+String(smokeID)+"/user/"+userID
-
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: [:], httpMethod: .delete)
     }
     
-    func updateSmoke(start: String, end: String, smokeID: String) -> Promise<JSON> {
-        let keychain = Keychain()
-        let uuid = (try! keychain.get("uuid"))!
+    func updateSmoke(smokeID: String, params: [String:String]) -> Promise<JSON> {
         let endPoint = "smoke/" + smokeID
-        let params = [
-            "uuid": uuid,
-            "started_at": start,
-            "ended_at": end
-        ]
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .patch)
     }
 }
@@ -291,11 +253,8 @@ extension API {
 
 // MARK: - Setting
 extension API {
-    func getUserData() -> Promise<JSON> {
-        let keychain = Keychain()
-        let userID = (try! keychain.getString("id"))!
+    func getUserData(userID: String) -> Promise<JSON> {
         let endPoint = "user/" + userID
-        
         return get(url: base + version + endPoint, isShowIndicator: true)
     }
     

@@ -53,8 +53,14 @@ class SmokeListEditViewModel {
         
         let start = dateFormatter.string(from: start)
         let end = dateFormatter.string(from: end)
-        
-        api.updateSmoke(start: start, end: end, smokeID: String(smokeID)).done { (json) in
+        let uuid = (try! keychain.get("uuid"))!
+        let params = [
+            "uuid": uuid,
+            "started_at": start,
+            "ended_at": end
+        ]
+
+        api.updateSmoke(smokeID: String(smokeID), params: params).done { (json) in
             let smoke_id = String((try! self.keychain.getString("smoke_id"))!)
             
             // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
@@ -77,7 +83,9 @@ class SmokeListEditViewModel {
     }
     
     func deleteSmoke() {
-        api.deleteSmoke(smokeID: smokeID).done { (json) in
+        let userID = (try! keychain.getString("id"))!
+        
+        api.deleteSmoke(smokeID: smokeID, userID: userID).done { (json) in
             self.resetSmokeInfoInKeyChain()
             self.delegate?.successUpdateOrDeleteSmoke()
         }
