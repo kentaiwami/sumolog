@@ -77,7 +77,7 @@ class SmokeListEditViewModel {
         }
         .catch { (err) in
             let tmp_err = err as NSError
-            let title = "Error(" + String(tmp_err.code) + ")"
+            let title = "エラー(" + String(tmp_err.code) + ")"
             self.delegate?.faildAPI(title: title, msg: tmp_err.domain)
         }
     }
@@ -91,7 +91,7 @@ class SmokeListEditViewModel {
         }
         .catch { (err) in
             let tmp_err = err as NSError
-            let title = "Error(" + String(tmp_err.code) + ")"
+            let title = "エラー(" + String(tmp_err.code) + ")"
             self.delegate?.faildAPI(title: title, msg: tmp_err.domain)
         }
     }

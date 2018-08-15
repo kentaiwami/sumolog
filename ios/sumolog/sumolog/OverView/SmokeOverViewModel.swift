@@ -89,7 +89,7 @@ class SmokeOverViewModel {
             if tmpErr.code == 500 {
                 self.delegate?.showNoData()
             }else {
-                let title = "Error(" + String(tmpErr.code) + ")"
+                let title = "エラー(" + String(tmpErr.code) + ")"
                 self.delegate?.faildAPI(title: title, msg: tmpErr.domain)
             }
         }

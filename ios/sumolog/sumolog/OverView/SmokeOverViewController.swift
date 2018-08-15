@@ -116,7 +116,7 @@ extension SmokeOverViewController {
     }
     
     func showNoData() {
-        let status = Status(title: "No Data", description: "喫煙記録がないため、データを表示できません", actionTitle: "Reload", image: nil) {
+        let status = Status(title: "データなし", description: "喫煙記録がないため、データを表示できません", actionTitle: "再読み込み", image: nil) {
             self.hideStatus()
             self.removeViews()
             self.presenter.setOverViewData()
