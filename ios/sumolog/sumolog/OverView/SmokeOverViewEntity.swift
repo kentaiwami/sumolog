@@ -21,31 +21,31 @@ class SmokeOverViewData {
 
     private var data = SmokeOverViewData()
 
-    func GetCount() -> Int {
+    func getCount() -> Int {
         return data.count
     }
 
-    func GetMin() -> Int {
+    func getMin() -> Int {
         return data.min
     }
 
-    func GetHour() -> [[String:Int]] {
+    func getHour() -> [[String:Int]] {
         return data.hour
     }
 
-    func GetOver() -> Int {
+    func getOver() -> Int {
         return data.over
     }
 
-    func GetAve() -> Double {
+    func getAve() -> Double {
         return data.ave
     }
 
-    func GetUsed() -> Int {
+    func getUsed() -> Int {
         return data.used
     }
 
-    func SetAll(json: JSON) {
+    func setAll(json: JSON) {
         data.count = json["count"].intValue
         data.min = json["min"].intValue
         data.over = json["over"].intValue

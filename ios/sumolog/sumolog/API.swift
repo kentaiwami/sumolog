@@ -48,36 +48,6 @@ class API {
         return promise
     }
     
-    fileprivate func URLRequest(url: String, method: String, uuid: String) -> Promise<String> {
-        let indicator = Indicator()
-        indicator.start()
-        
-        let request = GetConnectRaspberryPIRequest(method: method, urlString: url, uuid: uuid)
-        let promise = Promise<String> { seal in
-            Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
-                indicator.stop()
-                
-                switch response.result {
-                case .success(let value):
-                    let json = JSON(value)
-                    print("***** GET API Results *****")
-                    print(json)
-                    print("***** GET API Results *****")
-                    
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
-                        seal.fulfill(json["uuid"].stringValue)
-                    }else {
-                        seal.reject(NSError(domain: "エラーが発生しました[-1]", code: (response.response?.statusCode)!))
-                    }
-                case .failure(_):
-                    let err_msg = "エラーが発生しました[-1]"
-                    seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
-                }
-            }
-        }
-        return promise
-    }
-    
     fileprivate func postPutPatchDeleteAuth(url: String, params: [String:Any], httpMethod: HTTPMethod) -> Promise<JSON> {
         let indicator = Indicator()
         indicator.start()
@@ -110,6 +80,101 @@ class API {
 
 
 
+// MARK: - Raspi
+extension API {
+    fileprivate func raspiSignUpRequest(address: String, uuid: String) -> Promise<String> {
+        let indicator = Indicator()
+        indicator.start()
+        
+        let request = GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
+        let promise = Promise<String> { seal in
+            Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
+                indicator.stop()
+                
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("***** GET API Results *****")
+                    print(json)
+                    print("***** GET API Results *****")
+                    
+                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                        seal.fulfill(json["uuid"].stringValue)
+                    }else {
+                        seal.reject(NSError(domain: "センサーに接続できませんでした[-1]", code: (response.response?.statusCode)!))
+                    }
+                case .failure(_):
+                    let err_msg = "センサーに接続できませんでした[-1]"
+                    seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
+                }
+            }
+        }
+        return promise
+    }
+    
+    fileprivate func raspiUUIDCountRequest(address: String, uuid: String) -> Promise<Int> {
+        let indicator = Indicator()
+        indicator.start()
+        
+        let request = GetConnectRaspberryPIRequest(method: "GET", address: address, uuid: uuid)
+        let promise = Promise<Int> { seal in
+            Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
+                indicator.stop()
+                
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("***** GET API Results *****")
+                    print(json)
+                    print("***** GET API Results *****")
+                    
+                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                        seal.fulfill(json["count"].intValue)
+                    }else {
+                        seal.reject(NSError(domain: "センサーに接続できませんでした[-1]", code: (response.response?.statusCode)!))
+                    }
+                case .failure(_):
+                    let err_msg = "センサーに接続できませんでした[-1]"
+                    seal.reject(NSError(domain: err_msg, code: -1))
+                }
+            }
+        }
+        return promise
+    }
+    
+    fileprivate func raspiUpdateUUIDRequest(address: String, uuid: String, method: String) -> Promise<String> {
+        let indicator = Indicator()
+        indicator.start()
+        
+        let request = GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
+        let promise = Promise<String> { seal in
+            Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
+                indicator.stop()
+                
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("***** GET API Results *****")
+                    print(json)
+                    print("***** GET API Results *****")
+                    
+                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                        seal.fulfill("OK")
+                    }else {
+                        seal.reject(NSError(domain: "センサーに接続できませんでした[-1]", code: (response.response?.statusCode)!))
+                    }
+                case .failure(_):
+                    let err_msg = "センサーに接続できませんでした[-1]"
+                    seal.reject(NSError(domain: err_msg, code: -1))
+                }
+            }
+        }
+        return promise
+    }
+}
+
+
+
 // MARK: - SignUp
 extension API {
     func saveUUIDInSensor(isSensorSet: Bool, url: String) -> Promise<String> {
@@ -122,7 +187,7 @@ extension API {
             return promise
         }
         
-        return URLRequest(url: url, method: "POST", uuid: uuid)
+        return raspiSignUpRequest(address: url, uuid: uuid)
     }
     
     func createUser(params: [String:Any]) -> Promise<JSON> {
@@ -160,6 +225,8 @@ extension API {
 }
 
 
+
+// MARK: - ListView
 extension API {
     func get24HourSmoke(isShowIndicator: Bool) -> Promise<JSON> {
         let keychain = Keychain()
@@ -196,6 +263,8 @@ extension API {
 }
 
 
+
+// MARK: - ListEdit
 extension API {
     func deleteSmoke(smokeID: Int) -> Promise<JSON> {
         let keychain = Keychain()
@@ -215,5 +284,31 @@ extension API {
             "ended_at": end
         ]
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .patch)
+    }
+}
+
+
+
+// MARK: - Setting
+extension API {
+    func getUserData() -> Promise<JSON> {
+        let keychain = Keychain()
+        let userID = (try! keychain.getString("id"))!
+        let endPoint = "user/" + userID
+        
+        return get(url: base + version + endPoint, isShowIndicator: true)
+    }
+    
+    func updateUserData(params: [String:Any], userID: String) -> Promise<JSON> {
+        let endPoint = "user/" + userID
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put)
+    }
+    
+    func getUUIDCount(address: String) -> Promise<Int> {
+        return raspiUUIDCountRequest(address: address, uuid: "")
+    }
+    
+    func updateUUID(address: String, method: String, uuid: String) -> Promise<String> {
+        return raspiUpdateUUIDRequest(address: address, uuid: uuid, method: method)
     }
 }

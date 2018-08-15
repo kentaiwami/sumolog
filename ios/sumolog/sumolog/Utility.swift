@@ -44,9 +44,9 @@ func IsCheckFormValue(form: Form) -> Bool {
     return false
 }
 
-func GetConnectRaspberryPIRequest(method: String, urlString: String, uuid: String) -> URLRequest {
+func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
     let tmp_req = ["uuid": uuid]
-    var request = URLRequest(url: URL(string: urlString)!)
+    var request = URLRequest(url: URL(string: "http://"+address+"/api/v1/user")!)
     request.httpMethod = method
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.timeoutInterval = 10

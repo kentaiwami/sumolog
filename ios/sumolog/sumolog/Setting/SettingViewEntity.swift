@@ -1,10 +1,12 @@
 //
-//  Data.swift
+//  SettingViewEntity.swift
 //  sumolog
 //
-//  Created by 岩見建汰 on 2018/01/02.
+//  Created by 岩見建汰 on 2018/08/15.
 //  Copyright © 2018年 Kenta. All rights reserved.
 //
+
+import Foundation
 import SwiftyJSON
 
 class UserData {
@@ -18,47 +20,31 @@ class UserData {
     
     private var data = UserData()
     
-    func Setpayday(payday: Int) {
-        data.payday = payday
-    }
-    
-    func Setprice(price: Int) {
-        data.price = price
-    }
-    
-    func Settarget_number(target_number: Int) {
-        data.target_number = target_number
-    }
-    
-    func Setaddress(address: String) {
-        data.address = address
-    }
-    
-    func SetUUIDCount(count: Int) {
+    func setUUIDCount(count: Int) {
         data.uuid_count = count
     }
     
-    func Getpayday() -> Int {
+    func getpayday() -> Int {
         return data.payday
     }
     
-    func Getprice() -> Int {
+    func getprice() -> Int {
         return data.price
     }
     
-    func Gettarget_number() -> Int {
+    func gettarget_number() -> Int {
         return data.target_number
     }
     
-    func Getaddress() -> String {
+    func getaddress() -> String {
         return data.address
     }
     
-    func GetCount() -> Int {
+    func getCount() -> Int {
         return data.uuid_count
     }
     
-    func SetAll(json: JSON) {
+    func setAll(json: JSON) {
         data.payday = json["payday"].intValue
         data.price = json["price"].intValue
         data.target_number = json["target_number"].intValue

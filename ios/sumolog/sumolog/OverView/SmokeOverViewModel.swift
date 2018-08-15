@@ -20,7 +20,6 @@ protocol SmokeOverViewModelDelegate: class {
 class SmokeOverViewModel {
     weak var delegate: SmokeOverViewModelDelegate?
     private let api = API()
-    private let keychain = Keychain()
     
     private(set) var data = SmokeOverViewData()
     private(set) var id = ""
@@ -30,7 +29,7 @@ class SmokeOverViewModel {
         
         // 最大値を求める
         var max = 0
-        for obj in data.GetHour() {
+        for obj in data.getHour() {
             let key = obj.keys.first!
             
             if max < obj[key]! {
@@ -78,7 +77,7 @@ class SmokeOverViewModel {
     
     func setOverViewData() {
         api.getOverView().done { (json) in
-            self.data.SetAll(json: json)
+            self.data.setAll(json: json)
             self.delegate?.initViews()
         }
         .catch { (err) in

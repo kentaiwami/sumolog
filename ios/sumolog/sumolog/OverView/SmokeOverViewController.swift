@@ -80,7 +80,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         createBorderView(target: descriptionLabel.last!)
         createGraphView()
         
-        let tmpOver = presenter.getOverViewData().GetOver()
+        let tmpOver = presenter.getOverViewData().getOver()
         if tmpOver > 0 {
             ShowStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
         }
@@ -169,7 +169,7 @@ extension SmokeOverViewController {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.attributedText = getAttrString(str: presenter.getLatestLabelText(min: presenter.getOverViewData().GetMin()))
+        label.attributedText = getAttrString(str: presenter.getLatestLabelText(min: presenter.getOverViewData().getMin()))
         
         latestLabel = label
         
@@ -183,7 +183,7 @@ extension SmokeOverViewController {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.attributedText = getAttrString(str: String(presenter.getOverViewData().GetAve()) + "m")
+        label.attributedText = getAttrString(str: String(presenter.getOverViewData().getAve()) + "m")
         
         aveLabel = label
         
@@ -226,14 +226,14 @@ extension SmokeOverViewController {
     fileprivate func createSumSmokesCountLabel() {
         // 目標本数を超過していたら赤文字
         var textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        if presenter.getOverViewData().GetOver() > 0 {
+        if presenter.getOverViewData().getOver() > 0 {
             textColor = UIColor.red
         }
         
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = textColor
-        label.attributedText = getAttrString(str: String(presenter.getOverViewData().GetCount()) + "本")
+        label.attributedText = getAttrString(str: String(presenter.getOverViewData().getCount()) + "本")
         
         smoke_countLabel = label
         
@@ -247,7 +247,7 @@ extension SmokeOverViewController {
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
-        label.text = "¥" + getNumber(num: presenter.getOverViewData().GetUsed())
+        label.text = "¥" + getNumber(num: presenter.getOverViewData().getUsed())
         
         usedLabel = label
         
@@ -301,7 +301,7 @@ extension SmokeOverViewController {
 // MARK: - ScrollableGraphView
 extension SmokeOverViewController: ScrollableGraphViewDataSource {
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
-        let hour = presenter.getOverViewData().GetHour()
+        let hour = presenter.getOverViewData().getHour()
         
         switch(plot.identifier) {
         case "bar":
@@ -315,10 +315,10 @@ extension SmokeOverViewController: ScrollableGraphViewDataSource {
     }
     
     func label(atIndex pointIndex: Int) -> String {
-        return presenter.getOverViewData().GetHour()[pointIndex].keys.first! + "時"
+        return presenter.getOverViewData().getHour()[pointIndex].keys.first! + "時"
     }
     
     func numberOfPoints() -> Int {
-        return presenter.getOverViewData().GetHour().count
+        return presenter.getOverViewData().getHour().count
     }
 }
