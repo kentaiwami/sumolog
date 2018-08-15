@@ -22,8 +22,6 @@ class SignUpViewModel {
     private let keychain = Keychain()
     
     func signUp(formValues: [String:Any?]) {
-        print("+++++++++++++++++++++")
-        print(formValues)
         var address = ""
         let isSensorSet = formValues["sensor_set"] as! Bool
         if isSensorSet {
@@ -32,7 +30,6 @@ class SignUpViewModel {
         let url = "http://" + address + "/api/v1/user"
         
         api.saveUUIDInSensor(isSensorSet: isSensorSet, url: url).then { uuid -> Promise<JSON> in
-            
             let params = [
                 "uuid": uuid,
                 "payday": formValues["payday"] as! Int,
