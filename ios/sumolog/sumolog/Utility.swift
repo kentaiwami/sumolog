@@ -11,15 +11,6 @@ import Eureka
 import PopupDialog
 
 
-func GetStandardAlert(title: String, message: String, b_title: String) -> UIAlertController {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-    let ok = UIAlertAction(title: b_title, style:UIAlertActionStyle.default)
-    
-    alertController.addAction(ok)
-    
-    return alertController
-}
-
 func GenerateDate() -> Array<Int> {
     var date_array:[Int] = []
     for i in 1...31 {

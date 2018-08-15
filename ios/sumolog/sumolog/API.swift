@@ -93,9 +93,9 @@ extension API {
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("***** GET API Results *****")
+                    print("***** raspiSignUpRequest API Results *****")
                     print(json)
-                    print("***** GET API Results *****")
+                    print("***** raspiSignUpRequest API Results *****")
                     
                     if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json["uuid"].stringValue)
@@ -123,9 +123,9 @@ extension API {
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("***** GET API Results *****")
+                    print("***** raspiUUIDCountRequest API Results *****")
                     print(json)
-                    print("***** GET API Results *****")
+                    print("***** raspiUUIDCountRequest API Results *****")
                     
                     if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json["count"].intValue)
@@ -153,9 +153,9 @@ extension API {
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("***** GET API Results *****")
+                    print("***** raspiUpdateUUIDRequest API Results *****")
                     print(json)
-                    print("***** GET API Results *****")
+                    print("***** raspiUpdateUUIDRequest API Results *****")
                     
                     if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill("OK")

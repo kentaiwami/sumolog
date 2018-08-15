@@ -7,17 +7,6 @@
 //
 
 
-enum APIOld: String {
-    case base = "https://kentaiwami.jp/sumolog/index.php/api/"
-    case v1 = "v1/"
-    case user = "user/"
-    case smoke = "smoke/"
-    case overview = "overview/"
-    case hour24 = "24hour/"
-    case all = "all/"
-    case token = "token/"
-}
-
 enum Color: String {
     case main = "#55B4EC"
     case gray = "#4B4B4B"
