@@ -55,7 +55,10 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
             self.tabBarController?.navigationItem.setRightBarButton(check, animated: true)
         }else {
             let add = UIBarButtonItem(image: UIImage(named: "icon_add"), style: .plain, target: self, action: #selector(tapSmokeStartButton))
+            let adds = UIBarButtonItem(image: UIImage(named: "icon_add"), style: .plain, target: self, action: #selector(tapAddsSmokeButton))
+
             self.tabBarController?.navigationItem.setRightBarButton(add, animated: true)
+            self.tabBarController?.navigationItem.setLeftBarButton(adds, animated: true)
         }
     }
     
@@ -76,6 +79,13 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
             popup.addButtons([cancel, ok])
             self.present(popup, animated: true, completion: nil)
         }
+    }
+    
+    @objc private func tapAddsSmokeButton() {
+        let nav = UINavigationController()
+        let addsFormVC = AddsFormViewController()
+        nav.viewControllers = [addsFormVC]
+        present(nav, animated: true, completion: nil)
     }
     
     private func initializePresenter() {

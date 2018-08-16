@@ -20,7 +20,7 @@ class APIStoreSmokeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'uuid' => 'bail|required|string|max:191',
+            'uuid' => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
             'is_sensor' => 'bail|required|boolean'
         ]);
 

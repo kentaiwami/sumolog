@@ -10,16 +10,6 @@ import UIKit
 import Eureka
 import PopupDialog
 
-
-func GenerateDate() -> Array<Int> {
-    var date_array:[Int] = []
-    for i in 1...31 {
-        date_array.append(i)
-    }
-    
-    return date_array
-}
-
 func IsCheckFormValue(form: Form) -> Bool {
     var err_count = 0
     for row in form.allRows {

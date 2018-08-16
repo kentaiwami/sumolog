@@ -53,7 +53,7 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = 25
-                $0.options = GenerateDate()
+                $0.options = [Int](1...31)
                 $0.tag = "payday"
             }
             .cellSetup({ (cell, row) in

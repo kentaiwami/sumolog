@@ -36,6 +36,7 @@ class SettingViewController: FormViewController, SettingViewInterface {
         
         self.tabBarController?.navigationItem.title = "設定"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
         
         presenter.setUserData()
     }
@@ -89,7 +90,7 @@ extension SettingViewController {
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = presenter.getUserData().getpayday()
-                $0.options = GenerateDate()
+                $0.options = [Int](1...31)
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"

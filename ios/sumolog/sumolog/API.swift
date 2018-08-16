@@ -245,6 +245,9 @@ extension API {
     
     func updateSmoke(smokeID: String, params: [String:String]) -> Promise<JSON> {
         let endPoint = "smoke/" + smokeID
+        print("+++++++++++++++++++++++++++")
+        print(params)
+        print("+++++++++++++++++++++++++++")
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .patch)
     }
 }

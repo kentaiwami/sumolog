@@ -19,8 +19,8 @@ class APITokenController extends Controller
     public function update(Request $request, $id)
     {
         $validator_array = [
-            'uuid'  => 'bail|required|string|max:191',
-            'token' => 'bail|nullable|string|max:191',
+            'uuid'  => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
+            'token' => 'bail|required|regex:/^[0-9a-f]{64}$/',
         ];
 
         $validator = Validator::make($request->all(), $validator_array);

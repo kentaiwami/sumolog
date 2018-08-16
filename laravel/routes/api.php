@@ -26,7 +26,7 @@ Route::group(['namespace' => 'api\v1\user', 'prefix' => '{API1}'], function(){
 
 Route::group(['namespace' => 'api\v1\smoke\store', 'prefix' => '{API1}'], function(){
     Route::post('smoke', 'APIStoreSmokeController@store');
-    Route::post('smoke/all', 'APIStoreAllSmokeController@store');
+    Route::post('smoke/some', 'APIStoreSomeSmokeController@store');
 });
 
 

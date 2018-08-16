@@ -19,7 +19,7 @@ class APIUserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'uuid'              => 'bail|required|string|max:191|unique:users',
+            'uuid'              => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/|unique:users',
             'payday'            => 'bail|required|integer|min:1|max:31',
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
@@ -76,7 +76,7 @@ class APIUserController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid'              => 'bail|required|string|max:191',
+            'uuid'              => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
             'payday'            => 'bail|required|integer|min:1|max:31',
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',

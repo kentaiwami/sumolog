@@ -80,7 +80,7 @@ response：
 }
 ```
 
-#### Update User Profile
+#### Update User Data
 ```
 method：PUT
 endpoint：api/v1/user/{id}
@@ -136,22 +136,6 @@ response：
 }
 ```
 
-#### Create Smoke All
-```
-method：POST
-endpoint：api/v1/smoke/all
-request：
-{
-    "uuid": "hogehoge",
-    "started_at": "2018-01-08 01:13:11",
-    "ended_at": "2018-01-08 01:16:11"
-}
-response：
-{
-    "uuid": "hogehoge",
-    "smoke_id": 10
-}
-```
 
 #### Update End Smoke Time
 ```
@@ -160,7 +144,8 @@ endpoint：api/v1/smoke/{id}
 request：
 {
     "uuid": "hogehoge",
-    "minus_sec": 30
+    "minus_sec": 30,
+    "is_sensor": true
 }
 response：
 {

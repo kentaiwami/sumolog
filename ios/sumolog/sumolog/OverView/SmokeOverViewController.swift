@@ -52,6 +52,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         
         self.tabBarController?.navigationItem.title = "概要"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
         
         removeViews()
         presenter.setOverViewData()

@@ -21,9 +21,9 @@ class APIUpdateAllSmokeController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid' => 'bail|required|string|max:191',
-            'started_at' => 'bail|required|string|max:191',
-            'ended_at' => 'bail|required|string|max:191'
+            'uuid' => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
+            'started_at' => 'bail|required|regex:/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/',
+            'ended_at' => 'bail|required|regex:/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/'
         ];
 
         $validator = Validator::make($request->all(), $validator_array);

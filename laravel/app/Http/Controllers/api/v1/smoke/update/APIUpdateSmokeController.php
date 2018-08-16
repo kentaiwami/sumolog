@@ -21,7 +21,7 @@ class APIUpdateSmokeController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid' => 'bail|required|string|max:191',
+            'uuid' => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
             'minus_sec' => 'bail|required|integer|min:0',
             'is_sensor' => 'bail|required|boolean'
         ];

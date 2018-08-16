@@ -66,6 +66,9 @@ class SmokeListViewModel {
     
     func startSmoke() {
         let uuid = (try! keychain.get("uuid"))!
+        print("++++++++++++++++++++++++++++")
+        print(uuid)
+        print("++++++++++++++++++++++++++++")
         let params = [
             "uuid": uuid,
             "is_sensor": false
