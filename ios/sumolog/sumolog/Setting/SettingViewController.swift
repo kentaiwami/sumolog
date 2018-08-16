@@ -94,6 +94,9 @@ extension SettingViewController {
                 $0.validationOptions = .validatesOnChange
                 $0.tag = "payday"
             }
+            .cellSetup({ (cell, row) in
+                cell.detailTextLabel?.textColor = UIColor.black
+            })
             
             
             <<< IntRow(){

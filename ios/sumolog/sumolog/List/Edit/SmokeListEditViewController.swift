@@ -71,6 +71,9 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                 $0.tag = "start"
                 $0.dateFormatter = dateFormatterMin
             }
+            .cellSetup({ (cell, row) in
+                cell.detailTextLabel?.textColor = UIColor.black
+            })
             
             <<< DateTimeRow(){
                 $0.title = "終了"
@@ -79,22 +82,25 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                 $0.dateFormatter = dateFormatterMin
                 $0.add(ruleSet: rules)
                 $0.validationOptions = .validatesOnChange
+            }
+            .cellSetup({ (cell, row) in
+                cell.detailTextLabel?.textColor = UIColor.black
+            })
+            .onRowValidationChanged {cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
                 }
-                .onRowValidationChanged {cell, row in
-                    let rowIndex = row.indexPath!.row
-                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                        row.section?.remove(at: rowIndex + 1)
-                    }
-                    if !row.isValid {
-                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                            let labelRow = LabelRow() {
-                                $0.title = err
-                                $0.cell.height = { 30 }
-                            }
-                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                if !row.isValid {
+                    for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = err
+                            $0.cell.height = { 30 }
                         }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
-        }
+                }
+            }
         
         form +++ Section(header: "", footer: "入力された情報で上書きします")
             <<< ButtonRow(){
