@@ -1,5 +1,5 @@
 //
-//  AddsFormViewController.swift
+//  AddsViewController.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -9,18 +9,18 @@
 import UIKit
 import Eureka
 
-protocol AddsFormViewInterface: class {
+protocol AddsViewInterface: class {
     var formValues:[String:Any?] { get }
     
     func showAlert(title: String, msg: String)
 }
 
-class AddsFormViewController: FormViewController, AddsFormViewInterface {
+class AddsViewController: FormViewController, AddsViewInterface {
     var formValues: [String : Any?] {
         return self.form.values()
     }
     
-    private var presenter: AddsFormViewPresenter!
+    private var presenter: AddsViewPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class AddsFormViewController: FormViewController, AddsFormViewInterface {
     }
     
     private func initializePresenter() {
-        presenter = AddsFormViewPresenter(view: self)
+        presenter = AddsViewPresenter(view: self)
     }
     
     private func CreateForm() {
@@ -130,7 +130,7 @@ class AddsFormViewController: FormViewController, AddsFormViewInterface {
 }
 
 // MARK: - Presenterから呼び出される関数一覧
-extension AddsFormViewController {
+extension AddsViewController {
     func showAlert(title: String, msg: String) {
         ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }

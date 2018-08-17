@@ -1,5 +1,5 @@
 //
-//  AddsFormViewModel.swift
+//  AddsViewModel.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -15,7 +15,7 @@ protocol AddsFormViewModelDelegate: class {
     func faildAPI(title: String, msg: String)
 }
 
-class AddsFormViewModel {
+class AddsViewModel {
     weak var delegate: AddsFormViewModelDelegate?
     private let api = API()
     private let keychain = Keychain()

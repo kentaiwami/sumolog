@@ -83,7 +83,7 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
     
     @objc private func tapAddsSmokeButton() {
         let nav = UINavigationController()
-        let addsFormVC = AddsFormViewController()
+        let addsFormVC = AddsViewController()
         nav.viewControllers = [addsFormVC]
         present(nav, animated: true, completion: nil)
     }

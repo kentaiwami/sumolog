@@ -1,5 +1,5 @@
 //
-//  AddsFormViewPresenter.swift
+//  AddsViewPresenter.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-class AddsFormViewPresenter {
+class AddsViewPresenter {
     
-    weak var view: AddsFormViewInterface?
-    let model: AddsFormViewModel
+    weak var view: AddsViewInterface?
+    let model: AddsViewModel
     
-    init(view: AddsFormViewInterface) {
+    init(view: AddsViewInterface) {
         self.view = view
-        self.model = AddsFormViewModel()
+        self.model = AddsViewModel()
         model.delegate = self
     }
     
@@ -25,7 +25,7 @@ class AddsFormViewPresenter {
     }
 }
 
-extension AddsFormViewPresenter: AddsFormViewModelDelegate {
+extension AddsViewPresenter: AddsFormViewModelDelegate {
     func faildAPI(title: String, msg: String) {
         view?.showAlert(title: title, msg: msg)
     }
