@@ -8,6 +8,7 @@ use App\Smoke;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use DateTime;
 
 class APIUpdateSmokeController extends Controller
 {
@@ -49,10 +50,12 @@ class APIUpdateSmokeController extends Controller
             abort(403, '権限がありません');
         }
 
-        $minus_sec = '- ' .$request->get('minus_sec') . ' sec';
+        $smoke_time = new DateTime($smoke->started_at);
+        $smoke_time_minus = new DateTime($smoke->started_at);
+        $smoke_time_minus->modify('-'.$request->get('minus_sec').'sec');
 
         //開始時間を超える、1分より短いデータは誤データとして削除(ただし、時間調整が0の場合はどんなに短くても記録する)
-        if (strtotime($minus_sec) -  strtotime($smoke->started_at) < 60 and  $request->get('minus_sec') != 0) {
+        if ($smoke_time_minus->getTimestamp() - $smoke_time->getTimestamp() < 60 and  $request->get('minus_sec') != 0) {
             try {
                 $smoke->delete();
             } catch (\Exception $e) {}
@@ -70,7 +73,7 @@ class APIUpdateSmokeController extends Controller
                 'ended_at' => ""
             ]);
         }else {
-            $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
+            $ended_at = $smoke_time_minus->format('Y-m-d H:i:s');
 
             if ($user->token != "" and $request->get('is_sensor')) {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
