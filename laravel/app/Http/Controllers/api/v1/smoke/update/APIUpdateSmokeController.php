@@ -51,11 +51,11 @@ class APIUpdateSmokeController extends Controller
         }
 
         $smoke_time = new DateTime($smoke->started_at);
-        $smoke_time_minus = new DateTime($smoke->started_at);
-        $smoke_time_minus->modify('-'.$request->get('minus_sec').'sec');
+        $now_minus = new DateTime('now');
+        $now_minus->modify('-'.$request->get('minus_sec').'sec');
 
         //開始時間を超える、1分より短いデータは誤データとして削除(ただし、時間調整が0の場合はどんなに短くても記録する)
-        if ($smoke_time_minus->getTimestamp() - $smoke_time->getTimestamp() < 60 and  $request->get('minus_sec') != 0) {
+        if ($now_minus->getTimestamp() - $smoke_time->getTimestamp() < 60 and  $request->get('minus_sec') != 0) {
             try {
                 $smoke->delete();
             } catch (\Exception $e) {}
@@ -73,7 +73,7 @@ class APIUpdateSmokeController extends Controller
                 'ended_at' => ""
             ]);
         }else {
-            $ended_at = $smoke_time_minus->format('Y-m-d H:i:s');
+            $ended_at = $now_minus->format('Y-m-d H:i:s');
 
             if ($user->token != "" and $request->get('is_sensor')) {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
