@@ -34,7 +34,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         initializePresenter()
         
         UNUserNotificationCenter.current().requestAuthorization(
-        options: [.alert, .sound]) {(accepted, error) in
+        options: [.alert, .sound, .badge]) {(accepted, error) in
             if accepted {
                 print("Notification access accepted !")
                 DispatchQueue.main.async {
