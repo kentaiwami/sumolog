@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\api\v1\smoke\store;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Smoke;
 use App\User;
-use Sly\NotificationPusher\Model\Message;
 use Validator;
 
 class APIStoreSmokeController extends Controller
@@ -28,7 +28,11 @@ class APIStoreSmokeController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        try {
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
 
         $new_smoke = new Smoke;
         $new_smoke->user_id = $user->id;

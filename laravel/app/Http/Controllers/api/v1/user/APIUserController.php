@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\user;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -53,7 +54,11 @@ class APIUserController extends Controller
      */
     public function show($v, $id)
     {
-        $user = User::where('id', $id)->firstOrFail();
+        try {
+            $user = User::where('id', $id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
 
         return Response()->json([
             'uuid'           => $user->uuid,
@@ -88,7 +93,11 @@ class APIUserController extends Controller
         if($validator->fails())
             return Response()->json($validator->errors());
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        try {
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
 
         if ($user->id != $id)
             return Response('', 404);

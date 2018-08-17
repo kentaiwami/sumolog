@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\smoke\update;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Smoke;
 use App\User;
@@ -32,11 +33,20 @@ class APIUpdateSmokeController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
-        $smoke = Smoke::where('id', $id)->firstOrFail();
+        try {
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
+
+        try {
+            $smoke = Smoke::where('id', $id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定した喫煙情報は存在しません');
+        }
 
         if ($user->id != $smoke->user_id) {
-            return Response('', 404);
+            abort(403, '権限がありません');
         }
 
         $minus_sec = '- ' .$request->get('minus_sec') . ' sec';
