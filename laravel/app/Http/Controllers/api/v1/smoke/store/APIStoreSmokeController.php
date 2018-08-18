@@ -38,7 +38,7 @@ class APIStoreSmokeController extends Controller
         $new_smoke->user_id = $user->id;
         $new_smoke->save();
 
-        if ($user->token != "" and $request->get('is_sensor')) {
+        if ($user->token != '' and $request->get('is_sensor')) {
             (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                 ->to($user->token)
                 ->send('喫煙開始をセンサーが検知しました', array('badge' => 1, 'sound' => 'default'));

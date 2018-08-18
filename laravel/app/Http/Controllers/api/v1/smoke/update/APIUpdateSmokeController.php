@@ -61,7 +61,7 @@ class APIUpdateSmokeController extends Controller
             } catch (\Exception $e) {}
 
             // スマホからのアクセスは時間調整が0のためここには来ないので、is_sensorは不要。
-            if ($user->token != "") {
+            if ($user->token != '') {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
                     ->send('誤検出したデータを削除しました', array('badge' => 1, 'sound' => 'default'));
@@ -69,13 +69,13 @@ class APIUpdateSmokeController extends Controller
 
             return Response()->json([
                 'smoke_id' => 0,
-                'started_at' => "",
-                'ended_at' => ""
+                'started_at' => '',
+                'ended_at' => ''
             ]);
         }else {
             $ended_at = $now_minus->format('Y-m-d H:i:s');
 
-            if ($user->token != "" and $request->get('is_sensor')) {
+            if ($user->token != '' and $request->get('is_sensor')) {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
                     ->send('喫煙終了をセンサーが検知しました', array('badge' => 1, 'sound' => 'default'));
