@@ -35,7 +35,7 @@ class AddsViewController: FormViewController, AddsViewInterface {
     }
     
     private func setUpNavigationButton() {
-        let close = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(tapCloseButton))
+        let close = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(tapCloseButton))
         self.navigationItem.setLeftBarButton(close, animated: true)
     }
     

@@ -55,11 +55,11 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
             self.tabBarController?.navigationItem.setRightBarButton(check, animated: true)
         }else {
             let add = UIBarButtonItem(image: UIImage(named: "icon_add"), style: .plain, target: self, action: #selector(tapSmokeStartButton))
-            let adds = UIBarButtonItem(image: UIImage(named: "icon_add"), style: .plain, target: self, action: #selector(tapAddsSmokeButton))
 
             self.tabBarController?.navigationItem.setRightBarButton(add, animated: true)
-            self.tabBarController?.navigationItem.setLeftBarButton(adds, animated: true)
         }
+        let adds = UIBarButtonItem(image: UIImage(named: "icon_adds"), style: .plain, target: self, action: #selector(tapAddsSmokeButton))
+        self.tabBarController?.navigationItem.setLeftBarButton(adds, animated: true)
     }
     
     @objc private func tapSmokeEndButton() {
