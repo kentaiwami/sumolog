@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\smoke\update;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Smoke;
 use App\User;
@@ -21,9 +22,9 @@ class APIUpdateAllSmokeController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid' => 'bail|required|string|max:191',
-            'started_at' => 'bail|required|string|max:191',
-            'ended_at' => 'bail|required|string|max:191'
+            'uuid' => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
+            'started_at' => 'bail|required|regex:/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/',
+            'ended_at' => 'bail|required|regex:/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/'
         ];
 
         $validator = Validator::make($request->all(), $validator_array);
@@ -32,11 +33,20 @@ class APIUpdateAllSmokeController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
-        $smoke = Smoke::where('id', $id)->firstOrFail();
+        try {
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
+
+        try {
+            $smoke = Smoke::where('id', $id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定した喫煙情報は存在しません');
+        }
 
         if ($user->id != $smoke->user_id) {
-            return Response('', 404);
+            abort(403, '権限がありません');
         }
 
         $smoke->started_at = $request->get('started_at');

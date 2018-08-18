@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\api\v1\smoke\update;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Smoke;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use DateTime;
 
 class APIUpdateSmokeController extends Controller
 {
@@ -21,7 +23,7 @@ class APIUpdateSmokeController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid' => 'bail|required|string|max:191',
+            'uuid' => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
             'minus_sec' => 'bail|required|integer|min:0',
             'is_sensor' => 'bail|required|boolean'
         ];
@@ -32,23 +34,34 @@ class APIUpdateSmokeController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
-        $smoke = Smoke::where('id', $id)->firstOrFail();
-
-        if ($user->id != $smoke->user_id) {
-            return Response('', 404);
+        try {
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
         }
 
-        $minus_sec = '- ' .$request->get('minus_sec') . ' sec';
+        try {
+            $smoke = Smoke::where('id', $id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定した喫煙情報は存在しません');
+        }
+
+        if ($user->id != $smoke->user_id) {
+            abort(403, '権限がありません');
+        }
+
+        $smoke_time = new DateTime($smoke->started_at);
+        $now_minus = new DateTime('now');
+        $now_minus->modify('-'.$request->get('minus_sec').'sec');
 
         //開始時間を超える、1分より短いデータは誤データとして削除(ただし、時間調整が0の場合はどんなに短くても記録する)
-        if (strtotime($minus_sec) -  strtotime($smoke->started_at) < 60 and  $request->get('minus_sec') != 0) {
+        if ($now_minus->getTimestamp() - $smoke_time->getTimestamp() < 60 and  $request->get('minus_sec') != 0) {
             try {
                 $smoke->delete();
             } catch (\Exception $e) {}
 
             // スマホからのアクセスは時間調整が0のためここには来ないので、is_sensorは不要。
-            if ($user->token != "") {
+            if ($user->token != '') {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
                     ->send('誤検出したデータを削除しました', array('badge' => 1, 'sound' => 'default'));
@@ -56,13 +69,13 @@ class APIUpdateSmokeController extends Controller
 
             return Response()->json([
                 'smoke_id' => 0,
-                'started_at' => "",
-                'ended_at' => ""
+                'started_at' => '',
+                'ended_at' => ''
             ]);
         }else {
-            $ended_at = date('Y-m-d H:i:s', strtotime($minus_sec));
+            $ended_at = $now_minus->format('Y-m-d H:i:s');
 
-            if ($user->token != "" and $request->get('is_sensor')) {
+            if ($user->token != '' and $request->get('is_sensor')) {
                 (new \Davibennun\LaravelPushNotification\PushNotification)->app('Sumolog')
                     ->to($user->token)
                     ->send('喫煙終了をセンサーが検知しました', array('badge' => 1, 'sound' => 'default'));

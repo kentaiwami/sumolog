@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\user;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -19,7 +20,7 @@ class APIUserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'uuid'              => 'bail|required|string|max:191|unique:users',
+            'uuid'              => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/|unique:users',
             'payday'            => 'bail|required|integer|min:1|max:31',
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
@@ -53,7 +54,11 @@ class APIUserController extends Controller
      */
     public function show($v, $id)
     {
-        $user = User::where('id', $id)->firstOrFail();
+        try {
+            $user = User::where('id', $id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
 
         return Response()->json([
             'uuid'           => $user->uuid,
@@ -76,7 +81,7 @@ class APIUserController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid'              => 'bail|required|string|max:191',
+            'uuid'              => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
             'payday'            => 'bail|required|integer|min:1|max:31',
             'price'             => 'bail|required|integer|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
@@ -88,7 +93,11 @@ class APIUserController extends Controller
         if($validator->fails())
             return Response()->json($validator->errors());
 
-        $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        try {
+            $user = User::where('uuid', $request->get('uuid'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            abort(404, '指定したユーザは存在しません');
+        }
 
         if ($user->id != $id)
             return Response('', 404);

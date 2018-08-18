@@ -2,51 +2,65 @@
 //  SignUpViewController.swift
 //  sumolog
 //
-//  Created by 岩見建汰 on 2018/02/01.
+//  Created by 岩見建汰 on 2018/08/13.
 //  Copyright © 2018年 Kenta. All rights reserved.
 //
 
 import UIKit
 import Eureka
-import Alamofire
-import KeychainAccess
-import SwiftyJSON
-import PromiseKit
 
-class SignUpViewController: FormViewController {
+protocol SignUpViewInterface: class {
+    var formValues:[String:Any?] { get }
+    
+    func navigateTopView()
+    func showAlert(title: String, msg: String)
+}
 
-    let keychain = Keychain()
-    let indicator = Indicator()
+class SignUpViewController: FormViewController, SignUpViewInterface {
+    var formValues: [String : Any?] {
+        return self.form.values()
+    }
+    
+    private var presenter: SignUpViewPresenter!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.title = "Sign Up"
+
+        self.navigationItem.title = "サインアップ"
         tableView.isScrollEnabled = false
+        initializePresenter()
         CreateForm()
     }
     
-    func CreateForm() {
+    private func initializePresenter() {
+        presenter = SignUpViewPresenter(view: self)
+    }
+    
+    private func CreateForm() {
         LabelRow.defaultCellUpdate = { cell, row in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
             cell.textLabel?.textAlignment = .right
         }
-        
+
         var rules = RuleSet<Int>()
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
-        
+
         form +++ Section(header: "ユーザ情報", footer: "")
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
                 $0.value = 25
-                $0.options = GenerateDate()
+                $0.options = [Int](1...31)
                 $0.tag = "payday"
             }
-            
-            
+            .cellSetup({ (cell, row) in
+                cell.detailTextLabel?.textColor = UIColor.black
+            })
+
+
             <<< IntRow(){
                 $0.title = "1本の値段"
                 $0.value = 0
@@ -69,8 +83,8 @@ class SignUpViewController: FormViewController {
                     }
                 }
             }
-            
-            
+
+
             <<< IntRow(){
                 $0.title = "1日の目標本数"
                 $0.value = 0
@@ -93,8 +107,8 @@ class SignUpViewController: FormViewController {
                     }
                 }
             }
-            
-            
+
+
             <<< SwitchRow(){
                 $0.title = "センサーを設置済み"
                 $0.value = false
@@ -128,123 +142,36 @@ class SignUpViewController: FormViewController {
                     }
                 }
             }
-        
-        
+
+
         form +++ Section()
             <<< ButtonRow(){
-                $0.title = "Sign Up"
+                $0.title = "サインアップ"
                 $0.baseCell.backgroundColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
                 $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                self.CallAPI()
-                print(self.form.values())
-            }
-    }
-    
-    func CallAPI() {
-        if IsCheckFormValue(form: form) {
-            indicator.showIndicator(view: tableView)
-            
-            CallSaveUUIDAPI().then { uuid in
-                return self.CallCreateUserAPI(uuid: uuid)
-                }.then { json -> Void in
-                    self.indicator.stopIndicator()
-                    
-                    try! self.keychain.set(json["uuid"].stringValue, key: "uuid")
-                    try! self.keychain.set(String(json["id"].intValue), key: "id")
-                    try! self.keychain.set(String(false), key: "is_smoking")
-                    try! self.keychain.set("", key: "smoke_id")
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let topVC = storyboard.instantiateInitialViewController()
-                    topVC?.modalTransitionStyle = .flipHorizontal
-                    self.present(topVC!, animated: true, completion: nil)
-                    
-                }.catch { err in
-                    self.indicator.stopIndicator()
-                    
-                    let tmp_err = err as NSError
-                    self.present(GetStandardAlert(title: "Error", message: tmp_err.domain, b_title: "OK"), animated: true, completion: nil)
-            }
-        }else {
-            self.present(GetStandardAlert(title: "Error", message: "入力項目を再確認してください", b_title: "OK"), animated: true, completion: nil)
-        }
-    }
-    
-    func CallSaveUUIDAPI() -> Promise<String> {
-        let uuid = NSUUID().uuidString
-        let sensor_set = form.values()["sensor_set"] as! Bool
-        
-        if !sensor_set {
-            let promise = Promise<String> { (resolve, reject) in
-                resolve(uuid)
-            }
-            return promise
-        }
-        
-        let promise = Promise<String> { (resolve, reject) in
-            let address = form.values()["address"] as! String
-            let request = GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
-            
-            Alamofire.request(request).responseJSON { response in
-                guard let obj = response.result.value else {return reject(NSError(domain: "センサーに接続できませんでした", code: -1))}
-                let json = JSON(obj)
-                
-                print("***** raspi results *****")
-                print(json)
-                print(response.error)
-                print("***** raspi results *****")
-                
-                if response.error == nil {
-                    resolve(json["uuid"].stringValue)
+                if IsCheckFormValue(form: self.form) {
+                    self.presenter.signUp()
                 }else {
-                    reject(NSError(domain: "センサーに接続できませんでした", code: -1))
+                    ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                 }
             }
-            
-        }
-        
-        return promise
-    }
-    
-    func CallCreateUserAPI(uuid: String) -> Promise<JSON> {
-        var values = form.values()
-        var address = ""
-        if values["sensor_set"] as! Bool {
-            address = values["address"] as! String
-        }
-        
-        let params = [
-            "uuid": uuid,
-            "payday": values["payday"] as! Int,
-            "price": values["price"] as! Int,
-            "target_number": values["target_number"] as! Int,
-            "address": address
-            ] as [String : Any]
-        
-        let promise = Promise<JSON> { (resolve, reject) in
-            let urlString = API.base.rawValue + API.v1.rawValue + API.user.rawValue
-            Alamofire.request(urlString, method: .post, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-                guard let obj = response.result.value else {return}
-                let json = JSON(obj)
-                
-                print("***** API results *****")
-                print(json)
-                print("***** API results *****")
-                
-                if response.error == nil {
-                    resolve(json)
-                }else {
-                    reject(response.error!)
-                }
-            }
-        }
-        
-        return promise
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+
+}
+
+// MARK: - Presenterから呼び出される関数一覧
+extension SignUpViewController {
+    func navigateTopView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let topVC = storyboard.instantiateInitialViewController()
+        topVC?.modalTransitionStyle = .flipHorizontal
+        self.present(topVC!, animated: true, completion: nil)
+    }
+    
+    func showAlert(title: String, msg: String) {
+        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }

@@ -80,7 +80,7 @@ response：
 }
 ```
 
-#### Update User Profile
+#### Update User Data
 ```
 method：PUT
 endpoint：api/v1/user/{id}
@@ -136,22 +136,6 @@ response：
 }
 ```
 
-#### Create Smoke All
-```
-method：POST
-endpoint：api/v1/smoke/all
-request：
-{
-    "uuid": "hogehoge",
-    "started_at": "2018-01-08 01:13:11",
-    "ended_at": "2018-01-08 01:16:11"
-}
-response：
-{
-    "uuid": "hogehoge",
-    "smoke_id": 10
-}
-```
 
 #### Update End Smoke Time
 ```
@@ -160,7 +144,8 @@ endpoint：api/v1/smoke/{id}
 request：
 {
     "uuid": "hogehoge",
-    "minus_sec": 30
+    "minus_sec": 30,
+    "is_sensor": true
 }
 response：
 {
@@ -187,6 +172,27 @@ response：
     "ended_at": "2017-11-11 23:52:52"
 }
 ```
+
+#### Add Smokes Data
+```
+method：POST
+endpoint：api/v1/smoke/some
+request：
+{
+    "start_point": "2018-08-17 02:15:00",
+	"end_point": "2018-08-17 03:20:00",
+	"uuid": "hogehoge",
+	"smoke_time": 2,
+	"smoke_count": 5
+}
+response：
+{
+    "smoke_id": 10,
+    "started_at": "2017-11-11 23:23:23",
+    "ended_at": "2017-11-11 23:52:52"
+}
+```
+
 
 #### Delete Smoke Data
 ```

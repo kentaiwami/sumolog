@@ -67,29 +67,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         deviceToken = deviceToken.trimmingCharacters(in: characterSet)
         deviceToken = deviceToken.replacingOccurrences(of: " ", with: "")
         
-        SendToken(token: deviceToken)
-        
-        print("deviceToken = \(deviceToken)")
-    }
-    
-    func SendToken(token: String){
         let keychain = Keychain()
         let uuid = (try! keychain.get("uuid"))!
-        
-        let urlString = API.base.rawValue + API.v1.rawValue + API.token.rawValue
         let params = [
-            "token": token,
+            "token": deviceToken,
             "uuid": uuid
         ]
         
-        Alamofire.request(urlString, method: .put, parameters: params, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            guard let obj = response.result.value else {return}
-            let json = JSON(obj)
-
-            print("***** API results *****")
-            print(json)
-            print("***** API results *****")
-        }
+        API().sendToken(params: params)
+        
+        print("deviceToken = \(deviceToken)")
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
