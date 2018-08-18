@@ -46,7 +46,7 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
         self.tabBarController?.navigationItem.title = "一覧"
         
         setUpNavigationButton()
-        presenter.set24HourSmoke(isShowIndicator: false)
+        presenter.set24HourSmoke(isShowIndicator: true)
     }
     
     fileprivate func setUpNavigationButton() {

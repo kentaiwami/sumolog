@@ -56,7 +56,6 @@ class AddsViewController: FormViewController, AddsViewInterface {
         }
         
         let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
-        let dateFormatterTime = GetDateFormatter(format: "HH:mm")
         let now = Date()
         
         form +++ Section(header: "時刻の範囲", footer: "")
