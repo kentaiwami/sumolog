@@ -49,7 +49,7 @@ class APIStoreSomeSmokeController extends Controller
             $loop_count += 1;
 
             if ($loop_count > 10000) {
-                abort(400, '指定した時刻の範囲に収まる喫煙情報の作成に失敗しました。下記の操作をすると作成に成功します。¥n・範囲の拡大¥n・喫煙本数を増やす¥n・喫煙時間を減らす');
+                abort(400, '指定した時刻の範囲に収まる喫煙情報の作成に失敗しました。下記の操作をすると作成に成功します。'."\n".'・範囲の拡大'."\n".'・喫煙本数を増やす'."\n".'・喫煙時間を減らす');
             }
 
             $start_min = mt_rand(0, $rand_end);

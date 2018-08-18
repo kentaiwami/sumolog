@@ -19,6 +19,11 @@ class AddsViewPresenter {
         model.delegate = self
     }
     
+    func isVaildValue() -> Bool {
+        guard let formValues = view?.formValues else {return false}
+        return model.isVaildValue(formValues: formValues)
+    }
+    
     func adds() {
         guard let formValues = view?.formValues else {return}
         model.adds(formValues: formValues)
@@ -26,6 +31,10 @@ class AddsViewPresenter {
 }
 
 extension AddsViewPresenter: AddsFormViewModelDelegate {
+    func successAdds() {
+        view?.successAdds()
+    }
+    
     func faildAPI(title: String, msg: String) {
         view?.showAlert(title: title, msg: msg)
     }

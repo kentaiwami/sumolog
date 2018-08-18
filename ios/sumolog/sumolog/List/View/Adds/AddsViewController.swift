@@ -8,10 +8,12 @@
 
 import UIKit
 import Eureka
+import PopupDialog
 
 protocol AddsViewInterface: class {
     var formValues:[String:Any?] { get }
     
+    func successAdds()
     func showAlert(title: String, msg: String)
 }
 
@@ -55,11 +57,12 @@ class AddsViewController: FormViewController, AddsViewInterface {
         
         let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
         let dateFormatterTime = GetDateFormatter(format: "HH:mm")
-
+        let now = Date()
+        
         form +++ Section(header: "時刻の範囲", footer: "")
             <<< DateTimeRow(){
                 $0.title = "開始地点"
-                $0.value = Date()
+                $0.value = now
                 $0.tag = "start"
                 $0.dateFormatter = dateFormatterMin
             }
@@ -69,7 +72,7 @@ class AddsViewController: FormViewController, AddsViewInterface {
             
             <<< DateTimeRow(){
                 $0.title = "終了地点"
-                $0.value = Date()
+                $0.value = now
                 $0.tag = "end"
                 $0.dateFormatter = dateFormatterMin
             }
@@ -121,7 +124,18 @@ class AddsViewController: FormViewController, AddsViewInterface {
             }
             .onCellSelection {  cell, row in
                 if IsCheckFormValue(form: self.form) {
-                    self.presenter.adds()
+                    let start = self.formValues["start"] as! Date
+                    let end = self.formValues["end"] as! Date
+                    
+                    if start > end {
+                        ShowStandardAlert(title: "エラー", msg: "終了地点は開始地点よりも後の時刻を設定してください。", vc: self, completion: nil)
+                    }else {
+                        if self.presenter.isVaildValue() {
+                            self.presenter.adds()
+                        }else {
+                            ShowStandardAlert(title: "エラー", msg: "指定した範囲内に喫煙情報が収まりません。下記の項目を調整してください。\n\n・範囲の拡大\n・喫煙本数を増やす\n・喫煙時間を減らす", vc: self, completion: nil)
+                        }
+                    }
                 }else {
                     ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                 }
@@ -131,6 +145,16 @@ class AddsViewController: FormViewController, AddsViewInterface {
 
 // MARK: - Presenterから呼び出される関数一覧
 extension AddsViewController {
+    func successAdds() {
+        let ok = DefaultButton(title: "OK", dismissOnTap: true) {
+            self.dismiss(animated: true, completion: nil)
+        }
+        let popup = PopupDialog(title: "成功", message: "複数の喫煙情報の追加が完了しました") {}
+        popup.transitionStyle = .zoomIn
+        popup.addButtons([ok])
+        present(popup, animated: true, completion: nil)
+    }
+    
     func showAlert(title: String, msg: String) {
         ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }

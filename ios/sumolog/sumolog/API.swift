@@ -36,7 +36,8 @@ class API {
                     if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
                     }else {
-                        seal.reject(NSError(domain: "エラーが発生しました[-1]", code: (response.response?.statusCode)!))
+                        let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
+                        seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
                     }
                 case .failure(_):
                     let err_msg = "エラーが発生しました[-1]"
@@ -65,7 +66,8 @@ class API {
                     if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
                     }else {
-                        seal.reject(NSError(domain: "エラーが発生しました[-1]", code: (response.response?.statusCode)!))
+                        let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
+                        seal.reject(NSError(domain: err_msg, code: (response.response?.statusCode)!))
                     }
                 case .failure(_):
                     let err_msg = "エラーが発生しました[-1]"
@@ -231,6 +233,11 @@ extension API {
     func endSmoke(params: [String:Any], smokeID: String) -> Promise<JSON> {
         let endPoint = "smoke/" + smokeID
         return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put)
+    }
+    
+    func addSmokes(params: [String:Any]) -> Promise<JSON> {
+        let endPoint = "smoke/some"
+        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .post)
     }
 }
 
