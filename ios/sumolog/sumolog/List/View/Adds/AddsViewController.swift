@@ -145,10 +145,10 @@ class AddsViewController: FormViewController, AddsViewInterface {
 // MARK: - Presenterから呼び出される関数一覧
 extension AddsViewController {
     func successAdds() {
-        let ok = DefaultButton(title: "OK", dismissOnTap: true) {
+        let ok = DefaultButton(title: "OK", dismissOnTap: true) {}
+        let popup = PopupDialog(title: "成功", message: "複数の喫煙情報の追加が完了しました") {
             self.dismiss(animated: true, completion: nil)
         }
-        let popup = PopupDialog(title: "成功", message: "複数の喫煙情報の追加が完了しました") {}
         popup.transitionStyle = .zoomIn
         popup.addButtons([ok])
         present(popup, animated: true, completion: nil)
