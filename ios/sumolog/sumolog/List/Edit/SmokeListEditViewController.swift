@@ -155,7 +155,7 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                     let delete = DestructiveButton(title: "削除", action: {
                         self.presenter.deleteSmoke()
                     })
-                    popup.addButtons([cancel, delete])
+                    popup.addButtons([delete, cancel])
                     self.present(popup, animated: true, completion: nil)
         }
     }
