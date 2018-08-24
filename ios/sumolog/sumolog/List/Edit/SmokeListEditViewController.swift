@@ -123,7 +123,7 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                                 let ok = DefaultButton(title: "OK", action: {
                                     self.presenter.updateSmoke(isReset: true)
                                 })
-                                popup.addButtons([cancel, ok])
+                                popup.addButtons([ok, cancel])
                                 self.present(popup, animated: true, completion: nil)
                             }else {
                                 self.presenter.updateSmoke(isReset: false)

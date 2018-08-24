@@ -76,7 +76,7 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
             let ok = DefaultButton(title: "OK", dismissOnTap: true) {
                 self.presenter.startSmoke()
             }
-            popup.addButtons([cancel, ok])
+            popup.addButtons([ok, cancel])
             self.present(popup, animated: true, completion: nil)
         }
     }
