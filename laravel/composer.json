@@ -11,7 +11,6 @@
         "fideloper/proxy": "~4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0",
-        "serverfireteam/panel": "^1.7",
         "davibennun/laravel-push-notification": "dev-laravel5"
     },
     "require-dev": {

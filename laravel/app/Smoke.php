@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App;
 
@@ -20,8 +20,6 @@ use Serverfireteam\Panel\ObservantTrait;
  * @mixin \Eloquent
  */
 class Smoke extends Model {
-	use ObservantTrait;
-	
     protected $table = 'smokes';
     public $timestamps = false;
 
