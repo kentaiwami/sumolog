@@ -44,10 +44,13 @@ class APIShowOverViewSmokeController extends Controller
 
 
         /* 時間別で集計 */
-        $hour_smokes = $smokes->groupBy(function($date) {
-            return Carbon::parse($date->started_at)->format('H');
-        });
-
+        if (count($smokes) == 0) {
+            $hour_smokes = [];
+        }else {
+            $hour_smokes = $smokes->groupBy(function ($date) {
+                return Carbon::parse($date->started_at)->format('H');
+            });
+        }
 
         // 時間ごとのカウントを配列へ入れる(最新順のため、返す時に逆順にする必要あり)
         $count_array = [];
@@ -55,7 +58,6 @@ class APIShowOverViewSmokeController extends Controller
             $tmp = [$key => count($value)];
             $count_array[] = $tmp;
         }
-
 
         // 今月の給与日
         $year = date('Y');
@@ -71,28 +73,23 @@ class APIShowOverViewSmokeController extends Controller
             $pre_paydate = date('Y-m-d', strtotime($user_paydate .'-1 month'));
         }
 
-        // 先月の給与までのレコードを日付別で取得
-        $smokes = Smoke::where('user_id', $id)
-            ->where('started_at', '>=', $pre_paydate)->get()
-            ->groupBy(function($date) {
-                return Carbon::parse($date->started_at)->format('d');
-            });
-
-
-        // 日付別の件数、1本の所要時間をカウント
-        $count_by_day = array();
+        // 1本の所要時間をカウント
         $difference_sum = 0.0;
-        foreach ($smokes as $key => $val) {
-            foreach ($val as $smoke_obj) {
-                $started_at = new \DateTime($smoke_obj->started_at);
-                $ended_at = new \DateTime($smoke_obj->ended_at);
-                $difference_sum += ($ended_at->getTimestamp() - $started_at->getTimestamp())/60;
-            }
-
-            $count_by_day[] = count($val);
+        foreach ($smokes as $smoke_obj) {
+            $started_at = new \DateTime($smoke_obj->started_at);
+            $ended_at = new \DateTime($smoke_obj->ended_at);
+            $difference_sum += ($ended_at->getTimestamp() - $started_at->getTimestamp())/60;
         }
 
-        $ave = round($difference_sum / array_sum($count_by_day), 1, PHP_ROUND_HALF_UP);
+        if (count($smokes) == 0) {
+            $ave = 0.0;
+        }else {
+            $ave = round($difference_sum / count($smokes), 1, PHP_ROUND_HALF_UP);
+        }
+
+
+        // 先月の給与までのレコードを取得
+        $smokes = Smoke::where('user_id', $id)->where('started_at', '>=', $pre_paydate)->get();
 
         return Response()->json([
             'count' => $count_hour,
@@ -100,7 +97,7 @@ class APIShowOverViewSmokeController extends Controller
             'hour'  => array_reverse($count_array, false),
             'over'  => $count_hour - $target_number,
             'ave'   => $ave,
-            'used' => array_sum($count_by_day) * $user->price
+            'used' => count($smokes) * $user->price
         ]);
     }
 }
