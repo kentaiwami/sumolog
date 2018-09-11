@@ -44,10 +44,13 @@ class APIShowOverViewSmokeController extends Controller
 
 
         /* 時間別で集計 */
-        $hour_smokes = $smokes->groupBy(function($date) {
-            return Carbon::parse($date->started_at)->format('H');
-        });
-
+        if (count($smokes) == 0) {
+            $hour_smokes = [];
+        }else {
+            $hour_smokes = $smokes->groupBy(function ($date) {
+                return Carbon::parse($date->started_at)->format('H');
+            });
+        }
 
         // 時間ごとのカウントを配列へ入れる(最新順のため、返す時に逆順にする必要あり)
         $count_array = [];
@@ -55,7 +58,6 @@ class APIShowOverViewSmokeController extends Controller
             $tmp = [$key => count($value)];
             $count_array[] = $tmp;
         }
-
 
         // 今月の給与日
         $year = date('Y');
@@ -79,7 +81,12 @@ class APIShowOverViewSmokeController extends Controller
             $difference_sum += ($ended_at->getTimestamp() - $started_at->getTimestamp())/60;
         }
 
-        $ave = round($difference_sum / count($smokes), 1, PHP_ROUND_HALF_UP);
+        if (count($smokes) == 0) {
+            $ave = 0.0;
+        }else {
+            $ave = round($difference_sum / count($smokes), 1, PHP_ROUND_HALF_UP);
+        }
+
 
         // 先月の給与までのレコードを取得
         $smokes = Smoke::where('user_id', $id)->where('started_at', '>=', $pre_paydate)->get();
