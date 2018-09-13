@@ -295,6 +295,29 @@ extension SmokeOverViewController {
         graphView.trailing(to: self.view)
         graphView.topToBottom(of: borderView.last!, offset: 20)
         graphView.bottom(to: self.view, offset: -80)
+        
+        
+        //TODO: test
+        graphView.isHidden = presenter.isViewHidden().graphView
+        
+        let tmpView = UIView()
+        let tmpImageView = UIImageView(image: UIImage(named: "icon_close"))
+        let tmpLalelView = UILabel()
+        tmpLalelView.text = "データなし"
+        tmpLalelView.sizeToFit()
+        
+        tmpView.addSubview(tmpImageView)
+        tmpView.addSubview(tmpLalelView)
+        self.view.addSubview(tmpView)
+        
+        tmpView.edges(to: graphView)
+        tmpImageView.center(in: tmpView)
+        tmpLalelView.topToBottom(of: tmpImageView, offset: 10)
+        
+        tmpView.isHidden = presenter.isViewHidden().noDataView
+    }
+    
+    fileprivate func createEmptyView() {
     }
 }
 
