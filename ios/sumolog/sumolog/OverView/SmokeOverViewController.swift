@@ -27,6 +27,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
     var descriptionLabel: [UILabel] = []
     var borderView: [UIView] = []
     var graphView = ScrollableGraphView()
+    var noDataView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +80,12 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         createUsedLabel()
         createDescriptionLabel(str: "給与日から使用した金額", target: usedLabel)
         createBorderView(target: descriptionLabel.last!)
+        
+        // グラフ
         createGraphView()
+        
+        // noData
+        createNoDataView()
         
         let tmpOver = presenter.getOverViewData().getOver()
         if tmpOver > 0 {
@@ -95,6 +101,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         smoke_countLabel.removeFromSuperview()
         usedLabel.removeFromSuperview()
         graphView.removeFromSuperview()
+        noDataView.removeFromSuperview()
         
         for label in descriptionLabel {
             label.removeFromSuperview()
@@ -295,6 +302,29 @@ extension SmokeOverViewController {
         graphView.trailing(to: self.view)
         graphView.topToBottom(of: borderView.last!, offset: 20)
         graphView.bottom(to: self.view, offset: -80)
+        graphView.isHidden = presenter.isViewHidden().graphView
+    }
+    
+    fileprivate func createNoDataView() {
+        noDataView = UIView()
+        let tmpImageView = UIImageView(image: UIImage(named: "icon_empty"))
+        let tmpLalelView = UILabel()
+        tmpLalelView.text = "24時間以内の喫煙記録がないため表示されません"
+        tmpLalelView.textColor = UIColor.gray
+        tmpLalelView.sizeToFit()
+        
+        noDataView.addSubview(tmpImageView)
+        noDataView.addSubview(tmpLalelView)
+        self.view.addSubview(noDataView)
+        
+        noDataView.edges(to: graphView)
+        tmpImageView.center(in: noDataView)
+        tmpImageView.width(60)
+        tmpImageView.height(60)
+        tmpLalelView.topToBottom(of: tmpImageView, offset: 10)
+        tmpLalelView.centerX(to: noDataView)
+        
+        noDataView.isHidden = presenter.isViewHidden().noDataView
     }
 }
 

@@ -141,7 +141,7 @@ extension SmokeListViewController {
         self.refresh_controll.endRefreshing()
         
         if presenter.getResults().count == 0 {
-            let status = Status(title: "データなし", description: "喫煙記録がないため、データを表示できません", actionTitle: "再読み込み", image: nil) {
+            let status = Status(title: "データなし", description: "24時間以内の喫煙記録がないため、データを表示できません", actionTitle: "再読み込み", image: nil) {
                 self.hideStatus()
                 self.presenter.set24HourSmoke(isShowIndicator: true)
             }
