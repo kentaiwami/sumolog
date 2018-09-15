@@ -2154,16 +2154,16 @@
         },
         {
             "name": "sly/notification-pusher",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ph3nol/NotificationPusher.git",
-                "reference": "fc6ab3e72f3d93e7dd3b1e1df883946d206a12ec"
+                "reference": "6b3710bf65192d5bec724249566c2f11928866ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ph3nol/NotificationPusher/zipball/fc6ab3e72f3d93e7dd3b1e1df883946d206a12ec",
-                "reference": "fc6ab3e72f3d93e7dd3b1e1df883946d206a12ec",
+                "url": "https://api.github.com/repos/Ph3nol/NotificationPusher/zipball/6b3710bf65192d5bec724249566c2f11928866ad",
+                "reference": "6b3710bf65192d5bec724249566c2f11928866ad",
                 "shasum": ""
             },
             "require": {
@@ -2188,8 +2188,8 @@
             ],
             "type": "standalone",
             "autoload": {
-                "psr-0": {
-                    "Sly": "src/"
+                "psr-4": {
+                    "Sly\\": "src/Sly/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2219,7 +2219,7 @@
                 "push",
                 "pusher"
             ],
-            "time": "2018-02-17T13:20:40+00:00"
+            "time": "2018-09-15T15:21:38+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
