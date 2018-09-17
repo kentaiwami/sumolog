@@ -246,17 +246,21 @@ extension SmokeOverViewController {
             textColor = UIColor.red
         }
         
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = textColor
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         label.attributedText = getAttrString(str: String(presenter.getOverViewData().getCount()) + "本")
         
         smoke_countLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: borderView.last!, offset: 25)
+        label.topToBottom(of: borderView.last!, offset: offset)
         label.centerX(to: self.view)
+        label.width(self.view.frame.width - offset*2)
     }
     
     fileprivate func createUsedLabel() {
