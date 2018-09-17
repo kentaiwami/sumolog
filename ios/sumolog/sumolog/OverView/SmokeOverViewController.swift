@@ -152,7 +152,7 @@ extension SmokeOverViewController {
             
             if let char_index = char_index {
                 let position = str.distance(from: str.startIndex, to: char_index).advanced(by: 0)
-                attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 30)!, range: NSRange(location: position, length: 1))
+                attr_str.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HiraginoW3.rawValue, size: 30)!, range: NSRange(location: position, length: 1))
             }
         }
         
@@ -203,7 +203,7 @@ extension SmokeOverViewController {
     
     fileprivate func createDescriptionLabel(str: String, target: UILabel) {
         let attr_str = NSMutableAttributedString(string: str)
-        attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 15)!, range: NSRange(location: 0, length: attr_str.length))
+        attr_str.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HiraginoW3.rawValue, size: 15)!, range: NSRange(location: 0, length: attr_str.length))
         
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)

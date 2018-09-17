@@ -59,9 +59,10 @@ class API {
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("***** "+String(httpMethod.rawValue)!+" Auth API Results *****")
+                    print("***** "+httpMethod.rawValue+" Auth API Results *****")
+                    
                     print(json)
-                    print("***** "+String(httpMethod.rawValue)!+" Auth API Results *****")
+                    print("***** "+httpMethod.rawValue+" Auth API Results *****")
                     
                     if IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
