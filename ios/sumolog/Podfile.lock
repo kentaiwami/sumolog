@@ -1,30 +1,30 @@
 PODS:
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.3)
   - DynamicBlurView (2.0.2)
   - Eureka (4.2.0)
-  - KeychainAccess (3.1.0)
+  - KeychainAccess (3.1.1)
   - PopupDialog (0.8.1):
     - DynamicBlurView (~> 2.0)
-  - PromiseKit (6.2.3):
-    - PromiseKit/CorePromise (= 6.2.3)
-    - PromiseKit/Foundation (= 6.2.3)
-    - PromiseKit/UIKit (= 6.2.3)
-  - PromiseKit/CorePromise (6.2.3)
-  - PromiseKit/Foundation (6.2.3):
+  - PromiseKit (6.4.0):
+    - PromiseKit/CorePromise (= 6.4.0)
+    - PromiseKit/Foundation (= 6.4.0)
+    - PromiseKit/UIKit (= 6.4.0)
+  - PromiseKit/CorePromise (6.4.0)
+  - PromiseKit/Foundation (6.4.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.2.3):
+  - PromiseKit/UIKit (6.4.0):
     - PromiseKit/CorePromise
   - ScrollableGraphView (4.0.5)
-  - StatusProvider (1.2.6)
-  - SwiftyJSON (4.0.0)
+  - StatusProvider (1.2.10)
+  - SwiftyJSON (4.1.0)
   - TinyConstraints (2.2.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.5)
+  - Alamofire
   - Eureka
   - KeychainAccess
   - PopupDialog (~> 0.8)
-  - PromiseKit (~> 6.0)
+  - PromiseKit
   - ScrollableGraphView (~> 4.0)
   - StatusProvider
   - SwiftyJSON
@@ -53,17 +53,17 @@ CHECKOUT OPTIONS:
     :git: https://github.com/roberthein/TinyConstraints.git
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   DynamicBlurView: aa6db4defc6e537eb86fc5e58dd3991666178399
   Eureka: 0748c7bbb2560130e43c7bfa83e99c98854a1f42
-  KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   PopupDialog: 3d4e8e0795c3a614f407d730986c9b9af9781123
-  PromiseKit: 62f37bb4900a9b0b7550d017e41497171d93face
+  PromiseKit: ae3616f45d7bb9bf4ff1e91abc9b7a8c48a340e0
   ScrollableGraphView: 6386dbae8d92e8ec9fda9f386f2ba6e2c90c59a3
-  StatusProvider: b2c794d71f7166516950098e811e91ddbcc8d030
-  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  StatusProvider: 53f64deb452d619091b1a606a0973a724db17d0d
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   TinyConstraints: 5eaf849b075c9d73c6a55b6ea33039fff03a8c84
 
-PODFILE CHECKSUM: 184284a9ea7fa375cbce623846f22496cf0501d6
+PODFILE CHECKSUM: 0daf9107b9ef85be12d58f15004aa14d3587a9c4
 
 COCOAPODS: 1.5.3
