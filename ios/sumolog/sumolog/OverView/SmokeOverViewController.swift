@@ -174,31 +174,39 @@ extension SmokeOverViewController {
 // MARK: - Labelなどの要素の生成関連
 extension SmokeOverViewController {
     fileprivate func createLatestLabel() {
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         label.attributedText = getAttrString(str: presenter.getLatestLabelText(min: presenter.getOverViewData().getMin()))
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         
         latestLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: 25)
-        label.centerX(to: self.view, offset: -100)
+        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: offset)
+        label.left(to: self.view, offset: offset)
+        label.width(self.view.frame.width/2 - offset)
     }
     
     fileprivate func createAveLabel() {
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         label.attributedText = getAttrString(str: String(presenter.getOverViewData().getAve()) + "m")
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         
         aveLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: 25)
-        label.centerX(to: self.view, offset: 100)
+        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: offset)
+        label.right(to: self.view, offset: -offset)
+        label.width(self.view.frame.width/2 - offset)
     }
     
     fileprivate func createDescriptionLabel(str: String, target: UILabel) {
