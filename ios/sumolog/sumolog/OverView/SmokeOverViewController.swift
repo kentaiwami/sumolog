@@ -264,17 +264,21 @@ extension SmokeOverViewController {
     }
     
     fileprivate func createUsedLabel() {
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         label.text = "¥" + getNumber(num: presenter.getOverViewData().getUsed())
         
         usedLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: borderView.last!, offset: 25)
+        label.topToBottom(of: borderView.last!, offset: offset)
         label.centerX(to: self.view)
+        label.width(self.view.frame.width - offset*2)
     }
     
     fileprivate func createGraphView() {
@@ -310,8 +314,8 @@ extension SmokeOverViewController {
         
         self.view.addSubview(graphView)
         graphView.width(to: self.view)
-        graphView.leading(to: self.view)
-        graphView.trailing(to: self.view)
+        graphView.left(to: self.view)
+        graphView.right(to: self.view)
         graphView.topToBottom(of: borderView.last!, offset: 20)
         graphView.bottom(to: self.view, offset: -80)
         graphView.isHidden = presenter.isViewHidden().graphView
