@@ -152,7 +152,7 @@ extension SmokeOverViewController {
             
             if let char_index = char_index {
                 let position = str.distance(from: str.startIndex, to: char_index).advanced(by: 0)
-                attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 30)!, range: NSRange(location: position, length: 1))
+                attr_str.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HiraginoW3.rawValue, size: 30)!, range: NSRange(location: position, length: 1))
             }
         }
         
@@ -174,36 +174,44 @@ extension SmokeOverViewController {
 // MARK: - Labelなどの要素の生成関連
 extension SmokeOverViewController {
     fileprivate func createLatestLabel() {
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         label.attributedText = getAttrString(str: presenter.getLatestLabelText(min: presenter.getOverViewData().getMin()))
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         
         latestLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: 25)
-        label.centerX(to: self.view, offset: -100)
+        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: offset)
+        label.left(to: self.view, offset: offset)
+        label.width(self.view.frame.width/2 - offset)
     }
     
     fileprivate func createAveLabel() {
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
         label.attributedText = getAttrString(str: String(presenter.getOverViewData().getAve()) + "m")
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         
         aveLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: 25)
-        label.centerX(to: self.view, offset: 100)
+        label.topToBottom(of: (self.navigationController?.navigationBar)!, offset: offset)
+        label.right(to: self.view, offset: -offset)
+        label.width(self.view.frame.width/2 - offset)
     }
     
     fileprivate func createDescriptionLabel(str: String, target: UILabel) {
         let attr_str = NSMutableAttributedString(string: str)
-        attr_str.addAttribute(NSFontAttributeName, value: UIFont(name: Font.HiraginoW3.rawValue, size: 15)!, range: NSRange(location: 0, length: attr_str.length))
+        attr_str.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HiraginoW3.rawValue, size: 15)!, range: NSRange(location: 0, length: attr_str.length))
         
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
@@ -238,31 +246,39 @@ extension SmokeOverViewController {
             textColor = UIColor.red
         }
         
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = textColor
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         label.attributedText = getAttrString(str: String(presenter.getOverViewData().getCount()) + "本")
         
         smoke_countLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: borderView.last!, offset: 25)
+        label.topToBottom(of: borderView.last!, offset: offset)
         label.centerX(to: self.view)
+        label.width(self.view.frame.width - offset*2)
     }
     
     fileprivate func createUsedLabel() {
+        let offset: CGFloat = 25
         let label = UILabel(frame: CGRect.zero)
         label.font = UIFont(name: Font.HiraginoW3.rawValue, size: 60)
         label.textColor = UIColor.hex(Color.gray.rawValue, alpha: 1.0)
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         label.text = "¥" + getNumber(num: presenter.getOverViewData().getUsed())
         
         usedLabel = label
         
         self.view.addSubview(label)
         
-        label.topToBottom(of: borderView.last!, offset: 25)
+        label.topToBottom(of: borderView.last!, offset: offset)
         label.centerX(to: self.view)
+        label.width(self.view.frame.width - offset*2)
     }
     
     fileprivate func createGraphView() {
@@ -298,8 +314,8 @@ extension SmokeOverViewController {
         
         self.view.addSubview(graphView)
         graphView.width(to: self.view)
-        graphView.leading(to: self.view)
-        graphView.trailing(to: self.view)
+        graphView.left(to: self.view)
+        graphView.right(to: self.view)
         graphView.topToBottom(of: borderView.last!, offset: 20)
         graphView.bottom(to: self.view, offset: -80)
         graphView.isHidden = presenter.isViewHidden().graphView

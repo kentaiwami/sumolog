@@ -1,19 +1,18 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+ platform :ios, '11.0'
 
 target 'sumolog' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   
-  pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'Swift-3.3'
-  pod 'SwiftyJSON'
-  pod 'Alamofire', '~> 4.5'
-  pod 'KeychainAccess'
-  pod 'ScrollableGraphView'
-  pod 'TinyConstraints', :git => 'https://github.com/roberthein/TinyConstraints.git', :branch => 'Release_2.1.2'
-  pod 'PromiseKit', '~> 6.0'
-  pod 'StatusProvider'
-  pod 'PopupDialog', '0.5.4'
-  # Pods for sumolog
+pod 'Alamofire'
+pod 'PromiseKit'
+pod 'StatusProvider'
+pod 'KeychainAccess'
+pod 'SwiftyJSON'
+pod 'TinyConstraints', :git => 'https://github.com/roberthein/TinyConstraints.git', :branch => 'release/swift-4'
+pod 'Eureka'
+pod 'ScrollableGraphView', '~> 4.0'
+pod 'PopupDialog', '~> 0.8'
 
 end

@@ -61,7 +61,7 @@ class SmokeListEditViewModel {
             let smoke_id = String((try! self.keychain.getString("smoke_id"))!)
             
             // 終了時間を編集したsmoke dataと手動で喫煙開始をしたsmoke dataが同じであればフラグをfalseにする
-            if smoke_id! == String(self.smokeID) {
+            if smoke_id == String(self.smokeID) {
                 try! self.keychain.set(String(false), key: "is_smoking")
                 try! self.keychain.set("", key: "smoke_id")
             }
