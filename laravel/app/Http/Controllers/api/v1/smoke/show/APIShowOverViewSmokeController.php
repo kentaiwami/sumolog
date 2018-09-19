@@ -44,19 +44,36 @@ class APIShowOverViewSmokeController extends Controller
 
 
         /* 時間別で集計 */
-        if (count($smokes) == 0) {
-            $hour_smokes = [];
-        }else {
+        $count_array = [];
+        $tmp_count_array = [];
+
+        if ($count_hour != 0) {
             $hour_smokes = $smokes->groupBy(function ($date) {
                 return Carbon::parse($date->started_at)->format('H');
             });
+
+            foreach ($hour_smokes as $key => $value ) {
+                $count_array[] = array('hour' => $key, 'count' => count($value));
+            }
         }
 
-        // 時間ごとのカウントを配列へ入れる(最新順のため、返す時に逆順にする必要あり)
-        $count_array = [];
-        foreach ($hour_smokes as $key => $value ) {
-            $tmp = [$key => count($value)];
-            $count_array[] = $tmp;
+        $tmp_count = 0;
+        while ($tmp_count != 25) {
+            $tmp_hour = date('H', strtotime('- '.$tmp_count.' hour'));
+            $tmp_count += 1;
+            $is_hit = false;
+
+            foreach ($count_array as $obj) {
+                if ($obj['hour'] == $tmp_hour) {
+                    $tmp_count_array[] = array('hour' => $tmp_hour, 'count' => $obj['count']);
+                    $is_hit = true;
+                    break;
+                }
+            }
+
+            if (!$is_hit) {
+                $tmp_count_array[] = array('hour' => $tmp_hour, 'count' => 0);
+            }
         }
 
         // 今月の給与日
@@ -94,7 +111,7 @@ class APIShowOverViewSmokeController extends Controller
         return Response()->json([
             'count' => $count_hour,
             'min'   => $min,
-            'hour'  => array_reverse($count_array, false),
+            'hour'  => array_reverse($tmp_count_array, false),
             'over'  => $count_hour - $target_number,
             'ave'   => $ave,
             'used' => count($smokes) * $user->price

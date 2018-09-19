@@ -94,12 +94,4 @@ class SmokeOverViewModel {
             }
         }
     }
-    
-    func isViewHidden() -> (graphView: Bool, noDataView: Bool) {
-        if data.getHour().count == 0 {
-            return (true, false)
-        }else {
-            return (false, true)
-        }
-    }
 }
