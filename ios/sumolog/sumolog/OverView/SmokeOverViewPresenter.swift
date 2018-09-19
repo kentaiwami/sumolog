@@ -34,10 +34,6 @@ class SmokeOverViewPresenter {
     func getOverViewData() -> SmokeOverViewData {
         return model.getOverViewData()
     }
-    
-    func isViewHidden() -> (graphView: Bool, noDataView: Bool) {
-        return model.isViewHidden()
-    }
 }
 
 extension SmokeOverViewPresenter: SmokeOverViewModelDelegate {

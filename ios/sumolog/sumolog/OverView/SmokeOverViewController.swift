@@ -84,9 +84,6 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         // グラフ
         createGraphView()
         
-        // noData
-        createNoDataView()
-        
         let tmpOver = presenter.getOverViewData().getOver()
         if tmpOver > 0 {
             ShowStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
@@ -304,7 +301,7 @@ extension SmokeOverViewController {
         graphView.rangeMin = 0
         graphView.rangeMax = presenter.getMaxRange()
         graphView.backgroundFillColor = UIColor.white
-        graphView.shouldAnimateOnStartup = true
+        graphView.shouldAnimateOnStartup = false
         graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.direction = .rightToLeft
@@ -318,29 +315,6 @@ extension SmokeOverViewController {
         graphView.right(to: self.view)
         graphView.topToBottom(of: borderView.last!, offset: 20)
         graphView.bottom(to: self.view, offset: -80)
-        graphView.isHidden = presenter.isViewHidden().graphView
-    }
-    
-    fileprivate func createNoDataView() {
-        noDataView = UIView()
-        let tmpImageView = UIImageView(image: UIImage(named: "icon_empty"))
-        let tmpLalelView = UILabel()
-        tmpLalelView.text = "24時間以内の喫煙記録がないため表示されません"
-        tmpLalelView.textColor = UIColor.gray
-        tmpLalelView.sizeToFit()
-        
-        noDataView.addSubview(tmpImageView)
-        noDataView.addSubview(tmpLalelView)
-        self.view.addSubview(noDataView)
-        
-        noDataView.edges(to: graphView)
-        tmpImageView.center(in: noDataView)
-        tmpImageView.width(60)
-        tmpImageView.height(60)
-        tmpLalelView.topToBottom(of: tmpImageView, offset: 10)
-        tmpLalelView.centerX(to: noDataView)
-        
-        noDataView.isHidden = presenter.isViewHidden().noDataView
     }
 }
 

@@ -54,9 +54,8 @@ class SmokeOverViewData {
 
         data.hour.removeAll()
         for obj in json["hour"].arrayValue {
-            let tmp = obj.dictionaryValue
-            let key = tmp.keys.first!
-            data.hour.append([key:tmp[key]!.intValue])
+            let dict = obj.dictionaryValue
+            data.hour.append([dict["hour"]?.stringValue ?? "" : dict["count"]?.intValue ?? 0])
         }
     }
 }
