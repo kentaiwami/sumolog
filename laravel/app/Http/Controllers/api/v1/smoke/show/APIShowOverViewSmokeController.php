@@ -6,6 +6,7 @@ use App\User;
 use App\Smoke;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 
 class APIShowOverViewSmokeController extends Controller
@@ -81,22 +82,26 @@ class APIShowOverViewSmokeController extends Controller
 
         if (count($smokes_24hour) != 0) {
             $hour_smokes = $smokes_24hour->groupBy(function ($date) {
-                return Carbon::parse($date->started_at)->format('H');
+                return Carbon::parse($date->started_at)->format('Y-m-d H');
             });
 
-            foreach ($hour_smokes as $key => $value ) {
-                $count_by_hour_from_groupBy[] = array('hour' => $key, 'count' => count($value));
+            foreach ($hour_smokes as $key => $smoke_list ) {
+                $tmp_date = new DateTime($key.':00:00');
+                $hour = $tmp_date->format('H');
+                $date = $tmp_date->format('Y-m-d');
+                $count_by_hour_from_groupBy[] = array('hour' => $hour, 'count' => count($smoke_list), 'date'=> $date);
             }
         }
 
         $offset = 0;
         while ($offset != 25) {
             $hour = date('H', strtotime('- '.$offset.' hour'));
+            $date = date('Y-m-d', strtotime('- '.$offset.' hour'));
             $offset += 1;
             $is_hit = false;
 
             foreach ($count_by_hour_from_groupBy as $obj) {
-                if ($obj['hour'] == $hour) {
+                if ($obj['hour'] == $hour && $obj['date'] == $date) {
                     $count_by_hour[] = array('hour' => $hour, 'count' => $obj['count']);
                     $is_hit = true;
                     break;
