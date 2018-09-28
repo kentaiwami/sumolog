@@ -14,8 +14,9 @@ import KeychainAccess
 protocol SensorSettingViewModelDelegate: class {
     func successGetSensorData()
     func successUpdateUUIDCount()
-    func doneUpdateUserData(title: String, msg: String)
+    func doneUpdateSensorData(title: String, msg: String)
     func faildAPI(title: String, msg: String)
+    func faildUpdateSensor(title: String, msg: String)
 }
 
 class SensorSettingViewModel {
@@ -23,6 +24,11 @@ class SensorSettingViewModel {
     private let api = API()
     private let keychain = Keychain()
     private(set) var sensorData = SensorData()
+    private(set) var isTapped = true
+    
+    func setIsTapped(value: Bool) {
+        isTapped = value
+    }
     
     func setSensorData() {
         let userID = (try! keychain.getString("id"))!
@@ -81,12 +87,12 @@ class SensorSettingViewModel {
         
         api.updateSensorData(params: params, userID: userID).done { (json) in
             self.sensorData.setAll(json: json)
-            self.delegate?.doneUpdateUserData(title: "成功", msg: "情報を更新しました")
+            self.delegate?.doneUpdateSensorData(title: "成功", msg: "情報を更新しました")
         }
         .catch { (err) in
             let tmp_err = err as NSError
             let title = "エラー(" + String(tmp_err.code) + ")"
-            self.delegate?.doneUpdateUserData(title: title, msg: tmp_err.domain)
+            self.delegate?.doneUpdateSensorData(title: title, msg: tmp_err.domain)
         }
     }
     
@@ -109,7 +115,14 @@ class SensorSettingViewModel {
         .catch { (err) in
             let tmp_err = err as NSError
             let title = "エラー(" + String(tmp_err.code) + ")"
-            self.delegate?.doneUpdateUserData(title: title, msg: tmp_err.domain)
+            
+            if connection {
+                self.sensorData.setUUIDCount(count: 0)
+            }else {
+                self.sensorData.setUUIDCount(count: 1)
+            }
+            
+            self.delegate?.faildUpdateSensor(title: title, msg: tmp_err.domain)
         }
     }
 }

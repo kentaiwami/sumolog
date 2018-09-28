@@ -45,9 +45,21 @@ class SensorSettingViewPresenter {
         guard let connection = formValues["connect"] as? Bool else{return}
         model.updateSensorConnection(connection: connection)
     }
+    
+    func setIsTapped(value: Bool) {
+        model.setIsTapped(value: value)
+    }
+    
+    func getIsTapped() -> Bool {
+        return model.isTapped
+    }
 }
 
 extension SensorSettingViewPresenter: SensorSettingViewModelDelegate {
+    func faildUpdateSensor(title: String, msg: String) {
+        view?.faildUpdateSensor(title: title, msg: msg)
+    }
+    
     func successGetSensorData() {
         view?.createForm()
         model.setUUIDCount()
@@ -57,8 +69,8 @@ extension SensorSettingViewPresenter: SensorSettingViewModelDelegate {
         view?.updateSwitchCell()
     }
     
-    func doneUpdateUserData(title: String, msg: String) {
-        view?.doneUpdateUserData(title: title, msg: msg)
+    func doneUpdateSensorData(title: String, msg: String) {
+        view?.doneUpdateSensorData(title: title, msg: msg)
     }
     
     func faildAPI(title: String, msg: String) {

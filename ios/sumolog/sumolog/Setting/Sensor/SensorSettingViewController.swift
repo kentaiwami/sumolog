@@ -14,8 +14,9 @@ protocol SensorSettingViewInterface: class {
 
     func createForm()
     func updateSwitchCell()
-    func doneUpdateUserData(title: String, msg: String)
+    func doneUpdateSensorData(title: String, msg: String)
     func showAlert(title: String, msg: String)
+    func faildUpdateSensor(title: String, msg: String)
 }
 
 class SensorSettingViewController: FormViewController, SensorSettingViewInterface {
@@ -24,8 +25,7 @@ class SensorSettingViewController: FormViewController, SensorSettingViewInterfac
     }
 
     fileprivate var presenter: SensorSettingViewPresenter!
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializePresenter()
@@ -33,11 +33,8 @@ class SensorSettingViewController: FormViewController, SensorSettingViewInterfac
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        self.tabBarController?.navigationItem.title = "設定"
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        self.tabBarController?.navigationItem.leftBarButtonItem = nil
-
+        
+        self.navigationItem.title = "センサー"
         presenter.setSensorData()
     }
 
@@ -134,7 +131,12 @@ extension SensorSettingViewController {
                 row.title = "接続状況"
                 row.value = false
                 }.onChange { row in
-                    self.presenter.updateSensorConnection()
+                    if self.presenter.getIsTapped() {
+                        self.presenter.updateSensorConnection()
+                    }else {
+                        self.presenter.setIsTapped(value: true)
+                    }
+                    
                 }.cellSetup { cell, row in
                     cell.backgroundColor = .white
         }
@@ -148,12 +150,18 @@ extension SensorSettingViewController {
         switch_connect?.updateCell()
     }
 
-    func doneUpdateUserData(title: String, msg: String) {
+    func doneUpdateSensorData(title: String, msg: String) {
         updateCell()
         ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 
     func showAlert(title: String, msg: String) {
+        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+    }
+    
+    func faildUpdateSensor(title: String, msg: String) {
+        presenter.setIsTapped(value: false)
+        updateSwitchCell()
         ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }

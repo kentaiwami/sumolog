@@ -33,10 +33,7 @@ class UserSettingViewController: FormViewController, UserSettingViewInterface {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "設定"
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        self.tabBarController?.navigationItem.leftBarButtonItem = nil
-        
+        self.navigationItem.title = "ユーザ情報"
         presenter.setUserData()
     }
     
