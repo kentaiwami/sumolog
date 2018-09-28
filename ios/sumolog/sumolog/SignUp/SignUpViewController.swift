@@ -38,13 +38,6 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
     }
     
     private func CreateForm() {
-        LabelRow.defaultCellUpdate = { cell, row in
-            cell.contentView.backgroundColor = .red
-            cell.textLabel?.textColor = .white
-            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-            cell.textLabel?.textAlignment = .right
-        }
-
         var rules = RuleSet<Int>()
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
@@ -78,7 +71,12 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
-                        }
+                            $0.cell.contentView.backgroundColor = UIColor.red
+                            $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                            $0.cell.textLabel?.textAlignment = .right
+                        }.cellUpdate({ (cell, row) in
+                            cell.textLabel?.textColor = .white
+                        })
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }
@@ -102,7 +100,12 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
-                        }
+                            $0.cell.contentView.backgroundColor = UIColor.red
+                            $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                            $0.cell.textLabel?.textAlignment = .right
+                        }.cellUpdate({ (cell, row) in
+                            cell.textLabel?.textColor = .white
+                        })
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }
@@ -134,10 +137,15 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
+                            $0.cell.contentView.backgroundColor = UIColor.red
+                            $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                            $0.cell.textLabel?.textAlignment = .right
                             $0.hidden = Condition.function(["sensor_set"], { form in
                                 return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
                             })
-                        }
+                        }.cellUpdate({ (cell, row) in
+                            cell.textLabel?.textColor = .white
+                        })
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }

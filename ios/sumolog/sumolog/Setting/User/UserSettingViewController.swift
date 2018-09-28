@@ -1,5 +1,5 @@
 //
-//  SettingViewController.swift
+//  UserSettingViewController.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -9,21 +9,20 @@
 import UIKit
 import Eureka
 
-protocol SettingViewInterface: class {
+protocol UserSettingViewInterface: class {
     var formValues:[String:Any?] { get }
     
     func createForm()
-    func updateSwitchCell()
     func doneUpdateUserData(title: String, msg: String)
     func showAlert(title: String, msg: String)
 }
 
-class SettingViewController: FormViewController, SettingViewInterface {
+class UserSettingViewController: FormViewController, UserSettingViewInterface {
     var formValues: [String : Any?] {
         return self.form.values()
     }
     
-    fileprivate var presenter: SettingViewPresenter!
+    fileprivate var presenter: UserSettingViewPresenter!
     
     
     override func viewDidLoad() {
@@ -34,57 +33,39 @@ class SettingViewController: FormViewController, SettingViewInterface {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.navigationItem.title = "設定"
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        self.tabBarController?.navigationItem.leftBarButtonItem = nil
-        
+        self.navigationItem.title = "ユーザ情報"
         presenter.setUserData()
     }
     
     private func initializePresenter() {
-        presenter = SettingViewPresenter(view: self)
+        presenter = UserSettingViewPresenter(view: self)
     }
     
     fileprivate func updateCell() {
         let payday = form.rowBy(tag: "payday")
         let price = form.rowBy(tag: "price")
         let target_number = form.rowBy(tag: "target_number")
-        let address = form.rowBy(tag: "address")
         
         payday?.baseValue = presenter.getUserData().getpayday()
         price?.baseValue = presenter.getUserData().getprice()
         target_number?.baseValue = presenter.getUserData().gettarget_number()
-        address?.baseValue = presenter.getUserData().getaddress()
         
         payday?.updateCell()
         price?.updateCell()
         target_number?.updateCell()
-        address?.updateCell()
     }
 }
 
 // MARK: - Presenterから呼び出される関数一覧
-extension SettingViewController {
+extension UserSettingViewController {
     func createForm() {
         UIView.setAnimationsEnabled(false)
         
         form.removeAll()
         
-        LabelRow.defaultCellUpdate = { cell, row in
-            cell.contentView.backgroundColor = .red
-            cell.textLabel?.textColor = .white
-            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-            cell.textLabel?.textAlignment = .right
-        }
-        
         var rules = RuleSet<Int>()
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
-        
-        var sensor_set = false
-        if !presenter.isAddressEmpty() {
-            sensor_set = true
-        }
         
         form +++ Section(header: "ユーザ情報", footer: "")
             <<< PickerInputRow<Int>(""){
@@ -117,7 +98,12 @@ extension SettingViewController {
                             let labelRow = LabelRow() {
                                 $0.title = err
                                 $0.cell.height = { 30 }
-                            }
+                                $0.cell.contentView.backgroundColor = UIColor.red
+                                $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                                $0.cell.textLabel?.textAlignment = .right
+                            }.cellUpdate({ (cell, row) in
+                                cell.textLabel?.textColor = .white
+                            })
                             row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
                     }
@@ -141,50 +127,18 @@ extension SettingViewController {
                             let labelRow = LabelRow() {
                                 $0.title = err
                                 $0.cell.height = { 30 }
-                            }
+                                $0.cell.contentView.backgroundColor = UIColor.red
+                                $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                                $0.cell.textLabel?.textAlignment = .right
+                            }.cellUpdate({ (cell, row) in
+                                cell.textLabel?.textColor = .white
+                            })
                             row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                         }
                     }
             }
-            
-            
-            <<< SwitchRow(){
-                $0.title = "センサーを設置済み"
-                $0.value = sensor_set
-                $0.tag = "sensor_set"
-            }
-            <<< TextRow(){
-                $0.title = "センサーのIPアドレス"
-                $0.value = presenter.getUserData().getaddress()
-                $0.add(rule: RuleRegExp(regExpr: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", allowsEmpty: false, msg: "形式を確認してください。ex.) 192.168.0.0"))
-                $0.validationOptions = .validatesOnChange
-                $0.tag = "address"
-                $0.hidden = Condition.function(["sensor_set"], { form in
-                    return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
-                })
-                }
-                .onRowValidationChanged {cell, row in
-                    guard let tmp_indexPath = row.indexPath else{return}
-                    let rowIndex = tmp_indexPath.row
-                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                        row.section?.remove(at: rowIndex + 1)
-                    }
-                    if !row.isValid {
-                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                            let labelRow = LabelRow() {
-                                $0.title = err
-                                $0.cell.height = { 30 }
-                                $0.hidden = Condition.function(["sensor_set"], { form in
-                                    return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
-                                })
-                            }
-                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                        }
-                    }
-        }
         
-        
-        form +++ Section(header: "", footer: "入力された情報で上書きします")
+        form +++ Section("")
             <<< ButtonRow(){
                 $0.title = "更新"
                 $0.baseCell.backgroundColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
@@ -198,45 +152,7 @@ extension SettingViewController {
                     }
         }
         
-        form +++ Section(header: "連携", footer: "解除した場合、喫煙は記録されません"){ section in
-            section.hidden = Condition.function(["sensor_set"], {form in
-                return !((form.rowBy(tag: "sensor_set") as? SwitchRow)?.value ?? false)
-            })
-            }
-            <<< SwitchRow("SwitchRow") { row in
-                row.tag = "connect"
-                row.title = "接続状況"
-                row.value = false
-                }.onChange { row in
-                    self.presenter.updateSensorConnection()
-                }.cellSetup { cell, row in
-                    cell.backgroundColor = .white
-        }
-        
-        let privacyPolicyVC = PrivacyPolicyViewController()
-        let contactVC = ContactViewController()
-        
-        form +++ Section(header: "その他", footer: "")
-            <<< ButtonRow() {
-                $0.title = "プライバシーポリシー"
-                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return privacyPolicyVC}, onDismiss: {privacyPolicyVC in privacyPolicyVC.navigationController?.popViewController(animated: true)})
-                $0.cell.textLabel?.numberOfLines = 0
-            }
-
-            <<< ButtonRow() {
-                $0.title = "お問い合わせ"
-                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return contactVC}, onDismiss: {contactVC in contactVC.navigationController?.popViewController(animated: true)})
-                $0.cell.textLabel?.numberOfLines = 0
-        }
-
-        
         UIView.setAnimationsEnabled(true)
-    }
-    
-    func updateSwitchCell() {
-        let switch_connect = self.form.rowBy(tag: "connect")
-        switch_connect?.baseValue = presenter.isSensorConnection()
-        switch_connect?.updateCell()
     }
     
     func doneUpdateUserData(title: String, msg: String) {

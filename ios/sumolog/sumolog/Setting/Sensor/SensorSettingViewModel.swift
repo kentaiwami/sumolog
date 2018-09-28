@@ -1,5 +1,5 @@
 //
-//  SettingViewModel.swift
+//  SensorSettingViewModel.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -11,25 +11,31 @@ import PromiseKit
 import SwiftyJSON
 import KeychainAccess
 
-protocol SettingViewModelDelegate: class {
-    func successGetUserData()
+protocol SensorSettingViewModelDelegate: class {
+    func successGetSensorData()
     func successUpdateUUIDCount()
-    func doneUpdateUserData(title: String, msg: String)
+    func doneUpdateSensorData(title: String, msg: String)
     func faildAPI(title: String, msg: String)
+    func faildUpdateSensor(title: String, msg: String)
 }
 
-class SettingViewModel {
-    weak var delegate: SettingViewModelDelegate?
+class SensorSettingViewModel {
+    weak var delegate: SensorSettingViewModelDelegate?
     private let api = API()
     private let keychain = Keychain()
-    private(set) var userData = UserData()
+    private(set) var sensorData = SensorData()
+    private(set) var isTapped = true
     
-    func setUserData() {
+    func setIsTapped(value: Bool) {
+        isTapped = value
+    }
+    
+    func setSensorData() {
         let userID = (try! keychain.getString("id"))!
 
         api.getUserData(userID: userID).done { (json) in
-            self.userData.setAll(json: json)
-            self.delegate?.successGetUserData()
+            self.sensorData.setAll(json: json)
+            self.delegate?.successGetSensorData()
         }
         .catch { (err) in
             let tmp_err = err as NSError
@@ -38,23 +44,15 @@ class SettingViewModel {
         }
     }
     
-    func isAddressEmpty() -> Bool {
-        return userData.getaddress().isEmpty
-    }
-    
     func isSensorConnection() -> Bool {
-        if userData.getCount() == 0 {
-            return false
-        }else {
-            return true
-        }
+        return sensorData.getCount() == 0 ? false:true
     }
     
     func setUUIDCount() {
-        if isAddressEmpty() {
+        if sensorData.getaddress().isEmpty {
             updateUUIDCount(countUUID: 0)
         }else {
-            api.getUUIDCount(address: userData.getaddress()).done { (count) in
+            api.getUUIDCount(address: sensorData.getaddress()).done { (count) in
                 self.updateUUIDCount(countUUID: count)
             }
             .catch { (err) in
@@ -65,7 +63,7 @@ class SettingViewModel {
         }
     }
     
-    func updateUserData(formValues: [String:Any?]) {
+    func updateSensorData(formValues: [String:Any?]) {
         var address = ""
         if formValues["sensor_set"] as! Bool {
             address = formValues["address"] as! String
@@ -76,20 +74,17 @@ class SettingViewModel {
         
         let params = [
             "uuid": uuid,
-            "payday": formValues["payday"] as! Int,
-            "price": formValues["price"] as! Int,
-            "target_number": formValues["target_number"] as! Int,
             "address": address
             ] as [String : Any]
         
-        api.updateUserData(params: params, userID: userID).done { (json) in
-            self.userData.setAll(json: json)
-            self.delegate?.doneUpdateUserData(title: "成功", msg: "情報を更新しました")
+        api.updateSensorData(params: params, userID: userID).done { (json) in
+            self.sensorData.setAll(json: json)
+            self.delegate?.doneUpdateSensorData(title: "成功", msg: "情報を更新しました")
         }
         .catch { (err) in
             let tmp_err = err as NSError
             let title = "エラー(" + String(tmp_err.code) + ")"
-            self.delegate?.doneUpdateUserData(title: title, msg: tmp_err.domain)
+            self.delegate?.doneUpdateSensorData(title: title, msg: tmp_err.domain)
         }
     }
     
@@ -106,21 +101,28 @@ class SettingViewModel {
         }
         
         let uuid = (try! keychain.get("uuid"))!
-        api.updateUUID(address: userData.getaddress(), method: method, uuid: uuid).done { (_) in
+        api.updateUUID(address: sensorData.getaddress(), method: method, uuid: uuid).done { (_) in
             self.updateUUIDCount(countUUID: countUUID)
         }
         .catch { (err) in
             let tmp_err = err as NSError
             let title = "エラー(" + String(tmp_err.code) + ")"
-            self.delegate?.doneUpdateUserData(title: title, msg: tmp_err.domain)
+            
+            if connection {
+                self.sensorData.setUUIDCount(count: 0)
+            }else {
+                self.sensorData.setUUIDCount(count: 1)
+            }
+            
+            self.delegate?.faildUpdateSensor(title: title, msg: tmp_err.domain)
         }
     }
 }
 
 
-extension SettingViewModel {
+extension SensorSettingViewModel {
     fileprivate func updateUUIDCount(countUUID: Int) {
-        userData.setUUIDCount(count: countUUID)
+        sensorData.setUUIDCount(count: countUUID)
         delegate?.successUpdateUUIDCount()
     }
 }
