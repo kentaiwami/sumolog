@@ -16,6 +16,9 @@
 		373515E0212550C400F2193A /* AddsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373515DD212550C400F2193A /* AddsViewModel.swift */; };
 		373515E1212550C400F2193A /* AddsViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373515DE212550C400F2193A /* AddsViewPresenter.swift */; };
 		373515E2212550C400F2193A /* AddsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373515DF212550C400F2193A /* AddsViewController.swift */; };
+		374AA6CE215E068E00E37686 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374AA6CB215E068D00E37686 /* PrivacyPolicyViewController.swift */; };
+		374AA6CF215E068E00E37686 /* PrivacyPolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374AA6CC215E068D00E37686 /* PrivacyPolicyViewModel.swift */; };
+		374AA6D0215E068E00E37686 /* PrivacyPolicyViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374AA6CD215E068D00E37686 /* PrivacyPolicyViewPresenter.swift */; };
 		375F9632212292CA00781A13 /* SmokeDataEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F962F212292C900781A13 /* SmokeDataEditModel.swift */; };
 		375F9633212292CA00781A13 /* SmokeListEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F9630212292C900781A13 /* SmokeListEditViewController.swift */; };
 		375F9634212292CA00781A13 /* SmokeDataEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F9631212292CA00781A13 /* SmokeDataEditPresenter.swift */; };
@@ -51,6 +54,9 @@
 		373515DD212550C400F2193A /* AddsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddsViewModel.swift; sourceTree = "<group>"; };
 		373515DE212550C400F2193A /* AddsViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddsViewPresenter.swift; sourceTree = "<group>"; };
 		373515DF212550C400F2193A /* AddsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddsViewController.swift; sourceTree = "<group>"; };
+		374AA6CB215E068D00E37686 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
+		374AA6CC215E068D00E37686 /* PrivacyPolicyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewModel.swift; sourceTree = "<group>"; };
+		374AA6CD215E068D00E37686 /* PrivacyPolicyViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewPresenter.swift; sourceTree = "<group>"; };
 		375F962F212292C900781A13 /* SmokeDataEditModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeDataEditModel.swift; sourceTree = "<group>"; };
 		375F9630212292C900781A13 /* SmokeListEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeListEditViewController.swift; sourceTree = "<group>"; };
 		375F9631212292CA00781A13 /* SmokeDataEditPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeDataEditPresenter.swift; sourceTree = "<group>"; };
@@ -141,6 +147,16 @@
 			path = Adds;
 			sourceTree = "<group>";
 		};
+		374AA6CA215E055D00E37686 /* PrivacyPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				374AA6CB215E068D00E37686 /* PrivacyPolicyViewController.swift */,
+				374AA6CD215E068D00E37686 /* PrivacyPolicyViewPresenter.swift */,
+				374AA6CC215E068D00E37686 /* PrivacyPolicyViewModel.swift */,
+			);
+			path = PrivacyPolicy;
+			sourceTree = "<group>";
+		};
 		375525D32022F9450097A589 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +190,7 @@
 		377E92C02022F9070033F9C2 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				374AA6CA215E055D00E37686 /* PrivacyPolicy */,
 				375F963B2123BCDF00781A13 /* SettingViewController.swift */,
 				375F963A2123BCDF00781A13 /* SettingViewPresenter.swift */,
 				375F96392123BCDE00781A13 /* SettingViewModel.swift */,
@@ -357,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */,
+				374AA6CF215E068E00E37686 /* PrivacyPolicyViewModel.swift in Sources */,
 				376DAE6E212096B70040B3D8 /* SignUpViewModel.swift in Sources */,
 				375F963D2123BCDF00781A13 /* SettingViewPresenter.swift in Sources */,
 				376DAE80212166BB0040B3D8 /* SmokeOverViewPresenter.swift in Sources */,
@@ -371,7 +389,9 @@
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
 				376DAE6C212096590040B3D8 /* SignUpViewPresenter.swift in Sources */,
 				373515E0212550C400F2193A /* AddsViewModel.swift in Sources */,
+				374AA6CE215E068E00E37686 /* PrivacyPolicyViewController.swift in Sources */,
 				375F96402123BF9100781A13 /* SettingViewEntity.swift in Sources */,
+				374AA6D0215E068E00E37686 /* PrivacyPolicyViewPresenter.swift in Sources */,
 				375F9632212292CA00781A13 /* SmokeDataEditModel.swift in Sources */,
 				379B05512121ECE7002D72FA /* SmokeListViewController.swift in Sources */,
 				373515E2212550C400F2193A /* AddsViewController.swift in Sources */,

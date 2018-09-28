@@ -213,6 +213,22 @@ extension SettingViewController {
                     cell.backgroundColor = .white
         }
         
+        let privacyPolicyVC = PrivacyPolicyViewController()
+        
+        form +++ Section(header: "その他", footer: "")
+            <<< ButtonRow() {
+                $0.title = "プライバシーポリシー"
+                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return privacyPolicyVC}, onDismiss: {privacyPolicyVC in privacyPolicyVC.navigationController?.popViewController(animated: true)})
+                $0.cell.textLabel?.numberOfLines = 0
+            }
+//
+//            <<< ButtonRow() {
+//                $0.title = "お問い合わせ"
+//                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return contactVC}, onDismiss: {contactVC in contactVC.navigationController?.popViewController(animated: true)})
+//                $0.cell.textLabel?.numberOfLines = 0
+//        }
+
+        
         UIView.setAnimationsEnabled(true)
     }
     
