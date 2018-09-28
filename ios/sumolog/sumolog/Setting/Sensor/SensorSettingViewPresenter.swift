@@ -28,7 +28,7 @@ class SensorSettingViewPresenter {
     }
     
     func isAddressEmpty() -> Bool {
-        return model.isAddressEmpty()
+        return model.sensorData.getaddress().isEmpty
     }
     
     func updateSensorData() {

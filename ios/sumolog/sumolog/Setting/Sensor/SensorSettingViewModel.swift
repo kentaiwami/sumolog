@@ -44,20 +44,12 @@ class SensorSettingViewModel {
         }
     }
     
-    func isAddressEmpty() -> Bool {
-        return sensorData.getaddress().isEmpty
-    }
-    
     func isSensorConnection() -> Bool {
-        if sensorData.getCount() == 0 {
-            return false
-        }else {
-            return true
-        }
+        return sensorData.getCount() == 0 ? false:true
     }
     
     func setUUIDCount() {
-        if isAddressEmpty() {
+        if sensorData.getaddress().isEmpty {
             updateUUIDCount(countUUID: 0)
         }else {
             api.getUUIDCount(address: sensorData.getaddress()).done { (count) in
