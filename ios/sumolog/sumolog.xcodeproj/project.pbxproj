@@ -25,10 +25,14 @@
 		375F9632212292CA00781A13 /* SmokeDataEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F962F212292C900781A13 /* SmokeDataEditModel.swift */; };
 		375F9633212292CA00781A13 /* SmokeListEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F9630212292C900781A13 /* SmokeListEditViewController.swift */; };
 		375F9634212292CA00781A13 /* SmokeDataEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F9631212292CA00781A13 /* SmokeDataEditPresenter.swift */; };
-		375F963C2123BCDF00781A13 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F96392123BCDE00781A13 /* SettingViewModel.swift */; };
-		375F963D2123BCDF00781A13 /* SettingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F963A2123BCDF00781A13 /* SettingViewPresenter.swift */; };
-		375F963E2123BCDF00781A13 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F963B2123BCDF00781A13 /* SettingViewController.swift */; };
-		375F96402123BF9100781A13 /* SettingViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F963F2123BF9100781A13 /* SettingViewEntity.swift */; };
+		3766A0E0215ED06300530A73 /* UserSettingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0DD215ED06300530A73 /* UserSettingViewPresenter.swift */; };
+		3766A0E1215ED06300530A73 /* UserSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0DE215ED06300530A73 /* UserSettingViewModel.swift */; };
+		3766A0E2215ED06300530A73 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0DF215ED06300530A73 /* UserSettingViewController.swift */; };
+		3766A0E4215ED1B400530A73 /* UserSettingViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0E3215ED1B400530A73 /* UserSettingViewEntity.swift */; };
+		3766A0E9215EDAE900530A73 /* SensorSettingViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0E5215EDAE900530A73 /* SensorSettingViewEntity.swift */; };
+		3766A0EA215EDAE900530A73 /* SensorSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0E6215EDAE900530A73 /* SensorSettingViewModel.swift */; };
+		3766A0EB215EDAE900530A73 /* SensorSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0E7215EDAE900530A73 /* SensorSettingViewController.swift */; };
+		3766A0EC215EDAE900530A73 /* SensorSettingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3766A0E8215EDAE900530A73 /* SensorSettingViewPresenter.swift */; };
 		376DAE6C212096590040B3D8 /* SignUpViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE6B212096590040B3D8 /* SignUpViewPresenter.swift */; };
 		376DAE6E212096B70040B3D8 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE6D212096B70040B3D8 /* SignUpViewModel.swift */; };
 		376DAE70212097540040B3D8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE6F212097540040B3D8 /* SignUpViewController.swift */; };
@@ -37,6 +41,7 @@
 		376DAE80212166BB0040B3D8 /* SmokeOverViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7C212166BB0040B3D8 /* SmokeOverViewPresenter.swift */; };
 		376DAE82212166BB0040B3D8 /* SmokeOverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE7E212166BB0040B3D8 /* SmokeOverViewModel.swift */; };
 		376DAE842121682A0040B3D8 /* SmokeOverViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */; };
+		37846A8D215E739400C934FF /* SettingTopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37846A8C215E739400C934FF /* SettingTopViewController.swift */; };
 		379B054F2121ECE7002D72FA /* SmokeListViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B054C2121ECE5002D72FA /* SmokeListViewPresenter.swift */; };
 		379B05502121ECE7002D72FA /* SmokeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B054D2121ECE6002D72FA /* SmokeListViewModel.swift */; };
 		379B05512121ECE7002D72FA /* SmokeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B054E2121ECE7002D72FA /* SmokeListViewController.swift */; };
@@ -68,10 +73,14 @@
 		375F9631212292CA00781A13 /* SmokeDataEditPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeDataEditPresenter.swift; sourceTree = "<group>"; };
 		375F96372123671800781A13 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		375F96382123671800781A13 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		375F96392123BCDE00781A13 /* SettingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
-		375F963A2123BCDF00781A13 /* SettingViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewPresenter.swift; sourceTree = "<group>"; };
-		375F963B2123BCDF00781A13 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		375F963F2123BF9100781A13 /* SettingViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewEntity.swift; sourceTree = "<group>"; };
+		3766A0DD215ED06300530A73 /* UserSettingViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewPresenter.swift; sourceTree = "<group>"; };
+		3766A0DE215ED06300530A73 /* UserSettingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewModel.swift; sourceTree = "<group>"; };
+		3766A0DF215ED06300530A73 /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
+		3766A0E3215ED1B400530A73 /* UserSettingViewEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewEntity.swift; sourceTree = "<group>"; };
+		3766A0E5215EDAE900530A73 /* SensorSettingViewEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSettingViewEntity.swift; sourceTree = "<group>"; };
+		3766A0E6215EDAE900530A73 /* SensorSettingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSettingViewModel.swift; sourceTree = "<group>"; };
+		3766A0E7215EDAE900530A73 /* SensorSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSettingViewController.swift; sourceTree = "<group>"; };
+		3766A0E8215EDAE900530A73 /* SensorSettingViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSettingViewPresenter.swift; sourceTree = "<group>"; };
 		376DAE6B212096590040B3D8 /* SignUpViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewPresenter.swift; sourceTree = "<group>"; };
 		376DAE6D212096B70040B3D8 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		376DAE6F212097540040B3D8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +89,7 @@
 		376DAE7C212166BB0040B3D8 /* SmokeOverViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeOverViewPresenter.swift; sourceTree = "<group>"; };
 		376DAE7E212166BB0040B3D8 /* SmokeOverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeOverViewModel.swift; sourceTree = "<group>"; };
 		376DAE832121682A0040B3D8 /* SmokeOverViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeOverViewEntity.swift; sourceTree = "<group>"; };
+		37846A8C215E739400C934FF /* SettingTopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTopViewController.swift; sourceTree = "<group>"; };
 		379B054C2121ECE5002D72FA /* SmokeListViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeListViewPresenter.swift; sourceTree = "<group>"; };
 		379B054D2121ECE6002D72FA /* SmokeListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeListViewModel.swift; sourceTree = "<group>"; };
 		379B054E2121ECE7002D72FA /* SmokeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmokeListViewController.swift; sourceTree = "<group>"; };
@@ -206,14 +216,43 @@
 		377E92C02022F9070033F9C2 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				37846A89215E70A000C934FF /* Top */,
+				37846A8A215E70D800C934FF /* User */,
+				37846A8B215E714F00C934FF /* Sensor */,
 				374AA6CA215E055D00E37686 /* PrivacyPolicy */,
 				374AA6D1215E0C2000E37686 /* Contact */,
-				375F963B2123BCDF00781A13 /* SettingViewController.swift */,
-				375F963A2123BCDF00781A13 /* SettingViewPresenter.swift */,
-				375F96392123BCDE00781A13 /* SettingViewModel.swift */,
-				375F963F2123BF9100781A13 /* SettingViewEntity.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		37846A89215E70A000C934FF /* Top */ = {
+			isa = PBXGroup;
+			children = (
+				37846A8C215E739400C934FF /* SettingTopViewController.swift */,
+			);
+			path = Top;
+			sourceTree = "<group>";
+		};
+		37846A8A215E70D800C934FF /* User */ = {
+			isa = PBXGroup;
+			children = (
+				3766A0DF215ED06300530A73 /* UserSettingViewController.swift */,
+				3766A0DD215ED06300530A73 /* UserSettingViewPresenter.swift */,
+				3766A0DE215ED06300530A73 /* UserSettingViewModel.swift */,
+				3766A0E3215ED1B400530A73 /* UserSettingViewEntity.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		37846A8B215E714F00C934FF /* Sensor */ = {
+			isa = PBXGroup;
+			children = (
+				3766A0E7215EDAE900530A73 /* SensorSettingViewController.swift */,
+				3766A0E8215EDAE900530A73 /* SensorSettingViewPresenter.swift */,
+				3766A0E6215EDAE900530A73 /* SensorSettingViewModel.swift */,
+				3766A0E5215EDAE900530A73 /* SensorSettingViewEntity.swift */,
+			);
+			path = Sensor;
 			sourceTree = "<group>";
 		};
 		379B054A2121EC77002D72FA /* View */ = {
@@ -390,37 +429,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3766A0EA215EDAE900530A73 /* SensorSettingViewModel.swift in Sources */,
 				37B69EAC1FFC1F31006E6B09 /* Setting.swift in Sources */,
 				374AA6D7215E0C4F00E37686 /* ContactViewController.swift in Sources */,
 				374AA6CF215E068E00E37686 /* PrivacyPolicyViewModel.swift in Sources */,
 				376DAE6E212096B70040B3D8 /* SignUpViewModel.swift in Sources */,
-				375F963D2123BCDF00781A13 /* SettingViewPresenter.swift in Sources */,
 				376DAE80212166BB0040B3D8 /* SmokeOverViewPresenter.swift in Sources */,
 				3730C2731FFB713600184D2B /* Utility.swift in Sources */,
+				3766A0E4215ED1B400530A73 /* UserSettingViewEntity.swift in Sources */,
 				375F9634212292CA00781A13 /* SmokeDataEditPresenter.swift in Sources */,
 				374AA6D5215E0C4F00E37686 /* ContactViewModel.swift in Sources */,
 				376DAE842121682A0040B3D8 /* SmokeOverViewEntity.swift in Sources */,
 				376DAE722120A8630040B3D8 /* API.swift in Sources */,
 				374AA6D6215E0C4F00E37686 /* ContactViewPresenter.swift in Sources */,
 				37B69EA81FFC1790006E6B09 /* Extensions.swift in Sources */,
+				3766A0E0215ED06300530A73 /* UserSettingViewPresenter.swift in Sources */,
 				375F9633212292CA00781A13 /* SmokeListEditViewController.swift in Sources */,
-				375F963E2123BCDF00781A13 /* SettingViewController.swift in Sources */,
+				3766A0EB215EDAE900530A73 /* SensorSettingViewController.swift in Sources */,
+				3766A0E9215EDAE900530A73 /* SensorSettingViewEntity.swift in Sources */,
 				376DAE7F212166BB0040B3D8 /* SmokeOverViewController.swift in Sources */,
 				3719E9721FA0591500E054EC /* AppDelegate.swift in Sources */,
 				376DAE6C212096590040B3D8 /* SignUpViewPresenter.swift in Sources */,
 				373515E0212550C400F2193A /* AddsViewModel.swift in Sources */,
 				374AA6CE215E068E00E37686 /* PrivacyPolicyViewController.swift in Sources */,
-				375F96402123BF9100781A13 /* SettingViewEntity.swift in Sources */,
+				3766A0E2215ED06300530A73 /* UserSettingViewController.swift in Sources */,
 				374AA6D0215E068E00E37686 /* PrivacyPolicyViewPresenter.swift in Sources */,
 				375F9632212292CA00781A13 /* SmokeDataEditModel.swift in Sources */,
 				379B05512121ECE7002D72FA /* SmokeListViewController.swift in Sources */,
 				373515E2212550C400F2193A /* AddsViewController.swift in Sources */,
 				376DAE70212097540040B3D8 /* SignUpViewController.swift in Sources */,
+				3766A0E1215ED06300530A73 /* UserSettingViewModel.swift in Sources */,
 				3730C26F1FFB5B0F00184D2B /* Enum.swift in Sources */,
+				3766A0EC215EDAE900530A73 /* SensorSettingViewPresenter.swift in Sources */,
 				376DAE82212166BB0040B3D8 /* SmokeOverViewModel.swift in Sources */,
-				375F963C2123BCDF00781A13 /* SettingViewModel.swift in Sources */,
 				373515E1212550C400F2193A /* AddsViewPresenter.swift in Sources */,
 				379B05502121ECE7002D72FA /* SmokeListViewModel.swift in Sources */,
+				37846A8D215E739400C934FF /* SettingTopViewController.swift in Sources */,
 				379B054F2121ECE7002D72FA /* SmokeListViewPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

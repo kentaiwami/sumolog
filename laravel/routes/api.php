@@ -20,7 +20,8 @@ Route::group(['namespace' => 'api\v1\user', 'prefix' => '{API1}'], function(){
 
     Route::post('user', 'APIUserController@store');
     Route::get('user/{id}', 'APIUserController@show');
-    Route::put('user/{id}', 'APIUserController@update');
+    Route::put('user/info/{id}', 'APIUserInfoController@update');
+    Route::put('user/sensor/{id}', 'APIUserSensorController@update');
 });
 
 

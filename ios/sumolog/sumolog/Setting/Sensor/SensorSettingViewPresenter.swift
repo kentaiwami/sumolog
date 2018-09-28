@@ -1,5 +1,5 @@
 //
-//  SettingViewPresenter.swift
+//  SensorSettingViewPresenter.swift
 //  sumolog
 //
 //  Created by 岩見建汰 on 2018/08/13.
@@ -8,32 +8,32 @@
 
 import Foundation
 
-class SettingViewPresenter {
+class SensorSettingViewPresenter {
     
-    weak var view: SettingViewInterface?
-    let model: SettingViewModel
+    weak var view: SensorSettingViewInterface?
+    let model: SensorSettingViewModel
     
-    init(view: SettingViewInterface) {
+    init(view: SensorSettingViewInterface) {
         self.view = view
-        self.model = SettingViewModel()
+        self.model = SensorSettingViewModel()
         model.delegate = self
     }
     
-    func setUserData() {
-        model.setUserData()
+    func setSensorData() {
+        model.setSensorData()
     }
     
-    func getUserData() -> UserData {
-        return model.userData
+    func getSensorData() -> SensorData {
+        return model.sensorData
     }
     
     func isAddressEmpty() -> Bool {
         return model.isAddressEmpty()
     }
     
-    func updateUserData() {
+    func updateSensorData() {
         guard let formValues = view?.formValues else {return}
-        model.updateUserData(formValues: formValues)
+        model.updateSensorData(formValues: formValues)
     }
     
     func isSensorConnection() -> Bool {
@@ -47,8 +47,8 @@ class SettingViewPresenter {
     }
 }
 
-extension SettingViewPresenter: SettingViewModelDelegate {
-    func successGetUserData() {
+extension SensorSettingViewPresenter: SensorSettingViewModelDelegate {
+    func successGetSensorData() {
         view?.createForm()
         model.setUUIDCount()
     }

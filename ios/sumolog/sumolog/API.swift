@@ -272,7 +272,12 @@ extension API {
     }
     
     func updateUserData(params: [String:Any], userID: String) -> Promise<JSON> {
-        let endPoint = "user/" + userID
+        let endPoint = "user/info/" + userID
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .put)
+    }
+    
+    func updateSensorData(params: [String:Any], userID: String) -> Promise<JSON> {
+        let endPoint = "user/sensor/" + userID
         return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .put)
     }
     

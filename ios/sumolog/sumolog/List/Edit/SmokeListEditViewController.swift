@@ -46,13 +46,6 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
     }
     
     private func createForms() {
-        LabelRow.defaultCellUpdate = { cell, row in
-            cell.contentView.backgroundColor = .red
-            cell.textLabel?.textColor = .white
-            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-            cell.textLabel?.textAlignment = .right
-        }
-        
         let dateFormatterSec = GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
         let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
         
@@ -96,7 +89,12 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                         let labelRow = LabelRow() {
                             $0.title = err
                             $0.cell.height = { 30 }
-                        }
+                            $0.cell.contentView.backgroundColor = UIColor.red
+                            $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+                            $0.cell.textLabel?.textAlignment = .right
+                        }.cellUpdate({ (cell, row) in
+                            cell.textLabel?.textColor = .white
+                        })
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                     }
                 }
