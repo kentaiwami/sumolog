@@ -12,8 +12,10 @@ import SwiftyJSON
 import PromiseKit
 
 class API {
-    let base = GetHost() + "api/"
-    let version = "v1/"
+    let sumologBase = GetSumologHost() + "api/"
+    let portfolioBase = GetPortfolioHost() + "api/"
+    let sumologAPIVersion = "v1/"
+    let portfolioAPIVersion = "v1/"
     
     fileprivate func get(url: String, isShowIndicator: Bool) -> Promise<JSON> {
         let indicator = Indicator()
@@ -194,7 +196,7 @@ extension API {
     
     func createUser(params: [String:Any]) -> Promise<JSON> {
         let endPoint = "user"
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .post)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .post)
     }
 }
 
@@ -203,7 +205,7 @@ extension API {
 extension API {
     func sendToken(params: [String:String]) {
         let endPoint = "token"
-        let _ = postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put).done { (_) in}
+        let _ = postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .put).done { (_) in}
     }
 }
 
@@ -213,7 +215,7 @@ extension API {
 extension API {
     func getOverView(userID: String) -> Promise<JSON> {
         let endPoint = "smoke/overview/user/" + userID
-        return get(url: base + version + endPoint, isShowIndicator: true)
+        return get(url: sumologBase + sumologAPIVersion + endPoint, isShowIndicator: true)
     }
 }
 
@@ -223,22 +225,22 @@ extension API {
 extension API {
     func get24HourSmoke(isShowIndicator: Bool, userID: String) -> Promise<JSON> {
         let endPoint = "smoke/24hour/user/" + userID
-        return get(url: base + version + endPoint, isShowIndicator: isShowIndicator)
+        return get(url: sumologBase + sumologAPIVersion + endPoint, isShowIndicator: isShowIndicator)
     }
     
     func startSmoke(params: [String:Any]) -> Promise<JSON> {
         let endPoint = "smoke"
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .post)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .post)
     }
     
     func endSmoke(params: [String:Any], smokeID: String) -> Promise<JSON> {
         let endPoint = "smoke/" + smokeID
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .put)
     }
     
     func addSmokes(params: [String:Any]) -> Promise<JSON> {
         let endPoint = "smoke/some"
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .post)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .post)
     }
 }
 
@@ -248,7 +250,7 @@ extension API {
 extension API {
     func deleteSmoke(smokeID: Int, userID: String) -> Promise<JSON> {
         let endPoint = "smoke/"+String(smokeID)+"/user/"+userID
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: [:], httpMethod: .delete)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: [:], httpMethod: .delete)
     }
     
     func updateSmoke(smokeID: String, params: [String:String]) -> Promise<JSON> {
@@ -256,7 +258,7 @@ extension API {
         print("+++++++++++++++++++++++++++")
         print(params)
         print("+++++++++++++++++++++++++++")
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .patch)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .patch)
     }
 }
 
@@ -266,12 +268,12 @@ extension API {
 extension API {
     func getUserData(userID: String) -> Promise<JSON> {
         let endPoint = "user/" + userID
-        return get(url: base + version + endPoint, isShowIndicator: true)
+        return get(url: sumologBase + sumologAPIVersion + endPoint, isShowIndicator: true)
     }
     
     func updateUserData(params: [String:Any], userID: String) -> Promise<JSON> {
         let endPoint = "user/" + userID
-        return postPutPatchDeleteAuth(url: base + version + endPoint, params: params, httpMethod: .put)
+        return postPutPatchDeleteAuth(url: sumologBase + sumologAPIVersion + endPoint, params: params, httpMethod: .put)
     }
     
     func getUUIDCount(address: String) -> Promise<Int> {
@@ -280,5 +282,14 @@ extension API {
     
     func updateUUID(address: String, method: String, uuid: String) -> Promise<String> {
         return raspiUpdateUUIDRequest(address: address, uuid: uuid, method: method)
+    }
+}
+
+
+// MARK: - Contact
+extension API {
+    func postContact(params: [String:String]) -> Promise<JSON> {
+        let endPoint = "contact/"
+        return postPutPatchDeleteAuth(url: portfolioBase + portfolioAPIVersion + endPoint, params: params, httpMethod: .post)
     }
 }
