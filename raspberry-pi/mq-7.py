@@ -8,7 +8,7 @@ import sqlite3
 import setting
 import csv
 from datetime import datetime
-import sys
+from setting import base_url
 
 
 # change these as desired - they're the pins connected from the
@@ -181,8 +181,6 @@ def main():
 
 def run_api(is_create):
     global SMOKE_ID
-
-    base_url = 'https://kentaiwami.jp/sumolog/api/v1/smoke/'
 
     obj = {
         'uuid': UUID,
