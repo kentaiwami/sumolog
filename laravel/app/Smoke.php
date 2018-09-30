@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Serverfireteam\Panel\ObservantTrait;
 
 /**
  * App\Smoke

@@ -48,6 +48,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+//        if ($exception instanceof CustomException) {
+//            return response()->view('errors.custom', [], 500);
+//        }
+//
+//        return parent::render($request, $exception);
+
         if ($request->is('api/*') || $request->ajax()) {
             if ($this->isHttpException($exception)) {
                 return response()->json([
@@ -55,11 +61,17 @@ class Handler extends ExceptionHandler
                     'code' => $exception->getStatusCode()
                 ], $exception->getStatusCode());
             }
+
+            return response()->json([
+                'status' => 500,
+                'errors' => '不明なエラーが発生しました'
+            ], 500);
         }
 
-        return response()->json([
-            'status' => 500,
-            'errors' => '不明なエラーが発生しました'
-        ], 500);
+        if ($exception instanceof CustomException) {
+            return response()->view('errors.custom', [], 500);
+        }
+
+        return parent::render($request, $exception);
     }
 }
