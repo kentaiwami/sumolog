@@ -86,6 +86,7 @@ class AdminSmokeController extends Controller
         $grid->user_id('User id');
         $grid->started_at('Started at');
         $grid->ended_at('Ended at');
+        $grid->model()->orderBy('id', 'desc');
 
         return $grid;
     }
