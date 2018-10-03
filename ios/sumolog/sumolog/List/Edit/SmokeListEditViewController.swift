@@ -100,7 +100,7 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                 }
             }
         
-        form +++ Section(header: "", footer: "入力された情報で上書きします")
+        form +++ Section("")
             <<< ButtonRow(){
                 $0.title = "更新"
                 $0.baseCell.backgroundColor = UIColor.hex(Color.main.rawValue, alpha: 1.0)
@@ -132,7 +132,7 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                     }
         }
         
-        form +++ Section(header: "", footer: "この喫煙データを削除します")
+        form +++ Section("")
             <<< ButtonRow(){
                 $0.title = "削除"
                 $0.baseCell.backgroundColor = UIColor.red
