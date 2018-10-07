@@ -44,7 +44,7 @@ request：
 {
     "uuid": "hogehoge",
     "payday": 30,
-    "price": 100,
+    "price": 22.5,
     "target_number": 10,
     "address": "192.168.0.0",
 }
@@ -71,7 +71,7 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "payday": 25,
-    "price": 420,
+    "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
     "token": "abcdefg"
@@ -86,7 +86,7 @@ request：
 {
     "uuid": "hogehoge",
     "payday": 25,
-    "price": 420,
+    "price": 22.5,
     "target_number": 20
 }
 response：
@@ -96,7 +96,7 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "payday": 25,
-    "price": 420,
+    "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
     "token": "abcdefg"
@@ -119,7 +119,7 @@ response：
     "created_at": "2017-11-03 23:48:56",
     "updated_at": "2018-01-01 05:40:04",
     "payday": 25,
-    "price": 420,
+    "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
     "token": "abcdefg"
@@ -135,7 +135,7 @@ response：
     "id": 1,
     "uuid": "hogehoge",
     "payday": 25,
-    "price": 420,
+    "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
 }

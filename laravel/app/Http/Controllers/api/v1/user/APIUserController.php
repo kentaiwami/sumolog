@@ -22,7 +22,7 @@ class APIUserController extends Controller
         $validator = Validator::make($request->all(), [
             'uuid'              => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/|unique:users',
             'payday'            => 'bail|required|integer|min:1|max:31',
-            'price'             => 'bail|required|integer|max:9999',
+            'price'             => 'bail|required|numeric|min:1|max:9999',
             'target_number'     => 'bail|required|integer|max:9999',
             'address'           => 'bail|nullable|ip',
         ]);

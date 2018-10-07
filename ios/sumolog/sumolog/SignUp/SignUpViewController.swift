@@ -42,6 +42,9 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
         rules.add(rule: RuleRequired(msg: "必須項目です"))
         rules.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
 
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 1
+        
         form +++ Section(header: "ユーザ情報", footer: "")
             <<< PickerInputRow<Int>(""){
                 $0.title = "給与日"
@@ -54,11 +57,13 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
             })
 
 
-            <<< IntRow(){
+            <<< DecimalRow(){
                 $0.title = "1本の値段"
-                $0.value = 0
-                $0.add(ruleSet: rules)
+                $0.value = 0.0
+                $0.add(rule: RuleRequired(msg: "必須項目です"))
+                $0.add(rule: RuleGreaterThan(min: 0, msg: "0以上の値にしてください"))
                 $0.validationOptions = .validatesOnChange
+                $0.formatter = formatter
                 $0.tag = "price"
             }
             .onRowValidationChanged {cell, row in

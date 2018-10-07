@@ -33,7 +33,7 @@ class SignUpViewModel {
             let params = [
                 "uuid": uuid,
                 "payday": formValues["payday"] as! Int,
-                "price": formValues["price"] as! Int,
+                "price": formValues["price"] as! Double,
                 "target_number": formValues["target_number"] as! Int,
                 "address": address
                 ] as [String : Any]

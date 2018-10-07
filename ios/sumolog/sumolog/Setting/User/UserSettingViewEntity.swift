@@ -12,7 +12,7 @@ import SwiftyJSON
 class UserData {
     struct UserData {
         var payday = 0
-        var price = 0
+        var price = 0.0
         var target_number = 0
     }
     
@@ -22,7 +22,7 @@ class UserData {
         return data.payday
     }
     
-    func getprice() -> Int {
+    func getprice() -> Double {
         return data.price
     }
     
@@ -32,7 +32,7 @@ class UserData {
     
     func setAll(json: JSON) {
         data.payday = json["payday"].intValue
-        data.price = json["price"].intValue
+        data.price = json["price"].doubleValue
         data.target_number = json["target_number"].intValue
     }
 }
