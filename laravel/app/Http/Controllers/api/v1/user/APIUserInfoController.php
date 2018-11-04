@@ -20,10 +20,11 @@ class APIUserInfoController extends Controller
     public function update(Request $request, $v, $id)
     {
         $validator_array = [
-            'uuid'              => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
-            'payday'            => 'bail|required|integer|min:1|max:31',
-            'price'             => 'bail|required|numeric|min:1|max:9999',
-            'target_number'     => 'bail|required|integer|max:9999',
+            'uuid'                  => 'bail|required|regex:/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/',
+            'payday'                => 'bail|required|integer|min:1|max:31',
+            'price'                 => 'bail|required|numeric|min:1|max:9999',
+            'target_number'         => 'bail|required|integer|max:9999',
+            'is_add_average_auto'   => 'bail|required|boolean',
         ];
 
         $validator = Validator::make($request->all(), $validator_array);
@@ -44,6 +45,7 @@ class APIUserInfoController extends Controller
         $user->payday = $request->get('payday');
         $user->price = $request->get('price');
         $user->target_number = $request->get('target_number');
+        $user->is_add_average_auto = $request->get('is_add_average_auto');
         $user->save();
 
         return Response()->json([
