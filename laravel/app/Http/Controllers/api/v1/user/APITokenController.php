@@ -38,6 +38,15 @@ class APITokenController extends Controller
         $user->token = $request->get('token');
         $user->save();
 
-        return Response()->json($user);
+        return Response()->json([
+            'uuid'                  => $user->uuid,
+            'id'                    => $user->id,
+            'payday'                => $user->payday,
+            'price'                 => $user->price,
+            'target_number'         => $user->target_number,
+            'address'               => $user->address,
+            'token'                 => $user->token,
+            'is_add_average_auto'   => (bool)$user->is_add_average_auto
+        ]);
     }
 }

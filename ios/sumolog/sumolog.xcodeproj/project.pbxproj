@@ -193,6 +193,16 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
+		3762032B218EF7BE0013D98E /* Top */ = {
+			isa = PBXGroup;
+			children = (
+				379B054E2121ECE7002D72FA /* SmokeListViewController.swift */,
+				379B054C2121ECE5002D72FA /* SmokeListViewPresenter.swift */,
+				379B054D2121ECE6002D72FA /* SmokeListViewModel.swift */,
+			);
+			path = Top;
+			sourceTree = "<group>";
+		};
 		377E92BE2022F8E20033F9C2 /* List */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,10 +268,8 @@
 		379B054A2121EC77002D72FA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3762032B218EF7BE0013D98E /* Top */,
 				373515DC21254A5300F2193A /* Adds */,
-				379B054E2121ECE7002D72FA /* SmokeListViewController.swift */,
-				379B054C2121ECE5002D72FA /* SmokeListViewPresenter.swift */,
-				379B054D2121ECE6002D72FA /* SmokeListViewModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

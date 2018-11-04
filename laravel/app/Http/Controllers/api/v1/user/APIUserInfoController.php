@@ -46,6 +46,14 @@ class APIUserInfoController extends Controller
         $user->target_number = $request->get('target_number');
         $user->save();
 
-        return Response()->json($user);
+        return Response()->json([
+            'uuid'                  => $user->uuid,
+            'id'                    => $user->id,
+            'payday'                => $user->payday,
+            'price'                 => $user->price,
+            'target_number'         => $user->target_number,
+            'address'               => $user->address,
+            'is_add_average_auto'   => (bool)$user->is_add_average_auto
+        ]);
     }
 }
