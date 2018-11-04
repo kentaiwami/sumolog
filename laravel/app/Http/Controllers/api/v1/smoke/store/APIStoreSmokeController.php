@@ -38,7 +38,7 @@ class APIStoreSmokeController extends Controller
         $new_smoke = new Smoke;
         $new_smoke->user_id = $user->id;
 
-        if ($user->is_add_average_auto) {
+        if ($user->is_add_average_auto and !$request->get('is_sensor')) {
             $result = $this->get_start_end_time($user->id);
             $new_smoke->started_at = $result['start'];
             $new_smoke->ended_at = $result['end'];

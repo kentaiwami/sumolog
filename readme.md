@@ -151,7 +151,8 @@ method：POST
 endpoint：api/v1/smoke
 request：
 {
-    "uuid": "hogehoge"
+    "uuid": "hogehoge",
+    "is_sensor": true
 }
 response：
 {
