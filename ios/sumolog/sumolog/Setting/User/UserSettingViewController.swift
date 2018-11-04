@@ -144,7 +144,7 @@ extension UserSettingViewController {
             }
         
             <<< SwitchRow(){
-                $0.title = "平均時間での自動記録"
+                $0.title = "平均時間を使用した記録"
                 $0.value = presenter.getUserData().getIsAddAverageAuto()
                 $0.tag = "is_auto_add"
         }
