@@ -13,8 +13,7 @@ import KeychainAccess
 
 protocol SmokeListViewModelDelegate: class {
     func drawView()
-    func successStartSmoke()
-    func successEndSmoke()
+    func success(title: String, msg: String)
     func faildAPI(title: String, msg: String)
 }
 
@@ -75,9 +74,13 @@ class SmokeListViewModel {
             ] as [String : Any]
         
         api.startSmoke(params: params).done { (json) in
-            try! self.keychain.set(String(json["smoke_id"].intValue), key: "smoke_id")
-            try! self.keychain.set(String(true), key: "is_smoking")
-            self.delegate?.successStartSmoke()
+            if json["is_add_average_auto"].boolValue {
+                self.delegate?.success(title: "成功", msg: "喫煙を記録しました。")
+            }else {
+                try! self.keychain.set(String(json["smoke_id"].intValue), key: "smoke_id")
+                try! self.keychain.set(String(true), key: "is_smoking")
+                self.delegate?.success(title: "成功", msg: "喫煙開始を記録しました。\n右上のチェックボタンをタップして喫煙終了を記録してください。")
+            }
         }
         .catch { (err) in
             let tmp_err = err as NSError
@@ -98,7 +101,7 @@ class SmokeListViewModel {
         api.endSmoke(params: params, smokeID: smokeID).done { (json) in
             try! self.keychain.set("", key: "smoke_id")
             try! self.keychain.set(String(false), key: "is_smoking")
-            self.delegate?.successEndSmoke()
+            self.delegate?.success(title: "成功", msg: "喫煙終了を記録しました。")
         }
         .catch { (err) in
             let tmp_err = err as NSError

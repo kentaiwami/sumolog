@@ -13,8 +13,7 @@ import PopupDialog
 
 protocol SmokeListViewInterface: class {
     func drawView()
-    func successStartSmoke()
-    func successEndSmoke()
+    func success(title: String, msg: String)
     func showAlert(title: String, msg: String)
 }
 
@@ -152,16 +151,10 @@ extension SmokeListViewController {
         UIView.setAnimationsEnabled(true)
     }
     
-    func successStartSmoke() {
+    func success(title: String, msg: String) {
         setUpNavigationButton()
         presenter.set24HourSmoke(isShowIndicator: true)
-        ShowStandardAlert(title: "成功", msg: "喫煙開始を記録しました。\n右上のチェックボタンをタップして喫煙終了を記録してください。", vc: self, completion: nil)
-    }
-    
-    func successEndSmoke() {
-        setUpNavigationButton()
-        presenter.set24HourSmoke(isShowIndicator: true)
-        ShowStandardAlert(title: "成功", msg: "喫煙終了を記録しました。", vc: self, completion: nil)
+        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
     
     func showAlert(title: String, msg: String) {

@@ -83,12 +83,13 @@ class AdminUserController extends Controller
 
         $grid->id('ID');
         $grid->uuid('UUID');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->is_add_average_auto('is_add_average_auto');
         $grid->payday('Payday');
         $grid->price('Price');
         $grid->target_number('Target number');
         $grid->address('Address');
+        $grid->created_at('Created at');
+        $grid->updated_at('Updated at');
         $grid->token('Token');
 
         return $grid;
@@ -106,12 +107,13 @@ class AdminUserController extends Controller
 
         $show->id('ID');
         $show->uuid('UUID');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->is_add_average_auto('is_add_average_auto');
         $show->payday('Payday');
         $show->price('Price');
         $show->target_number('Target number');
         $show->address('Address');
+        $show->created_at('Created at');
+        $show->updated_at('Updated at');
         $show->token('Token');
 
         return $show;
@@ -133,12 +135,13 @@ class AdminUserController extends Controller
             'uuid' => 'UUIDの形式が間違っています',
         ]);
         $form->number('payday', 'Payday')->rules('required|integer|min:1|max:31');
-        $form->number('price', 'Price')->rules('required|integer|min:1|max:9999');
+        $form->number('price', 'Price')->rules('required|numeric|min:1|max:9999');
         $form->number('target_number', 'Target number')->rules('required|integer|max:9999');
         $form->text('address', 'Address')->rules('nullable|ip');
         $form->text('token', 'Token')->rules('required|regex:'.$token_regex, [
             'token' => 'Tokenの形式が間違っています',
         ]);
+        $form->switch('is_add_average_auto', 'Is average auto add?');
 
         return $form;
     }

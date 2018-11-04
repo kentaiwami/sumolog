@@ -45,7 +45,8 @@ class UserSettingViewModel {
             "uuid": uuid,
             "payday": formValues["payday"] as! Int,
             "price": formValues["price"] as! Double,
-            "target_number": formValues["target_number"] as! Int
+            "target_number": formValues["target_number"] as! Int,
+            "is_add_average_auto": formValues["is_auto_add"] as! Bool
             ] as [String : Any]
         
         api.updateUserData(params: params, userID: userID).done { (json) in

@@ -74,7 +74,8 @@ response：
     "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
-    "token": "abcdefg"
+    "token": "abcdefg",
+    "is_add_average_auto": false
 }
 ```
 
@@ -99,7 +100,8 @@ response：
     "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
-    "token": "abcdefg"
+    "token": "abcdefg",
+    "is_add_average_auto": false
 }
 ```
 
@@ -122,7 +124,8 @@ response：
     "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
-    "token": "abcdefg"
+    "token": "abcdefg",
+    "is_add_average_auto": false
 }
 ```
 
@@ -138,6 +141,7 @@ response：
     "price": 22.5,
     "target_number": 20,
     "address": "192.168.0.0",
+    "is_add_average_auto": false
 }
 ```
 

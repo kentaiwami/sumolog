@@ -54,12 +54,8 @@ extension SmokeListViewPresenter: SmokeListViewModelDelegate {
         view?.drawView()
     }
     
-    func successStartSmoke() {
-        view?.successStartSmoke()
-    }
-    
-    func successEndSmoke() {
-        view?.successEndSmoke()
+    func success(title: String, msg: String) {
+        view?.success(title: title, msg: msg)
     }
     
     func faildAPI(title: String, msg: String) {
