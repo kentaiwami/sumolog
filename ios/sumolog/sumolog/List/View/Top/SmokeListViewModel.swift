@@ -75,7 +75,7 @@ class SmokeListViewModel {
         
         api.startSmoke(params: params).done { (json) in
             if json["is_add_average_auto"].boolValue {
-                self.delegate?.success(title: "成功", msg: "喫煙を記録しました。")
+                self.delegate?.success(title: "成功", msg: "平均時間を使用して喫煙を記録しました。")
             }else {
                 try! self.keychain.set(String(json["smoke_id"].intValue), key: "smoke_id")
                 try! self.keychain.set(String(true), key: "is_smoking")
