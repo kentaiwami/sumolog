@@ -1012,16 +1012,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.6.10",
+            "version": "v1.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "f412485946265f9a8fd3bfb53071ff43bec9a56c"
+                "reference": "015a3c1d72eaeb1a1ec193789b50cc5e569dd71e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/f412485946265f9a8fd3bfb53071ff43bec9a56c",
-                "reference": "f412485946265f9a8fd3bfb53071ff43bec9a56c",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/015a3c1d72eaeb1a1ec193789b50cc5e569dd71e",
+                "reference": "015a3c1d72eaeb1a1ec193789b50cc5e569dd71e",
                 "shasum": ""
             },
             "require": {
@@ -1079,7 +1079,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2019-03-10T16:55:45+00:00"
+            "time": "2019-04-04T09:22:37+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -5890,16 +5890,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b"
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/cb2f008f3f05af2893a87208fe6a6c4985483f8b",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
                 "shasum": ""
             },
             "require": {
@@ -5926,7 +5926,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2017-04-07T12:08:54+00:00"
+            "time": "2019-04-04T09:56:43+00:00"
         },
         {
             "name": "webmozart/assert",
