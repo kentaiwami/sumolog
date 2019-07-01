@@ -87,12 +87,12 @@ class Indicator {
     
     func start() {
         if let topViewController: UIViewController = getTopViewController() {
-            indicator.activityIndicatorViewStyle = .whiteLarge
+            indicator.style = .whiteLarge
             indicator.center = topViewController.view.center
             indicator.color = UIColor.gray
             indicator.hidesWhenStopped = true
             topViewController.view.addSubview(indicator)
-            topViewController.view.bringSubview(toFront: indicator)
+            topViewController.view.bringSubviewToFront(indicator)
             indicator.startAnimating()
         }
     }

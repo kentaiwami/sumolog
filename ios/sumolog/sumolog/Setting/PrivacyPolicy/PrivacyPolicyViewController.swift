@@ -8,14 +8,15 @@
 
 import UIKit
 import TinyConstraints
+import WebKit
 
 protocol PrivacyPolicyViewInterface: class {
 }
 
 
-class PrivacyPolicyViewController: UIViewController, PrivacyPolicyViewInterface {
+class PrivacyPolicyViewController: UIViewController, PrivacyPolicyViewInterface, WKUIDelegate {
     fileprivate var presenter: PrivacyPolicyViewPresenter!
-    fileprivate var webView: UIWebView!
+    fileprivate var webView:WKWebView!
     fileprivate let indicator = Indicator()
     
     override func viewDidLoad() {
@@ -26,8 +27,9 @@ class PrivacyPolicyViewController: UIViewController, PrivacyPolicyViewInterface 
     }
     
     private func initializeWebView() {
-        webView = UIWebView()
-        webView.delegate = self
+        webView = WKWebView()
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
         self.view.addSubview(webView)
         webView.edges(to: self.view)
     }
@@ -35,7 +37,7 @@ class PrivacyPolicyViewController: UIViewController, PrivacyPolicyViewInterface 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = "プライバシーポリシー"
-        webView.loadRequest(presenter.getURLRequest())
+        webView.load(presenter.getURLRequest())
     }
     
     override func didReceiveMemoryWarning() {
@@ -44,12 +46,12 @@ class PrivacyPolicyViewController: UIViewController, PrivacyPolicyViewInterface 
 }
 
 
-extension PrivacyPolicyViewController: UIWebViewDelegate {
-    func webViewDidStartLoad(_ webView: UIWebView) {
+extension PrivacyPolicyViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         indicator.start()
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         indicator.stop()
     }
 }
