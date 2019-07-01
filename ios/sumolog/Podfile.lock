@@ -1,34 +1,34 @@
 PODS:
-  - Alamofire (4.7.3)
-  - DynamicBlurView (2.0.2)
-  - Eureka (4.2.0)
-  - KeychainAccess (3.1.1)
-  - PopupDialog (0.8.1):
-    - DynamicBlurView (~> 2.0)
-  - PromiseKit (6.4.0):
-    - PromiseKit/CorePromise (= 6.4.0)
-    - PromiseKit/Foundation (= 6.4.0)
-    - PromiseKit/UIKit (= 6.4.0)
-  - PromiseKit/CorePromise (6.4.0)
-  - PromiseKit/Foundation (6.4.0):
+  - Alamofire (4.8.2)
+  - DynamicBlurView (3.0.1)
+  - Eureka (5.0.0)
+  - KeychainAccess (3.2.0)
+  - PopupDialog (1.1.0):
+    - DynamicBlurView (~> 3.0.1)
+  - PromiseKit (6.10.0):
+    - PromiseKit/CorePromise (= 6.10.0)
+    - PromiseKit/Foundation (= 6.10.0)
+    - PromiseKit/UIKit (= 6.10.0)
+  - PromiseKit/CorePromise (6.10.0)
+  - PromiseKit/Foundation (6.10.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.4.0):
+  - PromiseKit/UIKit (6.10.0):
     - PromiseKit/CorePromise
-  - ScrollableGraphView (4.0.5)
+  - ScrollableGraphView (4.0.6)
   - StatusProvider (1.2.10)
-  - SwiftyJSON (4.1.0)
-  - TinyConstraints (2.2.0)
+  - SwiftyJSON (5.0.0)
+  - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - Eureka
   - KeychainAccess
-  - PopupDialog (~> 0.8)
+  - PopupDialog
   - PromiseKit
-  - ScrollableGraphView (~> 4.0)
+  - ScrollableGraphView
   - StatusProvider
   - SwiftyJSON
-  - TinyConstraints (from `https://github.com/roberthein/TinyConstraints.git`, branch `release/swift-4`)
+  - TinyConstraints
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -41,29 +41,20 @@ SPEC REPOS:
     - ScrollableGraphView
     - StatusProvider
     - SwiftyJSON
-
-EXTERNAL SOURCES:
-  TinyConstraints:
-    :branch: release/swift-4
-    :git: https://github.com/roberthein/TinyConstraints.git
-
-CHECKOUT OPTIONS:
-  TinyConstraints:
-    :commit: ce84b36202ddddf484883fbce3ec61d585e62127
-    :git: https://github.com/roberthein/TinyConstraints.git
+    - TinyConstraints
 
 SPEC CHECKSUMS:
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  DynamicBlurView: aa6db4defc6e537eb86fc5e58dd3991666178399
-  Eureka: 0748c7bbb2560130e43c7bfa83e99c98854a1f42
-  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
-  PopupDialog: 3d4e8e0795c3a614f407d730986c9b9af9781123
-  PromiseKit: ae3616f45d7bb9bf4ff1e91abc9b7a8c48a340e0
-  ScrollableGraphView: 6386dbae8d92e8ec9fda9f386f2ba6e2c90c59a3
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  DynamicBlurView: b1df5415f9bd31897549e5d7077e5ec120a4d636
+  Eureka: 0f64f477ec8ef6201c6fec143d60ff5c201cf654
+  KeychainAccess: 3b1bf8a77eb4c6ea1ce9404c292e48f948954c6b
+  PopupDialog: 42fb7a0bc4fafdf89fef8b5b2b127a6023f3e1cc
+  PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
+  ScrollableGraphView: 4af35d4ea9ecdec665d34a74da51da161ddff8ac
   StatusProvider: 53f64deb452d619091b1a606a0973a724db17d0d
-  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
-  TinyConstraints: 5eaf849b075c9d73c6a55b6ea33039fff03a8c84
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: 726e2c719cc01f55f287989af38c26bec6bc1fe0
+PODFILE CHECKSUM: 6deebba4f022fabc228cc3650ff724dd74439d76
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.3
