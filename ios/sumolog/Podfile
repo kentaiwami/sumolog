@@ -10,12 +10,9 @@ pod 'PromiseKit'
 pod 'StatusProvider'
 pod 'KeychainAccess'
 pod 'SwiftyJSON'
-#pod 'TinyConstraints', :git => 'https://github.com/roberthein/TinyConstraints.git', :branch => 'release/swift-4'
 pod 'TinyConstraints'
 pod 'Eureka'
 pod 'ScrollableGraphView'
-#pod 'ScrollableGraphView', '~> 4.0'
-#pod 'PopupDialog', '~> 0.8'
 pod 'PopupDialog'
 
 end
