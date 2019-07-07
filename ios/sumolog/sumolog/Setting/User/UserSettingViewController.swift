@@ -24,6 +24,7 @@ class UserSettingViewController: FormViewController, UserSettingViewInterface {
     
     fileprivate var presenter: UserSettingViewPresenter!
     
+    fileprivate let utility = Utility()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,24 +95,7 @@ extension UserSettingViewController {
                 $0.tag = "price"
                 }
                 .onRowValidationChanged {cell, row in
-                    let rowIndex = row.indexPath!.row
-                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                        row.section?.remove(at: rowIndex + 1)
-                    }
-                    if !row.isValid {
-                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                            let labelRow = LabelRow() {
-                                $0.title = err
-                                $0.cell.height = { 30 }
-                                $0.cell.contentView.backgroundColor = UIColor.red
-                                $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-                                $0.cell.textLabel?.textAlignment = .right
-                            }.cellUpdate({ (cell, row) in
-                                cell.textLabel?.textColor = .white
-                            })
-                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                        }
-                    }
+                    self.utility.showRowError(row: row)
             }
             
             
@@ -123,24 +107,7 @@ extension UserSettingViewController {
                 $0.tag = "target_number"
                 }
                 .onRowValidationChanged {cell, row in
-                    let rowIndex = row.indexPath!.row
-                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                        row.section?.remove(at: rowIndex + 1)
-                    }
-                    if !row.isValid {
-                        for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
-                            let labelRow = LabelRow() {
-                                $0.title = err
-                                $0.cell.height = { 30 }
-                                $0.cell.contentView.backgroundColor = UIColor.red
-                                $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-                                $0.cell.textLabel?.textAlignment = .right
-                            }.cellUpdate({ (cell, row) in
-                                cell.textLabel?.textColor = .white
-                            })
-                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-                        }
-                    }
+                    self.utility.showRowError(row: row)
             }
         
             <<< SwitchRow(){
@@ -157,10 +124,10 @@ extension UserSettingViewController {
                 $0.baseCell.tintColor = UIColor.white
                 }
                 .onCellSelection {  cell, row in
-                    if IsCheckFormValue(form: self.form) {
+                    if self.utility.isCheckFormValue(form: self.form) {
                         self.presenter.updateUserData()
                     }else {
-                        ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
+                        self.utility.showStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                     }
         }
         
@@ -169,10 +136,10 @@ extension UserSettingViewController {
     
     func doneUpdateUserData(title: String, msg: String) {
         updateCell()
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
     
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }

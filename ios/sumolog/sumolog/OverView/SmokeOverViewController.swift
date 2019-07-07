@@ -29,6 +29,8 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
     var graphView = ScrollableGraphView()
     var noDataView = UIView()
     
+    fileprivate let utility = Utility()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,7 +88,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         
         let tmpOver = presenter.getOverViewData().getOver()
         if tmpOver > 0 {
-            ShowStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
+            utility.showStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
         }
     }
     
@@ -131,7 +133,7 @@ extension SmokeOverViewController {
     }
     
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
 

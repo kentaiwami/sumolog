@@ -47,7 +47,7 @@ class SmokeListEditViewModel {
     }
     
     func updateSmoke(start: Date, end: Date, isReset: Bool) {
-        let dateFormatter = GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
+        let dateFormatter = Utility().getDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
         let start = dateFormatter.string(from: start)
         let end = dateFormatter.string(from: end)
         let uuid = (try! keychain.get("uuid"))!

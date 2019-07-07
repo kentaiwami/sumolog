@@ -26,6 +26,8 @@ class SensorSettingViewController: FormViewController, SensorSettingViewInterfac
 
     fileprivate var presenter: SensorSettingViewPresenter!
     
+    fileprivate let utility = Utility()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializePresenter()
@@ -114,10 +116,10 @@ extension SensorSettingViewController {
                 $0.baseCell.tintColor = UIColor.white
                 }
                 .onCellSelection {  cell, row in
-                    if IsCheckFormValue(form: self.form) {
+                    if self.utility.isCheckFormValue(form: self.form) {
                         self.presenter.updateSensorData()
                     }else {
-                        ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
+                        self.utility.showStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                     }
         }
 
@@ -152,16 +154,16 @@ extension SensorSettingViewController {
 
     func doneUpdateSensorData(title: String, msg: String) {
         updateCell()
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
     
     func faildUpdateSensor(title: String, msg: String) {
         presenter.setIsTapped(value: false)
         updateSwitchCell()
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
