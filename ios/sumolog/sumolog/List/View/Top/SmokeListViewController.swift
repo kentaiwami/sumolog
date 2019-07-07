@@ -156,11 +156,11 @@ extension SmokeListViewController {
     func success(title: String, msg: String) {
         setUpNavigationButton()
         presenter.set24HourSmoke(isShowIndicator: true)
-        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
     
     func showAlert(title: String, msg: String) {
-        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
 

@@ -11,7 +11,7 @@ import Eureka
 import PopupDialog
 
 class Utility {
-    func IsCheckFormValue(form: Form) -> Bool {
+    func isCheckFormValue(form: Form) -> Bool {
         var err_count = 0
         for row in form.allRows {
             if !row.isHidden {
@@ -26,7 +26,7 @@ class Utility {
         return false
     }
     
-    func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
+    func getConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
         let tmp_req = ["uuid": uuid]
         var request = URLRequest(url: URL(string: "http://"+address+"/api/v1/user")!)
         request.httpMethod = method
@@ -37,7 +37,7 @@ class Utility {
         return request
     }
     
-    func GetDateFormatter(format: String) -> DateFormatter {
+    func getDateFormatter(format: String) -> DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = format
@@ -45,7 +45,7 @@ class Utility {
         return dateFormatter
     }
     
-    func ShowStandardAlert(title: String, msg: String, vc: UIViewController, completion: (() -> Void)?) {
+    func showStandardAlert(title: String, msg: String, vc: UIViewController, completion: (() -> Void)?) {
         let button = DefaultButton(title: "OK", dismissOnTap: true) {}
         let popup = PopupDialog(title: title, message: msg) {
             if let tmpCompletion = completion {
@@ -57,7 +57,7 @@ class Utility {
         vc.present(popup, animated: true, completion: nil)
     }
     
-    func IsHTTPStatus(statusCode: Int?) -> Bool {
+    func isHTTPStatus(statusCode: Int?) -> Bool {
         let code = String(statusCode!)
         var results:[String] = []
         

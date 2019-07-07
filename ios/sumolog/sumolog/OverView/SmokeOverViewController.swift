@@ -88,7 +88,7 @@ class SmokeOverViewController: UIViewController, StatusController,  SmokeOverVie
         
         let tmpOver = presenter.getOverViewData().getOver()
         if tmpOver > 0 {
-            utility.ShowStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
+            utility.showStandardAlert(title: "", msg: "目標本数を"+String(tmpOver)+"本超過しています", vc: self, completion: nil)
         }
     }
     
@@ -133,7 +133,7 @@ extension SmokeOverViewController {
     }
     
     func showAlert(title: String, msg: String) {
-        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
 

@@ -48,8 +48,8 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
     }
     
     private func createForms() {
-        let dateFormatterSec = utility.GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
-        let dateFormatterMin = utility.GetDateFormatter(format: "yyyy-MM-dd HH:mm")
+        let dateFormatterSec = utility.getDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
+        let dateFormatterMin = utility.getDateFormatter(format: "yyyy-MM-dd HH:mm")
         
         var end_row_value = dateFormatterSec.date(from: presenter.getSmokeTime().end)
         if presenter.isEndedAtEmpty() {
@@ -110,12 +110,12 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                 $0.tag = "update"
                 }
                 .onCellSelection {  cell, row in
-                    if self.utility.IsCheckFormValue(form: self.form){
+                    if self.utility.isCheckFormValue(form: self.form){
                         let start = self.form.values()["start"] as! Date
                         let end = self.form.values()["end"] as! Date
                         
                         if start > end {
-                            self.utility.ShowStandardAlert(title: "エラー", msg: "終了時間は開始時間よりも後の時刻を設定してください。", vc: self, completion: nil)
+                            self.utility.showStandardAlert(title: "エラー", msg: "終了時間は開始時間よりも後の時刻を設定してください。", vc: self, completion: nil)
                         }else {
                             if self.presenter.isEndedAtEmpty() {
                                 let popup = PopupDialog(title: "警告", message: "センサーを利用している場合は、センサーが計測中である可能性があります。編集を実行した場合、センサーの再起動が必要になります。また、センサーによって値が上書きされる可能性があります。\nそれでもよろしいですか？")
@@ -130,7 +130,7 @@ class SmokeListEditViewController: FormViewController,  SmokeListEditViewInterfa
                             }
                         }
                     }else {
-                        self.utility.ShowStandardAlert(title: "エラー", msg: "入力されていない項目があります。再確認してください。", vc: self, completion: nil)
+                        self.utility.showStandardAlert(title: "エラー", msg: "入力されていない項目があります。再確認してください。", vc: self, completion: nil)
                     }
         }
         
@@ -182,6 +182,6 @@ extension SmokeListEditViewController {
     }
     
     func showAlert(title: String, msg: String) {
-        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.showStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
