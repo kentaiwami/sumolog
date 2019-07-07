@@ -23,6 +23,7 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
     
     private var presenter: SignUpViewPresenter!
     
+    fileprivate let utility = Utility()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,10 +165,10 @@ class SignUpViewController: FormViewController, SignUpViewInterface {
                 $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                if IsCheckFormValue(form: self.form) {
+                if self.utility.IsCheckFormValue(form: self.form) {
                     self.presenter.signUp()
                 }else {
-                    ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
+                    self.utility.ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                 }
             }
     }
@@ -185,6 +186,6 @@ extension SignUpViewController {
     }
     
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }

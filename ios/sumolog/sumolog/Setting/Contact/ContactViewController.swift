@@ -23,6 +23,8 @@ class ContactViewController: FormViewController, ContactViewInterface {
         return form.values()
     }
     
+    fileprivate let utility = Utility()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -127,10 +129,10 @@ class ContactViewController: FormViewController, ContactViewInterface {
                 $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                if IsCheckFormValue(form: self.form) {
+                if self.utility.IsCheckFormValue(form: self.form) {
                     self.presenter.postContact()
                 }else {
-                    ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
+                    self.utility.ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                 }
             }
     }
@@ -149,12 +151,12 @@ class ContactViewController: FormViewController, ContactViewInterface {
 // MARK: - Presenterから呼び出される関数
 extension ContactViewController {
     func success() {
-        ShowStandardAlert(title: "完了", msg: "お問い合わせありがとうございます", vc: self) {
+        utility.ShowStandardAlert(title: "完了", msg: "お問い合わせありがとうございます", vc: self) {
             self.navigationController?.popViewController(animated: true)
         }
     }
     
     func showErrorAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }

@@ -10,74 +10,76 @@ import UIKit
 import Eureka
 import PopupDialog
 
-func IsCheckFormValue(form: Form) -> Bool {
-    var err_count = 0
-    for row in form.allRows {
-        if !row.isHidden {
-            err_count += row.validate().count
+class Utility {
+    func IsCheckFormValue(form: Form) -> Bool {
+        var err_count = 0
+        for row in form.allRows {
+            if !row.isHidden {
+                err_count += row.validate().count
+            }
         }
-    }
-    
-    if err_count == 0 {
-        return true
-    }
-    
-    return false
-}
-
-func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
-    let tmp_req = ["uuid": uuid]
-    var request = URLRequest(url: URL(string: "http://"+address+"/api/v1/user")!)
-    request.httpMethod = method
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.timeoutInterval = 10
-    request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
-    
-    return request
-}
-
-func GetDateFormatter(format: String) -> DateFormatter {
-    let dateFormatter = DateFormatter()
-    dateFormatter.timeZone = TimeZone.current
-    dateFormatter.dateFormat = format
-    
-    return dateFormatter
-}
-
-func ShowStandardAlert(title: String, msg: String, vc: UIViewController, completion: (() -> Void)?) {
-    let button = DefaultButton(title: "OK", dismissOnTap: true) {}
-    let popup = PopupDialog(title: title, message: msg) {
-        if let tmpCompletion = completion {
-            tmpCompletion()
+        
+        if err_count == 0 {
+            return true
         }
-    }
-    popup.transitionStyle = .zoomIn
-    popup.addButtons([button])
-    vc.present(popup, animated: true, completion: nil)
-}
-
-func IsHTTPStatus(statusCode: Int?) -> Bool {
-    let code = String(statusCode!)
-    var results:[String] = []
-    
-    if code.pregMatche(pattern: "2..", matches: &results) {
-        return true
-    }else {
+        
         return false
     }
-}
-
-fileprivate func getTopViewController() -> UIViewController? {
-    if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
-        var topViewControlelr: UIViewController = rootViewController
+    
+    func GetConnectRaspberryPIRequest(method: String, address: String, uuid: String) -> URLRequest {
+        let tmp_req = ["uuid": uuid]
+        var request = URLRequest(url: URL(string: "http://"+address+"/api/v1/user")!)
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 10
+        request.httpBody = try! JSONSerialization.data(withJSONObject: tmp_req, options: [])
         
-        while let presentedViewController = topViewControlelr.presentedViewController {
-            topViewControlelr = presentedViewController
+        return request
+    }
+    
+    func GetDateFormatter(format: String) -> DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = format
+        
+        return dateFormatter
+    }
+    
+    func ShowStandardAlert(title: String, msg: String, vc: UIViewController, completion: (() -> Void)?) {
+        let button = DefaultButton(title: "OK", dismissOnTap: true) {}
+        let popup = PopupDialog(title: title, message: msg) {
+            if let tmpCompletion = completion {
+                tmpCompletion()
+            }
         }
+        popup.transitionStyle = .zoomIn
+        popup.addButtons([button])
+        vc.present(popup, animated: true, completion: nil)
+    }
+    
+    func IsHTTPStatus(statusCode: Int?) -> Bool {
+        let code = String(statusCode!)
+        var results:[String] = []
         
-        return topViewControlelr
-    } else {
-        return nil
+        if code.pregMatche(pattern: "2..", matches: &results) {
+            return true
+        }else {
+            return false
+        }
+    }
+    
+    fileprivate func getTopViewController() -> UIViewController? {
+        if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
+            var topViewControlelr: UIViewController = rootViewController
+            
+            while let presentedViewController = topViewControlelr.presentedViewController {
+                topViewControlelr = presentedViewController
+            }
+            
+            return topViewControlelr
+        } else {
+            return nil
+        }
     }
 }
 
@@ -86,7 +88,7 @@ class Indicator {
     let indicator = UIActivityIndicatorView()
     
     func start() {
-        if let topViewController: UIViewController = getTopViewController() {
+        if let topViewController: UIViewController = Utility().getTopViewController() {
             indicator.style = .whiteLarge
             indicator.center = topViewController.view.center
             indicator.color = UIColor.gray

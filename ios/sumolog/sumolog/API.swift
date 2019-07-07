@@ -17,6 +17,8 @@ class API {
     let sumologAPIVersion = "v1/"
     let portfolioAPIVersion = "v1/"
     
+    fileprivate let utility = Utility()
+    
     fileprivate func get(url: String, isShowIndicator: Bool) -> Promise<JSON> {
         let indicator = Indicator()
         
@@ -35,7 +37,7 @@ class API {
                     print(json)
                     print("***** GET API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                    if self.utility.IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
                     }else {
                         let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
@@ -66,7 +68,7 @@ class API {
                     print(json)
                     print("***** "+httpMethod.rawValue+" Auth API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                    if self.utility.IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json)
                     }else {
                         let err_msg = json["msg"].stringValue + "[" + String(json["code"].intValue) + "]"
@@ -90,7 +92,7 @@ extension API {
         let indicator = Indicator()
         indicator.start()
         
-        let request = GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
+        let request = utility.GetConnectRaspberryPIRequest(method: "POST", address: address, uuid: uuid)
         let promise = Promise<String> { seal in
             Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
                 indicator.stop()
@@ -102,7 +104,7 @@ extension API {
                     print(json)
                     print("***** raspiSignUpRequest API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                    if self.utility.IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json["uuid"].stringValue)
                     }else {
                         seal.reject(NSError(domain: "センサーに接続できませんでした[-1]", code: (response.response?.statusCode)!))
@@ -120,7 +122,7 @@ extension API {
         let indicator = Indicator()
         indicator.start()
         
-        let request = GetConnectRaspberryPIRequest(method: "GET", address: address, uuid: uuid)
+        let request = utility.GetConnectRaspberryPIRequest(method: "GET", address: address, uuid: uuid)
         let promise = Promise<Int> { seal in
             Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
                 indicator.stop()
@@ -132,7 +134,7 @@ extension API {
                     print(json)
                     print("***** raspiUUIDCountRequest API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                    if self.utility.IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill(json["count"].intValue)
                     }else {
                         seal.reject(NSError(domain: "センサーに接続できませんでした[-1]", code: (response.response?.statusCode)!))
@@ -150,7 +152,7 @@ extension API {
         let indicator = Indicator()
         indicator.start()
         
-        let request = GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
+        let request = utility.GetConnectRaspberryPIRequest(method: method, address: address, uuid: uuid)
         let promise = Promise<String> { seal in
             Alamofire.request(request).validate(statusCode: 200..<600).responseJSON { response in
                 indicator.stop()
@@ -162,7 +164,7 @@ extension API {
                     print(json)
                     print("***** raspiUpdateUUIDRequest API Results *****")
                     
-                    if IsHTTPStatus(statusCode: response.response?.statusCode) {
+                    if self.utility.IsHTTPStatus(statusCode: response.response?.statusCode) {
                         seal.fulfill("OK")
                     }else {
                         seal.reject(NSError(domain: "センサーに接続できませんでした[-1]", code: (response.response?.statusCode)!))

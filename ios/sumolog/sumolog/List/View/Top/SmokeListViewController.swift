@@ -23,6 +23,8 @@ class SmokeListViewController: FormViewController, StatusController,  SmokeListV
     var preViewName = StoryBoardID.list.rawValue
     let refresh_controll = UIRefreshControl()
     
+    fileprivate let utility = Utility()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -154,11 +156,11 @@ extension SmokeListViewController {
     func success(title: String, msg: String) {
         setUpNavigationButton()
         presenter.set24HourSmoke(isShowIndicator: true)
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
     
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
 

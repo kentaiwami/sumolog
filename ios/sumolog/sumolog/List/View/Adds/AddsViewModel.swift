@@ -36,7 +36,7 @@ class AddsViewModel {
     }
     
     func adds(formValues: [String:Any?]) {
-        let dateFormatter = GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
+        let dateFormatter = Utility().GetDateFormatter(format: "yyyy-MM-dd HH:mm:ss")
         let params = [
             "start_point": dateFormatter.string(from: formValues["start"] as! Date),
             "end_point": dateFormatter.string(from: formValues["end"] as! Date),

@@ -24,6 +24,7 @@ class UserSettingViewController: FormViewController, UserSettingViewInterface {
     
     fileprivate var presenter: UserSettingViewPresenter!
     
+    fileprivate let utility = Utility()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,10 +158,10 @@ extension UserSettingViewController {
                 $0.baseCell.tintColor = UIColor.white
                 }
                 .onCellSelection {  cell, row in
-                    if IsCheckFormValue(form: self.form) {
+                    if self.utility.IsCheckFormValue(form: self.form) {
                         self.presenter.updateUserData()
                     }else {
-                        ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
+                        self.utility.ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                     }
         }
         
@@ -169,10 +170,10 @@ extension UserSettingViewController {
     
     func doneUpdateUserData(title: String, msg: String) {
         updateCell()
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
     
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }

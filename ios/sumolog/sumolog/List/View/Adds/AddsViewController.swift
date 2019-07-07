@@ -24,6 +24,8 @@ class AddsViewController: FormViewController, AddsViewInterface {
     
     private var presenter: AddsViewPresenter!
     
+    fileprivate let utility = Utility()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,7 +50,7 @@ class AddsViewController: FormViewController, AddsViewInterface {
     }
     
     private func CreateForm() {
-        let dateFormatterMin = GetDateFormatter(format: "yyyy-MM-dd HH:mm")
+        let dateFormatterMin = utility.GetDateFormatter(format: "yyyy-MM-dd HH:mm")
         let now = Date()
         
         form +++ Section(header: "時刻の範囲", footer: "")
@@ -120,21 +122,21 @@ class AddsViewController: FormViewController, AddsViewInterface {
                 $0.baseCell.tintColor = UIColor.white
             }
             .onCellSelection {  cell, row in
-                if IsCheckFormValue(form: self.form) {
+                if self.utility.IsCheckFormValue(form: self.form) {
                     let start = self.formValues["start"] as! Date
                     let end = self.formValues["end"] as! Date
                     
                     if start > end {
-                        ShowStandardAlert(title: "エラー", msg: "終了地点は開始地点よりも後の時刻を設定してください。", vc: self, completion: nil)
+                        self.utility.ShowStandardAlert(title: "エラー", msg: "終了地点は開始地点よりも後の時刻を設定してください。", vc: self, completion: nil)
                     }else {
                         if self.presenter.isVaildValue() {
                             self.presenter.adds()
                         }else {
-                            ShowStandardAlert(title: "エラー", msg: "指定した範囲内に喫煙情報が収まりません。下記の項目を調整してください。\n\n・範囲の拡大\n・喫煙本数を増やす\n・喫煙時間を減らす", vc: self, completion: nil)
+                            self.utility.ShowStandardAlert(title: "エラー", msg: "指定した範囲内に喫煙情報が収まりません。下記の項目を調整してください。\n\n・範囲の拡大\n・喫煙本数を増やす\n・喫煙時間を減らす", vc: self, completion: nil)
                         }
                     }
                 }else {
-                    ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
+                    self.utility.ShowStandardAlert(title: "エラー", msg: "入力項目を再確認してください", vc: self, completion: nil)
                 }
             }
     }
@@ -153,6 +155,6 @@ extension AddsViewController {
     }
     
     func showAlert(title: String, msg: String) {
-        ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
+        utility.ShowStandardAlert(title: title, msg: msg, vc: self, completion: nil)
     }
 }
