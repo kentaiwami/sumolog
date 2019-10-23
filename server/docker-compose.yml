@@ -1,0 +1,63 @@
+version: '2'
+services:
+  sumolog-web:
+      container_name: sumolog-web
+      image: nginx:1.13
+      restart: always
+      environment:
+        VIRTUAL_HOST: ${VIRTUAL_HOST}
+        LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+        LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+        SETREALIPFROM: ${SETREALIPFROM}
+      volumes:
+        - ./nginx/conf:/etc/nginx/conf.d
+        - ./src:/var/www
+      command: /bin/sh -c "envsubst '$$SETREALIPFROM' < /etc/nginx/conf.d/sumolog.conf.template > /etc/nginx/conf.d/sumolog.conf && nginx -g 'daemon off;'"
+      depends_on:
+        - sumolog-app
+      networks:
+        - proxy-network
+        - sumolog-app-network
+
+  sumolog-db:
+      container_name: sumolog-db
+      image: mysql:5.7
+      restart: always
+      expose:
+        - "3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        TZ: 'Asia/Tokyo'
+      volumes:
+        - sumolog-db:/var/lib/mysql
+        - ./sql:/docker-entrypoint-initdb.d
+        - ./mysql/conf:/etc/mysql/conf.d/
+      networks:
+        - sumolog-db-network
+
+  sumolog-app:
+      container_name: sumolog-app
+      build: ./laravel
+      restart: always
+      volumes:
+        - ./src:/var/www
+      expose:
+        - "8001"
+      depends_on:
+        - sumolog-db
+      networks:
+        - sumolog-app-network
+        - sumolog-db-network
+networks:
+  sumolog-app-network:
+    external: true
+  proxy-network:
+    external: true
+  sumolog-db-network:
+    external: true
+volumes:
+  sumolog-db:
+    driver: local
