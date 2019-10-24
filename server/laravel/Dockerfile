@@ -1,14 +1,11 @@
-FROM php:7.2-fpm
+FROM php:7.2.23-fpm
 COPY php.ini /usr/local/etc/php/
 
 RUN apt-get update \
-  && apt-get install -y zlib1g-dev mariadb-client \
+  && apt-get install -y libzip-dev mariadb-client \
+  && docker-php-ext-configure zip --with-libzip \
   && docker-php-ext-install zip pdo_mysql opcache
 
-# configure: WARNING: Use of bundled libzip is deprecated and will be removed.
-# configure: WARNING: Some features such as encryption and bzip2 are not available.
-# configure: WARNING: Use system library and --with-libzip is recommended.
-# configure: WARNING: ========================================================
 #Composer install
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
