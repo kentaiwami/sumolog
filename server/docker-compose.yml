@@ -53,8 +53,9 @@ services:
         && php artisan migrate
         && php artisan vendor:publish --provider='Encore\Admin\AdminServiceProvider'
         && php artisan admin:install
+        ; composer dump-autoload
+        && php artisan db:seed --class=InitDatabaseSeeder
         && php-fpm -F"
-      tty: true
       expose:
         - "8001"
       depends_on:
