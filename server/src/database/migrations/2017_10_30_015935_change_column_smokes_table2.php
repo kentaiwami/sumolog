@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeColumnSmokesTable extends Migration
+class ChangeColumnSmokesTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class ChangeColumnSmokesTable extends Migration
     public function up()
     {
         Schema::table('smokes', function (Blueprint $table) {
-            $table->dateTime('ended_at')->nullable()->change();
+            $table->dateTime('ended_at')->change();
         });
     }
 
@@ -26,7 +26,7 @@ class ChangeColumnSmokesTable extends Migration
     public function down()
     {
         Schema::table('smokes', function (Blueprint $table) {
-            $table->dateTime('ended_at')->change();
+            $table->dateTime('ended_at')->nullable()->change();
         });
     }
 }

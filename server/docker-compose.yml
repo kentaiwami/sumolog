@@ -47,6 +47,14 @@ services:
       restart: always
       volumes:
         - ./src:/var/www
+      command: >
+        bash -c
+        "./wait-for-it.sh sumolog-db:3306
+        && php artisan migrate
+        && php artisan vendor:publish --provider='Encore\Admin\AdminServiceProvider'
+        && php artisan admin:install
+        && php-fpm -F"
+      tty: true
       expose:
         - "8001"
       depends_on:

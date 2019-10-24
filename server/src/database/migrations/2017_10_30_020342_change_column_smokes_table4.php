@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeColumnPriceFromUsers extends Migration
+class ChangeColumnSmokesTable4 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class ChangeColumnPriceFromUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('target_number')->default(0)->change();
+        Schema::table('smokes', function (Blueprint $table) {
+            DB::statement('ALTER TABLE `smokes` MODIFY `ended_at` DATE NOT NULL;');
         });
     }
 
@@ -25,8 +25,8 @@ class ChangeColumnPriceFromUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('target_number')->default(420)->change();
+        Schema::table('smokes', function (Blueprint $table) {
+            $table->dateTime('ended_at')->nullable()->change();
         });
     }
 }

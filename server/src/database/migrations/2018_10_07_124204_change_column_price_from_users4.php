@@ -3,8 +3,11 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+//use Doctrine\DBAL\Types\FloatType;
+//use Doctrine\DBAL\Types\Type;
 
-class ChangeColumnSmokesTable extends Migration
+
+class ChangeColumnPriceFromUsers4 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +16,8 @@ class ChangeColumnSmokesTable extends Migration
      */
     public function up()
     {
-        Schema::table('smokes', function (Blueprint $table) {
-            $table->dateTime('ended_at')->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->float('price', 8, 2)->change();
         });
     }
 
@@ -25,8 +28,8 @@ class ChangeColumnSmokesTable extends Migration
      */
     public function down()
     {
-        Schema::table('smokes', function (Blueprint $table) {
-            $table->dateTime('ended_at')->nullable()->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('price')->default(0)->change();
         });
     }
 }
