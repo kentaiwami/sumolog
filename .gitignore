@@ -1,13 +1,6 @@
 ## App prototype
 prototype
 
-## IDE
-.idea
-
-## asta
-*asta
-*asta.lock
-
 ## Build generated
 build/
 DerivedData/
@@ -16,5 +9,4 @@ DerivedData/
 /backup
 
 *.db
-
 release/
