@@ -52,6 +52,7 @@ services:
       command: >
         bash -c
         "database/sql/wait-for-it.sh sumolog-db:3306 -t 30
+        && composer install
         && php artisan migrate
         && php artisan vendor:publish --provider='Encore\Admin\AdminServiceProvider'
         && php artisan admin:install
