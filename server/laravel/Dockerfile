@@ -1,4 +1,4 @@
-FROM php:7.2.23-fpm
+FROM php:7.2.27-fpm
 COPY php.ini /usr/local/etc/php/
 
 RUN apt-get update \
