@@ -46,3 +46,7 @@ Route::group(['namespace' => 'api\v1\smoke\update', 'prefix' => '{API1}'], funct
     Route::put('smoke/{id}', 'APIUpdateSmokeController@update');
     Route::patch('smoke/{id}', 'APIUpdateAllSmokeController@update');
 });
+
+Route::group(['namespace' => 'api\v1\health_check', 'prefix' => '{API1}'], function(){
+    Route::get('health_check', 'APIHealthCheckController@get');
+});
