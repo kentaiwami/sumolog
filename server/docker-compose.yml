@@ -2,7 +2,7 @@ version: '2'
 services:
   sumolog-web:
       container_name: sumolog-web
-      image: nginx:1.13
+      image: nginx:1.16.1
       restart: always
       environment:
         VIRTUAL_HOST: ${VIRTUAL_HOST}
